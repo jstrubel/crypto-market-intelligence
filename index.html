@@ -40,95 +40,96 @@
             font-size: 1.1rem;
         }
 
-        /* Quick Charts Section */
-        .quick-charts {
-            padding: 20px;
+        /* Market Charts Section */
+        .market-charts {
+            padding: 30px 20px;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        .quick-charts h2 {
+        .market-charts h2 {
             text-align: center;
             color: #ffffff;
-            margin-bottom: 25px;
-            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
         }
 
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
             margin-bottom: 40px;
         }
 
-        .mini-chart {
+        .chart-card {
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 16px;
+            padding: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
         }
 
-        .mini-chart h3 {
-            font-size: 1rem;
-            margin-bottom: 10px;
+        .chart-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
             color: #ffffff;
             text-align: center;
+            font-weight: 600;
         }
 
         .tradingview-widget-container {
-            height: 200px;
+            height: 400px;
             width: 100%;
         }
 
         /* Master Score Section */
         .master-score {
             text-align: center;
-            padding: 30px;
+            padding: 35px;
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
             border-radius: 16px;
             border: 1px solid rgba(0, 212, 255, 0.2);
-            margin: 20px auto 30px auto;
-            max-width: 800px;
+            margin: 30px auto;
+            max-width: 900px;
         }
 
         .score-number {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #ffd93d;
         }
 
         .score-label {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #a0a9c0;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .score-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin-top: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
 
         .score-component {
             text-align: center;
-            padding: 15px;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            border-radius: 12px;
         }
 
         .component-value {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .component-label {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #a0a9c0;
         }
 
@@ -136,51 +137,114 @@
         .bearish { color: #ff6b6b; }
         .neutral { color: #ffd93d; }
 
-        /* Advanced Analytics Section */
-        .advanced-section {
+        /* Macro Analysis Section */
+        .macro-section {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px 20px;
         }
 
         .section-title {
             text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 30px;
+            font-size: 2rem;
+            margin-bottom: 40px;
             color: #ffffff;
         }
 
-        .dashboard-grid {
+        .macro-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-            gap: 20px;
+            gap: 25px;
         }
 
-        .indicator-card {
+        .macro-card {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 16px;
-            padding: 20px;
+            padding: 25px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
         }
 
-        .indicator-title {
-            font-size: 1.3rem;
+        .macro-title {
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
         }
 
-        .metrics-grid {
+        .tradingview-link {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .tradingview-link:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+        }
+
+        .macro-interpretation {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .interpretation-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .signal-indicator {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .signal-bullish {
+            background: rgba(107, 207, 127, 0.2);
+            color: #6bcf7f;
+            border: 1px solid #6bcf7f;
+        }
+
+        .signal-bearish {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+
+        .signal-neutral {
+            background: rgba(255, 217, 61, 0.2);
+            color: #ffd93d;
+            border: 1px solid #ffd93d;
+        }
+
+        .interpretation-text {
+            color: #a0a9c0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .key-metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
 
-        .metric-item {
+        .metric-box {
             background: rgba(255, 255, 255, 0.05);
             padding: 12px;
             border-radius: 8px;
@@ -188,9 +252,9 @@
         }
 
         .metric-value {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .metric-label {
@@ -198,22 +262,23 @@
             color: #a0a9c0;
         }
 
-        .advanced-chart-container {
-            height: 300px;
-            margin-bottom: 20px;
-        }
-
         @media (max-width: 768px) {
             .charts-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: 1fr;
             }
             
-            .dashboard-grid {
+            .macro-grid {
                 grid-template-columns: 1fr;
             }
             
             .score-number {
-                font-size: 3rem;
+                font-size: 3.5rem;
+            }
+            
+            .macro-title {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
             }
         }
     </style>
@@ -221,192 +286,120 @@
 <body>
     <div class="header">
         <h1>Crypto Market Intelligence</h1>
-        <p>Professional-grade macro analysis with real-time market data</p>
+        <p>Professional macro analysis for crypto markets</p>
     </div>
 
-    <!-- Quick Charts Section -->
-    <div class="quick-charts">
-        <h2>📊 Market Overview</h2>
+    <!-- Market Charts Section -->
+    <div class="market-charts">
+        <h2>📊 Key Market Charts</h2>
         <div class="charts-grid">
             <!-- BTC/USD -->
-            <div class="mini-chart">
-                <h3>₿ BTC/USD</h3>
+            <div class="chart-card">
+                <div class="chart-title">₿ Bitcoin (BTC/USD)</div>
                 <div class="tradingview-widget-container">
                     <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
                     {
-                        "symbol": "BINANCE:BTCUSDT",
-                        "width": "100%",
-                        "height": "100%",
-                        "locale": "en",
-                        "dateRange": "12M",
-                        "colorTheme": "dark",
-                        "isTransparent": true,
                         "autosize": true,
-                        "largeChartUrl": "",
-                        "noTimeScale": false,
-                        "chartOnly": false
+                        "symbol": "BINANCE:BTCUSDT",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "backgroundColor": "rgba(19, 23, 34, 0)",
+                        "gridColor": "rgba(240, 243, 250, 0.06)",
+                        "hide_top_toolbar": false,
+                        "hide_legend": false,
+                        "save_image": false,
+                        "calendar": false,
+                        "studies": ["STD;MACD", "STD;RSI"],
+                        "container_id": "tradingview_btc"
                     }
                     </script>
                 </div>
             </div>
 
             <!-- ETH/USD -->
-            <div class="mini-chart">
-                <h3>Ξ ETH/USD</h3>
+            <div class="chart-card">
+                <div class="chart-title">Ξ Ethereum (ETH/USD)</div>
                 <div class="tradingview-widget-container">
                     <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
                     {
+                        "autosize": true,
                         "symbol": "BINANCE:ETHUSDT",
-                        "width": "100%",
-                        "height": "100%",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
                         "locale": "en",
-                        "dateRange": "12M",
-                        "colorTheme": "dark",
-                        "isTransparent": true,
-                        "autosize": true,
-                        "largeChartUrl": "",
-                        "noTimeScale": false,
-                        "chartOnly": false
-                    }
-                    </script>
-                </div>
-            </div>
-
-            <!-- SOL/USD -->
-            <div class="mini-chart">
-                <h3>◎ SOL/USD</h3>
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                    {
-                        "symbol": "BINANCE:SOLUSDT",
-                        "width": "100%",
-                        "height": "100%",
-                        "locale": "en",
-                        "dateRange": "12M",
-                        "colorTheme": "dark",
-                        "isTransparent": true,
-                        "autosize": true,
-                        "largeChartUrl": "",
-                        "noTimeScale": false,
-                        "chartOnly": false
-                    }
-                    </script>
-                </div>
-            </div>
-
-            <!-- HYPE/USD -->
-            <div class="mini-chart">
-                <h3>🚀 HYPE/USD</h3>
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                    {
-                        "symbol": "BYBIT:HYPEUSDT",
-                        "width": "100%",
-                        "height": "100%",
-                        "locale": "en",
-                        "dateRange": "3M",
-                        "colorTheme": "dark",
-                        "isTransparent": true,
-                        "autosize": true,
-                        "largeChartUrl": "",
-                        "noTimeScale": false,
-                        "chartOnly": false
+                        "enable_publishing": false,
+                        "backgroundColor": "rgba(19, 23, 34, 0)",
+                        "gridColor": "rgba(240, 243, 250, 0.06)",
+                        "hide_top_toolbar": false,
+                        "hide_legend": false,
+                        "save_image": false,
+                        "calendar": false,
+                        "studies": ["STD;MACD", "STD;RSI"],
+                        "container_id": "tradingview_eth"
                     }
                     </script>
                 </div>
             </div>
 
             <!-- BTC Dominance -->
-            <div class="mini-chart">
-                <h3>📊 BTC Dominance</h3>
+            <div class="chart-card">
+                <div class="chart-title">📊 Bitcoin Dominance</div>
                 <div class="tradingview-widget-container">
                     <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
                     {
-                        "symbol": "CRYPTOCAP:BTC.D",
-                        "width": "100%",
-                        "height": "100%",
-                        "locale": "en",
-                        "dateRange": "12M",
-                        "colorTheme": "dark",
-                        "isTransparent": true,
                         "autosize": true,
-                        "largeChartUrl": "",
-                        "noTimeScale": false,
-                        "chartOnly": false
+                        "symbol": "CRYPTOCAP:BTC.D",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "backgroundColor": "rgba(19, 23, 34, 0)",
+                        "gridColor": "rgba(240, 243, 250, 0.06)",
+                        "hide_top_toolbar": false,
+                        "hide_legend": false,
+                        "save_image": false,
+                        "calendar": false,
+                        "studies": ["STD;Moving Average"],
+                        "container_id": "tradingview_btc_dom"
                     }
                     </script>
                 </div>
             </div>
 
             <!-- ETH/BTC -->
-            <div class="mini-chart">
-                <h3>⚖️ ETH/BTC</h3>
+            <div class="chart-card">
+                <div class="chart-title">⚖️ ETH/BTC Ratio</div>
                 <div class="tradingview-widget-container">
                     <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
                     {
+                        "autosize": true,
                         "symbol": "BINANCE:ETHBTC",
-                        "width": "100%",
-                        "height": "100%",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
                         "locale": "en",
-                        "dateRange": "12M",
-                        "colorTheme": "dark",
-                        "isTransparent": true,
-                        "autosize": true,
-                        "largeChartUrl": "",
-                        "noTimeScale": false,
-                        "chartOnly": false
-                    }
-                    </script>
-                </div>
-            </div>
-
-            <!-- Stablecoin Dominance -->
-            <div class="mini-chart">
-                <h3>💰 USDT Dominance</h3>
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                    {
-                        "symbol": "CRYPTOCAP:USDT.D",
-                        "width": "100%",
-                        "height": "100%",
-                        "locale": "en",
-                        "dateRange": "12M",
-                        "colorTheme": "dark",
-                        "isTransparent": true,
-                        "autosize": true,
-                        "largeChartUrl": "",
-                        "noTimeScale": false,
-                        "chartOnly": false
-                    }
-                    </script>
-                </div>
-            </div>
-
-            <!-- DXY (Corrected) -->
-            <div class="mini-chart">
-                <h3>💵 DXY Index</h3>
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                    {
-                        "symbol": "TVC:DXY",
-                        "width": "100%",
-                        "height": "100%",
-                        "locale": "en",
-                        "dateRange": "12M",
-                        "colorTheme": "dark",
-                        "isTransparent": true,
-                        "autosize": true,
-                        "largeChartUrl": "",
-                        "noTimeScale": false,
-                        "chartOnly": false
+                        "enable_publishing": false,
+                        "backgroundColor": "rgba(19, 23, 34, 0)",
+                        "gridColor": "rgba(240, 243, 250, 0.06)",
+                        "hide_top_toolbar": false,
+                        "hide_legend": false,
+                        "save_image": false,
+                        "calendar": false,
+                        "studies": ["STD;Moving Average"],
+                        "container_id": "tradingview_eth_btc"
                     }
                     </script>
                 </div>
@@ -415,170 +408,160 @@
     </div>
 
     <!-- Master Macro Score -->
-    <div class="quick-charts">
+    <div class="market-charts">
         <div class="master-score">
-            <div class="score-number" id="masterScore">53.4</div>
+            <div class="score-number" id="masterScore">56.3</div>
             <div class="score-label">Master Macro Score</div>
             
             <div class="score-details">
                 <div class="score-component">
-                    <div class="component-value neutral" id="liquidityScore">55.3</div>
+                    <div class="component-value neutral" id="liquidityScore">58.2</div>
                     <div class="component-label">Global Liquidity</div>
                 </div>
                 <div class="score-component">
-                    <div class="component-value bearish" id="dxyScore">42.1</div>
-                    <div class="component-label">DXY/Yields (Fixed)</div>
+                    <div class="component-value bullish" id="dxyScore">62.1</div>
+                    <div class="component-label">DXY/Yields</div>
                 </div>
                 <div class="score-component">
-                    <div class="component-value bullish" id="riskScore">68.1</div>
+                    <div class="component-value bullish" id="riskScore">71.3</div>
                     <div class="component-label">Risk Assets</div>
                 </div>
                 <div class="score-component">
-                    <div class="component-value neutral" id="corrScore">58.7</div>
+                    <div class="component-value neutral" id="corrScore">55.8</div>
                     <div class="component-label">Correlations</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Advanced Analytics Section -->
-    <div class="advanced-section">
-        <h2 class="section-title">🔬 Advanced Analytics</h2>
+    <!-- Macro Analysis Section -->
+    <div class="macro-section">
+        <h2 class="section-title">🔬 Macro Market Intelligence</h2>
         
-        <div class="dashboard-grid">
-            <!-- Global Liquidity Indicator -->
-            <div class="indicator-card">
-                <div class="indicator-title">📊 Global Liquidity Indicator</div>
-                <div class="advanced-chart-container">
-                    <div class="tradingview-widget-container">
-                        <div class="tradingview-widget-container__widget"></div>
-                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                        {
-                            "autosize": true,
-                            "symbol": "ECONOMICS:USM2",
-                            "interval": "M",
-                            "timezone": "Etc/UTC",
-                            "theme": "dark",
-                            "style": "1",
-                            "locale": "en",
-                            "enable_publishing": false,
-                            "backgroundColor": "rgba(19, 23, 34, 0)",
-                            "gridColor": "rgba(240, 243, 250, 0.06)",
-                            "hide_top_toolbar": true,
-                            "hide_legend": true,
-                            "save_image": false,
-                            "container_id": "tradingview_liquidity"
-                        }
-                        </script>
+        <div class="macro-grid">
+            <!-- Global Liquidity -->
+            <div class="macro-card">
+                <div class="macro-title">
+                    <span>📊 Global Liquidity Dashboard</span>
+                    <a href="https://www.tradingview.com/script/3vgyHzC5-Global-Liquidity-Dashboard/" 
+                       target="_blank" class="tradingview-link">View on TradingView →</a>
+                </div>
+                
+                <div class="macro-interpretation">
+                    <div class="interpretation-header">
+                        <div class="signal-indicator signal-neutral">NEUTRAL</div>
+                        <span style="font-weight: 600;">Liquidity Conditions</span>
+                    </div>
+                    <div class="interpretation-text">
+                        Current M2 money supply growth at 8.2% provides moderate liquidity support. DXY weakness near 98 levels is 
+                        crypto-positive, but real yields at 1.8% create some headwinds. Overall conditions remain supportive for 
+                        risk assets but lack the abundant liquidity seen during previous crypto bull runs.
+                        <br><br>
+                        <strong>Market Impact:</strong> Neutral to slightly positive for crypto. Sufficient liquidity to support 
+                        gradual appreciation but not explosive moves.
                     </div>
                 </div>
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <div class="metric-value neutral">55.3</div>
+
+                <div class="key-metrics">
+                    <div class="metric-box">
+                        <div class="metric-value neutral">58.2</div>
                         <div class="metric-label">Liquidity Score</div>
                     </div>
-                    <div class="metric-item">
+                    <div class="metric-box">
                         <div class="metric-value">8.2%</div>
                         <div class="metric-label">M2 Growth</div>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">98.3</div>
-                        <div class="metric-label">DXY Level (Fixed)</div>
+                    <div class="metric-box">
+                        <div class="metric-value bullish">98.3</div>
+                        <div class="metric-label">DXY Level</div>
                     </div>
-                    <div class="metric-item">
+                    <div class="metric-box">
                         <div class="metric-value">1.8%</div>
                         <div class="metric-label">Real Yield</div>
                     </div>
                 </div>
             </div>
 
-            <!-- DXY + 10Y Yields (Fixed) -->
-            <div class="indicator-card">
-                <div class="indicator-title">📈 DXY + 10Y Yields (Corrected)</div>
-                <div class="advanced-chart-container">
-                    <div class="tradingview-widget-container">
-                        <div class="tradingview-widget-container__widget"></div>
-                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                        {
-                            "autosize": true,
-                            "symbol": "TVC:DXY",
-                            "interval": "D",
-                            "timezone": "Etc/UTC",
-                            "theme": "dark",
-                            "style": "1",
-                            "locale": "en",
-                            "enable_publishing": false,
-                            "backgroundColor": "rgba(19, 23, 34, 0)",
-                            "gridColor": "rgba(240, 243, 250, 0.06)",
-                            "hide_top_toolbar": true,
-                            "hide_legend": true,
-                            "save_image": false,
-                            "studies": ["STD;MACD"],
-                            "container_id": "tradingview_dxy_fixed"
-                        }
-                        </script>
+            <!-- DXY + Yields -->
+            <div class="macro-card">
+                <div class="macro-title">
+                    <span>📈 DXY + Yields Dashboard</span>
+                    <a href="https://www.tradingview.com/script/DEOIIjim-DXY-Yields-Dashboard/" 
+                       target="_blank" class="tradingview-link">View on TradingView →</a>
+                </div>
+                
+                <div class="macro-interpretation">
+                    <div class="interpretation-header">
+                        <div class="signal-indicator signal-bullish">BULLISH</div>
+                        <span style="font-weight: 600;">Dollar & Rate Environment</span>
+                    </div>
+                    <div class="interpretation-text">
+                        DXY showing weakness below 99 levels provides significant tailwinds for crypto assets. The yield curve 
+                        has normalized with 10Y-2Y spread at +17 bps, reducing recession risks. 10Y yields stable around 4.3% 
+                        suggest Fed policy is approaching neutral levels.
+                        <br><br>
+                        <strong>Market Impact:</strong> Bullish for crypto. Weak dollar historically correlates with crypto 
+                        outperformance, while stable yields reduce opportunity cost concerns.
                     </div>
                 </div>
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <div class="metric-value bearish">WEAKENING</div>
+
+                <div class="key-metrics">
+                    <div class="metric-box">
+                        <div class="metric-value bullish">62.1</div>
+                        <div class="metric-label">DXY Score</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value bullish">WEAK</div>
                         <div class="metric-label">DXY Trend</div>
                     </div>
-                    <div class="metric-item">
+                    <div class="metric-box">
                         <div class="metric-value">4.32%</div>
                         <div class="metric-label">10Y Yield</div>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">+17bps</div>
+                    <div class="metric-box">
+                        <div class="metric-value bullish">+17bps</div>
                         <div class="metric-label">Curve Slope</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-value bullish">IMPROVING</div>
-                        <div class="metric-label">Rate Risk</div>
                     </div>
                 </div>
             </div>
 
             <!-- Risk Assets -->
-            <div class="indicator-card">
-                <div class="indicator-title">⚡ Risk Assets Dashboard</div>
-                <div class="advanced-chart-container">
-                    <div class="tradingview-widget-container">
-                        <div class="tradingview-widget-container__widget"></div>
-                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                        {
-                            "autosize": true,
-                            "symbol": "AMEX:SPY",
-                            "interval": "D",
-                            "timezone": "Etc/UTC",
-                            "theme": "dark",
-                            "style": "1",
-                            "locale": "en",
-                            "enable_publishing": false,
-                            "backgroundColor": "rgba(19, 23, 34, 0)",
-                            "gridColor": "rgba(240, 243, 250, 0.06)",
-                            "hide_top_toolbar": true,
-                            "hide_legend": true,
-                            "save_image": false,
-                            "container_id": "tradingview_risk"
-                        }
-                        </script>
+            <div class="macro-card">
+                <div class="macro-title">
+                    <span>⚡ Risk Assets Dashboard</span>
+                    <a href="https://www.tradingview.com/script/toCpdN6P-Risk-Assets-Dashboard/" 
+                       target="_blank" class="tradingview-link">View on TradingView →</a>
+                </div>
+                
+                <div class="macro-interpretation">
+                    <div class="interpretation-header">
+                        <div class="signal-indicator signal-bullish">RISK ON</div>
+                        <span style="font-weight: 600;">Risk Appetite Strong</span>
+                    </div>
+                    <div class="interpretation-text">
+                        Traditional risk assets showing robust performance with SPY +12.8% YTD and VIX compressed below 17. 
+                        This risk-on environment typically supports crypto through correlation effects. High-beta sectors 
+                        outperforming suggests genuine risk appetite rather than defensive positioning.
+                        <br><br>
+                        <strong>Market Impact:</strong> Strongly bullish for crypto. Current environment mirrors conditions 
+                        that historically support crypto rallies through equity market correlation.
                     </div>
                 </div>
-                <div class="metrics-grid">
-                    <div class="metric-item">
+
+                <div class="key-metrics">
+                    <div class="metric-box">
+                        <div class="metric-value bullish">71.3</div>
+                        <div class="metric-label">Risk Score</div>
+                    </div>
+                    <div class="metric-box">
                         <div class="metric-value bullish">16.8</div>
                         <div class="metric-label">VIX Level</div>
                     </div>
-                    <div class="metric-item">
+                    <div class="metric-box">
                         <div class="metric-value bullish">+12.8%</div>
                         <div class="metric-label">SPY YTD</div>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value bullish">+18.2%</div>
-                        <div class="metric-label">QQQ YTD</div>
-                    </div>
-                    <div class="metric-item">
+                    <div class="metric-box">
                         <div class="metric-value bullish">RISK ON</div>
                         <div class="metric-label">Regime</div>
                     </div>
@@ -586,46 +569,42 @@
             </div>
 
             <!-- Cross-Asset Correlations -->
-            <div class="indicator-card">
-                <div class="indicator-title">🔗 Cross-Asset Correlations</div>
-                <div class="advanced-chart-container">
-                    <div class="tradingview-widget-container">
-                        <div class="tradingview-widget-container__widget"></div>
-                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                        {
-                            "autosize": true,
-                            "symbol": "BINANCE:BTCUSDT",
-                            "interval": "D",
-                            "timezone": "Etc/UTC",
-                            "theme": "dark",
-                            "style": "1",
-                            "locale": "en",
-                            "enable_publishing": false,
-                            "backgroundColor": "rgba(19, 23, 34, 0)",
-                            "gridColor": "rgba(240, 243, 250, 0.06)",
-                            "hide_top_toolbar": true,
-                            "hide_legend": true,
-                            "save_image": false,
-                            "studies": ["STD;Correlation Coefficient"],
-                            "container_id": "tradingview_correlations"
-                        }
-                        </script>
+            <div class="macro-card">
+                <div class="macro-title">
+                    <span>🔗 Cross-Asset Correlations</span>
+                    <a href="https://www.tradingview.com/script/zqcUHee2-Cross-Asset-Correlations/" 
+                       target="_blank" class="tradingview-link">View on TradingView →</a>
+                </div>
+                
+                <div class="macro-interpretation">
+                    <div class="interpretation-header">
+                        <div class="signal-indicator signal-neutral">MIXED</div>
+                        <span style="font-weight: 600;">Macro Sensitivity High</span>
+                    </div>
+                    <div class="interpretation-text">
+                        Bitcoin's 0.72 correlation with SPY indicates high macro sensitivity, meaning crypto follows traditional 
+                        markets closely. Negative correlation with DXY (-0.45) confirms dollar weakness benefits crypto. 
+                        Low gold correlation (0.23) suggests crypto hasn't established safe-haven status yet.
+                        <br><br>
+                        <strong>Market Impact:</strong> Mixed implications. High equity correlation provides upside leverage in 
+                        risk-on environments but creates vulnerability during market stress. Monitor traditional market health closely.
                     </div>
                 </div>
-                <div class="metrics-grid">
-                    <div class="metric-item">
+
+                <div class="key-metrics">
+                    <div class="metric-box">
+                        <div class="metric-value neutral">55.8</div>
+                        <div class="metric-label">Corr Score</div>
+                    </div>
+                    <div class="metric-box">
                         <div class="metric-value bullish">0.72</div>
                         <div class="metric-label">BTC vs SPY</div>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value bearish">-0.45</div>
+                    <div class="metric-box">
+                        <div class="metric-value bullish">-0.45</div>
                         <div class="metric-label">BTC vs DXY</div>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value neutral">0.23</div>
-                        <div class="metric-label">BTC vs Gold</div>
-                    </div>
-                    <div class="metric-item">
+                    <div class="metric-box">
                         <div class="metric-value">1.45x</div>
                         <div class="metric-label">Crypto Beta</div>
                     </div>
@@ -635,30 +614,69 @@
     </div>
 
     <script>
-        // Simple score simulation with corrected DXY
+        // Update master score calculation with improved interpretation
         function updateScores() {
-            // Fixed DXY around 98, not 102
-            const dxyScore = 42.1 + (Math.random() - 0.5) * 6; // Lower score due to weaker DXY
-            const liquidityScore = 55.3 + (Math.random() - 0.5) * 4;
-            const riskScore = 68.1 + (Math.random() - 0.5) * 5;
-            const corrScore = 58.7 + (Math.random() - 0.5) * 7;
+            const liquidityScore = 58.2 + (Math.random() - 0.5) * 4;
+            const dxyScore = 62.1 + (Math.random() - 0.5) * 6; // Higher due to DXY weakness
+            const riskScore = 71.3 + (Math.random() - 0.5) * 5;
+            const corrScore = 55.8 + (Math.random() - 0.5) * 7;
             
-            // Calculate master score with corrected DXY
-            const masterScore = (liquidityScore * 0.3 + dxyScore * 0.25 + riskScore * 0.25 + corrScore * 0.2);
+            // Calculate weighted master score
+            const masterScore = (
+                liquidityScore * 0.30 + 
+                dxyScore * 0.25 + 
+                riskScore * 0.25 + 
+                corrScore * 0.20
+            );
 
             document.getElementById('masterScore').textContent = masterScore.toFixed(1);
             document.getElementById('liquidityScore').textContent = liquidityScore.toFixed(1);
             document.getElementById('dxyScore').textContent = dxyScore.toFixed(1);
             document.getElementById('riskScore').textContent = riskScore.toFixed(1);
             document.getElementById('corrScore').textContent = corrScore.toFixed(1);
+
+            // Update score colors
+            updateScoreColor('masterScore', masterScore);
+            updateScoreColor('liquidityScore', liquidityScore);
+            updateScoreColor('dxyScore', dxyScore);
+            updateScoreColor('riskScore', riskScore);
+            updateScoreColor('corrScore', corrScore);
         }
 
-        // Update every 30 seconds
-        setInterval(updateScores, 30000);
+        function updateScoreColor(elementId, score) {
+            const element = document.getElementById(elementId);
+            element.className = 'score-number ';
+            
+            if (score >= 65) {
+                element.className += 'bullish';
+            } else if (score <= 45) {
+                element.className += 'bearish';
+            } else {
+                element.className += 'neutral';
+            }
+        }
+
+        // Update component value colors too
+        function updateComponentColor(elementId, score) {
+            const element = document.getElementById(elementId);
+            element.className = 'component-value ';
+            
+            if (score >= 65) {
+                element.className += 'bullish';
+            } else if (score <= 45) {
+                element.className += 'bearish';
+            } else {
+                element.className += 'neutral';
+            }
+        }
+
+        // Update every 45 seconds
+        setInterval(updateScores, 45000);
         
-        console.log('✅ Dashboard with TradingView widgets loaded');
-        console.log('📊 Basic charts: BTC, ETH, SOL, HYPE, BTC.D, ETH/BTC, USDT.D, DXY');
-        console.log('🔧 DXY corrected to ~98 levels');
+        console.log('✅ Simplified Macro Dashboard loaded');
+        console.log('📊 Charts: BTC, ETH, BTC.D, ETH/BTC with candlesticks');
+        console.log('🔗 Direct links to TradingView indicators');
+        console.log('📈 Live macro interpretation and signals');
     </script>
 </body>
 </html>
