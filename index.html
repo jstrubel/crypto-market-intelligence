@@ -46,6 +46,22 @@
             margin: 0 auto;
         }
 
+        .premium-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            color: #000;
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .premium-banner:hover {
+            transform: translateY(-2px);
+        }
+
         .tabs {
             display: flex;
             justify-content: center;
@@ -96,7 +112,7 @@
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 1fr 300px;
+            grid-template-columns: 1fr 350px;
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -122,6 +138,70 @@
             line-height: 1.6;
         }
 
+        .premium-gate {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 217, 61, 0.1) 100%);
+            border: 2px solid #ff6b6b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .premium-gate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .premium-gate-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .premium-gate-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+
+        .premium-gate-content p {
+            margin-bottom: 25px;
+            color: #a0a9c0;
+            font-size: 1.1rem;
+        }
+
+        .upgrade-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            color: #000;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .upgrade-button:hover {
+            transform: scale(1.05);
+        }
+
+        .premium-gate-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23ff6b6b" opacity="0.1"/><circle cx="80" cy="80" r="2" fill="%23ffd93d" opacity="0.1"/><circle cx="40" cy="60" r="1" fill="%23ff6b6b" opacity="0.15"/><circle cx="70" cy="30" r="1.5" fill="%23ffd93d" opacity="0.1"/></svg>') repeat;
+            filter: blur(1px);
+        }
+
         .metrics-panel {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 16px;
@@ -137,6 +217,18 @@
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
         }
 
         .metric-item {
@@ -161,131 +253,14 @@
             font-size: 1.1rem;
         }
 
+        .metric-value.premium-locked {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+        }
+
         .regime-neutral { color: #ffd93d; }
         .regime-abundant { color: #6bcf7f; }
         .regime-scarce { color: #ff6b6b; }
-
-        .trend-weak { color: #6bcf7f; }
-        .trend-strong { color: #ff6b6b; }
-
-        .yield-steep { color: #6bcf7f; }
-        .yield-flat { color: #ffd93d; }
-        .yield-inverted { color: #ff6b6b; }
-
-        .risk-on { color: #6bcf7f; }
-        .risk-off { color: #ff6b6b; }
-
-        .chart-preview {
-            height: 400px;
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #1e222d;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .chart-preview:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
-        }
-
-        .chart-preview-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 2;
-        }
-
-        .chart-preview:hover .chart-preview-overlay {
-            opacity: 1;
-        }
-
-        .preview-content {
-            text-align: center;
-            color: white;
-        }
-
-        .preview-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .preview-content p {
-            margin-bottom: 20px;
-            color: #a0a9c0;
-        }
-
-        .preview-button {
-            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .alerts-section {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .alerts-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .alert-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 4px solid;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .alert-warning { border-left-color: #ff6b6b; }
-        .alert-event { border-left-color: #ffd93d; }
-        .alert-positive { border-left-color: #6bcf7f; }
-        .alert-headwind { border-left-color: #ff9f43; }
-
-        .alert-icon {
-            font-size: 1.5rem;
-            padding: 8px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .alert-content h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .alert-content p {
-            color: #a0a9c0;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
 
         .score-display {
             text-align: center;
@@ -309,8 +284,160 @@
             letter-spacing: 1px;
         }
 
+        .live-data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .data-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .data-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .data-card-title {
+            font-size: 0.9rem;
+            color: #a0a9c0;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .data-card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .data-card-change {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .positive { color: #6bcf7f; }
+        .negative { color: #ff6b6b; }
+        .neutral { color: #ffd93d; }
+
+        .pricing-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pricing-modal.active {
+            display: flex;
+        }
+
+        .pricing-content {
+            background: linear-gradient(135deg, #1a1d3a 0%, #0a0e27 100%);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .pricing-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pricing-plan {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-plan.recommended {
+            border-color: #ff6b6b;
+            transform: scale(1.02);
+        }
+
+        .plan-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #ff6b6b;
+        }
+
+        .plan-period {
+            color: #a0a9c0;
+            margin-bottom: 20px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .plan-features li {
+            padding: 5px 0;
+            color: #a0a9c0;
+        }
+
+        .plan-features li:before {
+            content: "✓ ";
+            color: #6bcf7f;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #a0a9c0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-plans {
                 grid-template-columns: 1fr;
             }
             
@@ -343,42 +470,32 @@
             <p>Institutional-grade macro analysis and market intelligence for crypto traders and portfolio managers</p>
         </div>
 
-        <!-- Alert Section -->
-        <div class="alerts-section">
-            <div class="alerts-title">
-                ⚠️ Current Market Alerts
-            </div>
-            
-            <div class="alert-item alert-warning">
-                <div class="alert-icon">⚠️</div>
-                <div class="alert-content">
-                    <h4>Master Score at <span id="master-score-alert">0.45</span> - Approaching stress threshold, maintain defensive positioning</h4>
-                    <p>WARNING</p>
-                </div>
-            </div>
+        <!-- Premium Banner -->
+        <div class="premium-banner" onclick="showPricing()">
+            🚀 Upgrade to Premium for Full Access to All TradingView Indicators & Advanced Analytics
+        </div>
 
-            <div class="alert-item alert-event">
-                <div class="alert-icon">📅</div>
-                <div class="alert-content">
-                    <h4>Jackson Hole This Week - High event risk, monitor for volatility spikes</h4>
-                    <p>EVENT RISK</p>
-                </div>
+        <!-- Live Market Data Grid -->
+        <div class="live-data-grid">
+            <div class="data-card">
+                <div class="data-card-title">Bitcoin</div>
+                <div class="data-card-value" id="btc-price">$113,577</div>
+                <div class="data-card-change negative" id="btc-change">-2.34% (24h)</div>
             </div>
-
-            <div class="alert-item alert-positive">
-                <div class="alert-icon">📈</div>
-                <div class="alert-content">
-                    <h4>Low Premium Breadth (6%) - Minimal speculative excess, constructive for future upside</h4>
-                    <p>POSITIVE</p>
-                </div>
+            <div class="data-card">
+                <div class="data-card-title">DXY Index</div>
+                <div class="data-card-value" id="dxy-price">102.45</div>
+                <div class="data-card-change negative" id="dxy-change">-0.23% (1D)</div>
             </div>
-
-            <div class="alert-item alert-headwind">
-                <div class="alert-icon">💨</div>
-                <div class="alert-content">
-                    <h4>Strong Dollar Headwind - DXY strength creating persistent pressure on risk assets</h4>
-                    <p>HEADWIND</p>
-                </div>
+            <div class="data-card">
+                <div class="data-card-title">10Y Treasury</div>
+                <div class="data-card-value" id="treasury-yield">4.32%</div>
+                <div class="data-card-change positive" id="treasury-change">+0.05% (1D)</div>
+            </div>
+            <div class="data-card">
+                <div class="data-card-title">Global Liquidity Score</div>
+                <div class="data-card-value neutral" id="liquidity-score">53.4</div>
+                <div class="data-card-change neutral">NEUTRAL REGIME</div>
             </div>
         </div>
 
@@ -397,27 +514,28 @@
                     <div class="chart-title">📊 Global Liquidity Dashboard</div>
                     <div class="chart-description">
                         Comprehensive macro analysis combining global money supply trends, dollar strength momentum, real yield environment, 
-                        and risk asset performance. The liquidity score above 70 indicates abundant liquidity favorable for crypto/risk assets.
+                        and risk asset performance. Upgrade to Premium for full interactive access.
                     </div>
                     
-                    <!-- TradingView Chart Preview -->
-                    <div class="chart-preview" onclick="openTradingViewChart('https://www.tradingview.com/script/3vgyHzC5-Global-Liquidity-Dashboard/')">
-                        <div class="chart-preview-overlay">
-                            <div class="preview-content">
-                                <h3>📊 Global Liquidity Dashboard</h3>
-                                <p>Click to open interactive indicator on TradingView</p>
-                                <div class="preview-button">View Live Indicator →</div>
-                            </div>
+                    <!-- Premium Gate -->
+                    <div class="premium-gate" onclick="showPricing()">
+                        <div class="premium-gate-bg"></div>
+                        <div class="premium-gate-content">
+                            <h3>🔒 Premium Feature</h3>
+                            <p>Access the full interactive Global Liquidity Dashboard on TradingView</p>
+                            <button class="upgrade-button">Upgrade to Premium</button>
                         </div>
-                        <img src="https://s3.tradingview.com/3/3vgyHzC5_mid.webp?v=1755635705" alt="Global Liquidity Dashboard" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                     </div>
                 </div>
 
                 <div class="metrics-panel">
-                    <div class="metrics-title">Global Liquidity</div>
+                    <div class="metrics-title">
+                        Global Liquidity 
+                        <span class="premium-badge">PRO</span>
+                    </div>
                     
                     <div class="score-display">
-                        <div class="score-number regime-neutral" id="liquidity-score">53.4</div>
+                        <div class="score-number regime-neutral" id="main-liquidity-score">53.4</div>
                         <div class="score-label">Liquidity Score</div>
                     </div>
 
@@ -428,12 +546,12 @@
 
                     <div class="metric-item">
                         <span class="metric-label">DXY Trend</span>
-                        <span class="metric-value trend-weak" id="dxy-trend">WEAK</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
                         <span class="metric-label">Yield Curve</span>
-                        <span class="metric-value yield-steep" id="yield-curve">STEEP</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
@@ -443,12 +561,12 @@
 
                     <div class="metric-item">
                         <span class="metric-label">Real Yield</span>
-                        <span class="metric-value" id="real-yield">1.8%</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
                         <span class="metric-label">Risk Assets</span>
-                        <span class="metric-value risk-on" id="risk-assets">RISK ON</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
                 </div>
             </div>
@@ -460,34 +578,33 @@
                 <div class="chart-container">
                     <div class="chart-title">📈 DXY + Yields Dashboard</div>
                     <div class="chart-description">
-                        Multi-timeframe DXY trend analysis with 10Y and 2Y Treasury yields. Strong DXY + Rising Yields typically create crypto headwinds, 
-                        while Weak DXY + Falling Yields provide crypto tailwinds.
+                        Multi-timeframe DXY trend analysis with 10Y and 2Y Treasury yields. Premium subscribers get full access to the interactive indicator.
                     </div>
                     
-                    <!-- TradingView Chart Preview -->
-                    <div class="chart-preview" onclick="openTradingViewChart('https://www.tradingview.com/script/DEOIIjim-DXY-Yields-Dashboard/')">
-                        <div class="chart-preview-overlay">
-                            <div class="preview-content">
-                                <h3>📈 DXY + Yields Dashboard</h3>
-                                <p>Click to open interactive indicator on TradingView</p>
-                                <div class="preview-button">View Live Indicator →</div>
-                            </div>
+                    <div class="premium-gate" onclick="showPricing()">
+                        <div class="premium-gate-bg"></div>
+                        <div class="premium-gate-content">
+                            <h3>🔒 Premium Feature</h3>
+                            <p>Access the full DXY + Yields Dashboard with MACRO ENVIRONMENT table</p>
+                            <button class="upgrade-button">Upgrade to Premium</button>
                         </div>
-                        <img src="https://s3.tradingview.com/d/DEOIIjim_mid.webp?v=1755635800" alt="DXY Yields Dashboard" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                     </div>
                 </div>
 
                 <div class="metrics-panel">
-                    <div class="metrics-title">DXY & Yields</div>
+                    <div class="metrics-title">
+                        DXY & Yields 
+                        <span class="premium-badge">PRO</span>
+                    </div>
                     
                     <div class="metric-item">
                         <span class="metric-label">DXY Price</span>
-                        <span class="metric-value" id="dxy-price">102.45</span>
+                        <span class="metric-value" id="dxy-price-detail">102.45</span>
                     </div>
 
                     <div class="metric-item">
-                        <span class="metric-label">DXY 1D Change</span>
-                        <span class="metric-value" id="dxy-change">-0.23%</span>
+                        <span class="metric-label">DXY Trend</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
@@ -496,18 +613,18 @@
                     </div>
 
                     <div class="metric-item">
-                        <span class="metric-label">2Y Yield</span>
-                        <span class="metric-value" id="two-y-yield">4.15%</span>
+                        <span class="metric-label">Yield Trend</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
-                        <span class="metric-label">Yield Spread</span>
-                        <span class="metric-value yield-steep" id="yield-spread">+17 bps</span>
+                        <span class="metric-label">Curve Status</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
-                        <span class="metric-label">Recession Risk</span>
-                        <span class="metric-value" id="recession-risk">LOW</span>
+                        <span class="metric-label">Macro Risk</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
                 </div>
             </div>
@@ -519,54 +636,48 @@
                 <div class="chart-container">
                     <div class="chart-title">⚡ Risk Assets Dashboard</div>
                     <div class="chart-description">
-                        Monitor key risk asset performance including Bitcoin, Ethereum, and traditional risk assets like SPY and emerging markets. 
-                        Correlations with traditional markets provide insights into crypto's risk-on/risk-off behavior.
+                        Monitor key risk asset performance and correlations. Premium access includes full TradingView integration and advanced analytics.
                     </div>
                     
-                    <!-- TradingView Chart Preview -->
-                    <div class="chart-preview" onclick="openTradingViewChart('https://www.tradingview.com/script/toCpdN6P-Risk-Assets-Dashboard/')">
-                        <div class="chart-preview-overlay">
-                            <div class="preview-content">
-                                <h3>⚡ Risk Assets Dashboard</h3>
-                                <p>Click to open interactive indicator on TradingView</p>
-                                <div class="preview-button">View Live Indicator →</div>
-                            </div>
+                    <div class="premium-gate" onclick="showPricing()">
+                        <div class="premium-gate-bg"></div>
+                        <div class="premium-gate-content">
+                            <h3>🔒 Premium Feature</h3>
+                            <p>Access comprehensive Risk Assets analysis and correlation matrix</p>
+                            <button class="upgrade-button">Upgrade to Premium</button>
                         </div>
-                        <img src="https://via.placeholder.com/800x400/1e222d/ffffff?text=Risk+Assets+Dashboard" alt="Risk Assets Dashboard" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                     </div>
                 </div>
 
                 <div class="metrics-panel">
-                    <div class="metrics-title">Risk Assets</div>
+                    <div class="metrics-title">
+                        Risk Assets 
+                        <span class="premium-badge">PRO</span>
+                    </div>
                     
                     <div class="metric-item">
                         <span class="metric-label">BTC Price</span>
-                        <span class="metric-value" id="btc-price">$113,577</span>
-                    </div>
-
-                    <div class="metric-item">
-                        <span class="metric-label">BTC 24h</span>
-                        <span class="metric-value" id="btc-change">-2.34%</span>
-                    </div>
-
-                    <div class="metric-item">
-                        <span class="metric-label">ETH Price</span>
-                        <span class="metric-value" id="eth-price">$3,847</span>
-                    </div>
-
-                    <div class="metric-item">
-                        <span class="metric-label">SPY</span>
-                        <span class="metric-value" id="spy-price">$598.42</span>
-                    </div>
-
-                    <div class="metric-item">
-                        <span class="metric-label">QQQ</span>
-                        <span class="metric-value" id="qqq-price">$512.18</span>
+                        <span class="metric-value" id="btc-price-detail">$113,577</span>
                     </div>
 
                     <div class="metric-item">
                         <span class="metric-label">Market Regime</span>
-                        <span class="metric-value risk-on" id="market-regime">RISK ON</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Risk Score</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Crypto Beta</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Volatility Index</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
                 </div>
             </div>
@@ -578,90 +689,89 @@
                 <div class="chart-container">
                     <div class="chart-title">🔗 Cross-Asset Correlations</div>
                     <div class="chart-description">
-                        Real-time correlation analysis between Bitcoin, traditional assets, and macro indicators. 
-                        High correlations with traditional risk assets indicate crypto's integration into broader market cycles.
+                        Real-time correlation analysis between Bitcoin, traditional assets, and macro indicators. Premium includes full correlation matrix and historical analysis.
                     </div>
                     
-                    <div class="tradingview-widget-container">
-                        <div class="tradingview-widget-container__widget"></div>
-                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
-                        {
-                            "colorTheme": "dark",
-                            "dateRange": "3M",
-                            "showChart": true,
-                            "locale": "en",
-                            "width": "100%",
-                            "height": "100%",
-                            "largeChartUrl": "",
-                            "isTransparent": true,
-                            "showSymbolLogo": true,
-                            "showFloatingTooltip": false,
-                            "plotLineColorGrowing": "rgba(41, 98, 255, 1)",
-                            "plotLineColorFalling": "rgba(41, 98, 255, 1)",
-                            "gridLineColor": "rgba(240, 243, 250, 0)",
-                            "scaleFontColor": "rgba(120, 123, 134, 1)",
-                            "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
-                            "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
-                            "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
-                            "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
-                            "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
-                            "tabs": [
-                                {
-                                    "title": "Crypto",
-                                    "symbols": [
-                                        {"s": "BITSTAMP:BTCUSD", "d": "Bitcoin"},
-                                        {"s": "BITSTAMP:ETHUSD", "d": "Ethereum"},
-                                        {"s": "BINANCE:ADAUSD", "d": "Cardano"},
-                                        {"s": "BINANCE:SOLUSD", "d": "Solana"}
-                                    ]
-                                },
-                                {
-                                    "title": "Traditional",
-                                    "symbols": [
-                                        {"s": "AMEX:SPY", "d": "S&P 500"},
-                                        {"s": "TVC:DXY", "d": "US Dollar"},
-                                        {"s": "TVC:TNX", "d": "10Y Treasury"},
-                                        {"s": "TVC:GOLD", "d": "Gold"}
-                                    ]
-                                }
-                            ]
-                        }
-                        </script>
+                    <div class="premium-gate" onclick="showPricing()">
+                        <div class="premium-gate-bg"></div>
+                        <div class="premium-gate-content">
+                            <h3>🔒 Premium Feature</h3>
+                            <p>Access full correlation matrix and cross-asset analysis tools</p>
+                            <button class="upgrade-button">Upgrade to Premium</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="metrics-panel">
-                    <div class="metrics-title">Correlations (30D)</div>
+                    <div class="metrics-title">
+                        Correlations 
+                        <span class="premium-badge">PRO</span>
+                    </div>
                     
                     <div class="metric-item">
                         <span class="metric-label">BTC vs SPY</span>
-                        <span class="metric-value" id="btc-spy-corr">0.72</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
                         <span class="metric-label">BTC vs DXY</span>
-                        <span class="metric-value" id="btc-dxy-corr">-0.45</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
                         <span class="metric-label">BTC vs Gold</span>
-                        <span class="metric-value" id="btc-gold-corr">0.23</span>
-                    </div>
-
-                    <div class="metric-item">
-                        <span class="metric-label">BTC vs TNX</span>
-                        <span class="metric-value" id="btc-tnx-corr">-0.18</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
                         <span class="metric-label">ETH vs BTC</span>
-                        <span class="metric-value" id="eth-btc-corr">0.89</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
 
                     <div class="metric-item">
-                        <span class="metric-label">Crypto Beta</span>
-                        <span class="metric-value" id="crypto-beta">1.45</span>
+                        <span class="metric-label">Market Regime</span>
+                        <span class="metric-value premium-locked">🔒 Premium</span>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Modal -->
+    <div class="pricing-modal" id="pricing-modal">
+        <div class="pricing-content">
+            <button class="close-modal" onclick="hidePricing()">×</button>
+            <div class="pricing-header">
+                <h2>Upgrade to Premium</h2>
+                <p>Get full access to all TradingView indicators and advanced market intelligence</p>
+            </div>
+            
+            <div class="pricing-plans">
+                <div class="pricing-plan">
+                    <div class="plan-name">Monthly</div>
+                    <div class="plan-price">$29</div>
+                    <div class="plan-period">per month</div>
+                    <ul class="plan-features">
+                        <li>All TradingView Indicators</li>
+                        <li>Real-time Alerts</li>
+                        <li>Advanced Analytics</li>
+                        <li>Email Support</li>
+                    </ul>
+                    <button class="upgrade-button" onclick="subscribe('monthly')">Choose Monthly</button>
+                </div>
+                
+                <div class="pricing-plan recommended">
+                    <div class="plan-name">Annual</div>
+                    <div class="plan-price">$199</div>
+                    <div class="plan-period">per year (save 43%)</div>
+                    <ul class="plan-features">
+                        <li>All Monthly Features</li>
+                        <li>Priority Support</li>
+                        <li>API Access</li>
+                        <li>Custom Alerts</li>
+                        <li>Exclusive Reports</li>
+                    </ul>
+                    <button class="upgrade-button" onclick="subscribe('annual')">Choose Annual</button>
                 </div>
             </div>
         </div>
@@ -671,65 +781,38 @@
         function openTab(evt, tabName) {
             var i, tabcontent, tabs;
             
-            // Hide all tab content
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].classList.remove("active");
             }
             
-            // Remove active class from all tabs
             tabs = document.getElementsByClassName("tab");
             for (i = 0; i < tabs.length; i++) {
                 tabs[i].classList.remove("active");
             }
             
-            // Show selected tab content and mark tab as active
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
 
+        function showPricing() {
+            document.getElementById('pricing-modal').classList.add('active');
+        }
+
+        function hidePricing() {
+            document.getElementById('pricing-modal').classList.remove('active');
+        }
+
+        function subscribe(plan) {
+            // Here you would integrate with your payment processor (Stripe, etc.)
+            alert(`Redirecting to checkout for ${plan} plan...`);
+            // Example: window.location.href = `/checkout?plan=${plan}`;
+        }
+
         // Simulate real-time data updates
         function updateMetrics() {
-            // Simulate some variation in the liquidity score
-            const baseScore = 53.4;
-            const variation = (Math.random() - 0.5) * 2;
-            const newScore = (baseScore + variation).toFixed(1);
-            
-            document.getElementById('liquidity-score').textContent = newScore;
-            document.getElementById('master-score-alert').textContent = (newScore / 100).toFixed(2);
-            
-            // Update regime based on score
-            const scoreElement = document.getElementById('liquidity-score');
-            const regimeElement = document.getElementById('regime-status');
-            
-            if (newScore > 70) {
-                scoreElement.className = 'score-number regime-abundant';
-                regimeElement.textContent = 'ABUNDANT';
-                regimeElement.className = 'metric-value regime-abundant';
-            } else if (newScore < 30) {
-                scoreElement.className = 'score-number regime-scarce';
-                regimeElement.textContent = 'SCARCE';
-                regimeElement.className = 'metric-value regime-scarce';
-            } else {
-                scoreElement.className = 'score-number regime-neutral';
-                regimeElement.textContent = 'NEUTRAL';
-                regimeElement.className = 'metric-value regime-neutral';
-            }
-        }
-
-        // Function to open TradingView charts
-        function openTradingViewChart(url) {
-            window.open(url, '_blank');
-        }
-
-        // Update metrics every 30 seconds
-        setInterval(updateMetrics, 30000);
-
-        // Initialize
-        window.addEventListener('load', function() {
-            console.log('Crypto Market Intelligence Dashboard loaded');
-            updateMetrics();
-        });
-    </script>
-</body>
-</html>
+            // BTC Price simulation
+            const btcBase = 113577;
+            const btcVariation = (Math.random() - 0.5) * 1000;
+            const newBtcPrice = Math.round(btcBase + btcVariation);
+            document.getElementById('btc-price').textContent = `
