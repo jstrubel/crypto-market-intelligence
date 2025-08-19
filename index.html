@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trading Intelligence Platform</title>
+    <script src="https://s3.tradingview.com/tv.js"></script>
     <style>
         * {
             margin: 0;
@@ -12,10 +13,50 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
-            color: #e8eaed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
             line-height: 1.6;
+        }
+
+        .header {
+            background: #111111;
+            border-bottom: 1px solid #2a2a2a;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00d4aa;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: #00d4aa;
         }
 
         .container {
@@ -24,201 +65,177 @@
             padding: 20px;
         }
 
-        header {
+        .hero {
             text-align: center;
-            margin-bottom: 50px;
             padding: 40px 0;
-            background: linear-gradient(45deg, #2563eb, #3b82f6);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3);
+            background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #2a2a2a;
         }
 
-        h1 {
-            font-size: 3.5rem;
+        .hero h1 {
+            font-size: 3rem;
             margin-bottom: 10px;
-            background: linear-gradient(45deg, #ffffff, #e2e8f0);
+            background: linear-gradient(45deg, #00d4aa, #0066cc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 700;
+            font-weight: 800;
         }
 
-        .subtitle {
+        .hero p {
             font-size: 1.2rem;
-            opacity: 0.9;
-            font-weight: 300;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .section {
-            margin-bottom: 60px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        .tabs {
+            display: flex;
+            background: #111111;
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a2a;
+            overflow-x: auto;
         }
 
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #3b82f6;
-            font-weight: 600;
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            color: #ccc;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            white-space: nowrap;
+            min-width: fit-content;
         }
 
-        .section-description {
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 40px;
-            opacity: 0.8;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+        .tab:hover {
+            background: #2a2a2a;
+            color: #fff;
         }
 
-        .indicators-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+        .tab.active {
+            background: #00d4aa;
+            color: #000;
         }
 
-        .indicator-card {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
+        .chart-section {
+            display: none;
+            background: #111111;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
             overflow: hidden;
         }
 
-        .indicator-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s;
+        .chart-section.active {
+            display: block;
         }
 
-        .indicator-card:hover::before {
-            left: 100%;
+        .chart-header {
+            padding: 20px;
+            border-bottom: 1px solid #2a2a2a;
+            background: #161616;
+        }
+
+        .chart-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .chart-description {
+            color: #aaa;
+            font-size: 1rem;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .chart-container {
+            height: 600px;
+            background: #0a0a0a;
+            position: relative;
+        }
+
+        .indicator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .indicator-card {
+            background: #161616;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
         }
 
         .indicator-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.4);
+            border-color: #00d4aa;
+            background: #1a1a1a;
         }
 
-        .indicator-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #60a5fa;
+        .indicator-card h3 {
+            color: #00d4aa;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
             font-weight: 600;
         }
 
-        .indicator-description {
-            margin-bottom: 20px;
-            opacity: 0.8;
-            line-height: 1.6;
+        .indicator-card p {
+            color: #ccc;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
         .indicator-link {
             display: inline-block;
-            background: linear-gradient(45deg, #3b82f6, #6366f1);
-            color: white;
-            padding: 12px 24px;
+            background: #00d4aa;
+            color: #000;
+            padding: 8px 16px;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 500;
-            transition: all 0.3s ease;
-            text-align: center;
-            width: 100%;
+            transition: all 0.3s;
+            font-size: 0.9rem;
         }
 
         .indicator-link:hover {
-            background: linear-gradient(45deg, #2563eb, #4f46e5);
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.5);
+            background: #00b891;
+            transform: translateY(-1px);
         }
 
-        .crypto-section {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .crypto-section .section-title {
-            color: #22c55e;
-        }
-
-        .crypto-card {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1));
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .crypto-card .indicator-title {
-            color: #4ade80;
-        }
-
-        .crypto-card .indicator-link {
-            background: linear-gradient(45deg, #22c55e, #10b981);
-        }
-
-        .crypto-card .indicator-link:hover {
-            background: linear-gradient(45deg, #16a34a, #059669);
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .feature {
-            text-align: center;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #3b82f6;
-        }
-
-        .feature h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #60a5fa;
-        }
-
-        .status-indicator {
+        .status-dot {
             display: inline-block;
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             margin-right: 8px;
         }
 
         .status-live {
-            background-color: #22c55e;
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+            background: #00d4aa;
+            box-shadow: 0 0 8px rgba(0, 212, 170, 0.6);
         }
 
         .status-beta {
-            background-color: #f59e0b;
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            background: #ff9500;
+            box-shadow: 0 0 8px rgba(255, 149, 0, 0.6);
         }
 
         .coming-soon {
             opacity: 0.6;
-            position: relative;
+            pointer-events: none;
         }
 
         .coming-soon::after {
@@ -226,211 +243,291 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #f59e0b;
-            color: white;
+            background: #ff9500;
+            color: #fff;
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 0.8rem;
             font-weight: 500;
         }
 
+        .footer {
+            margin-top: 60px;
+            padding: 40px 0;
+            border-top: 1px solid #2a2a2a;
+            text-align: center;
+            color: #666;
+        }
+
+        .tradingview-widget {
+            width: 100%;
+            height: 100%;
+        }
+
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .section-title {
+            .hero h1 {
                 font-size: 2rem;
             }
             
-            .section {
-                padding: 20px;
+            .tabs {
+                flex-wrap: wrap;
             }
             
-            .indicators-grid {
+            .indicator-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .nav {
+                display: none;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00d4aa;
         }
     </style>
 </head>
 <body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">TradingIntel</div>
+            <nav class="nav">
+                <a href="#" class="nav-item active">Charts</a>
+                <a href="#" class="nav-item">Indicators</a>
+                <a href="#" class="nav-item">Alerts</a>
+                <a href="#" class="nav-item">About</a>
+            </nav>
+        </div>
+    </header>
+
     <div class="container">
-        <header>
+        <div class="hero">
             <h1>Trading Intelligence Platform</h1>
-            <p class="subtitle">Advanced Market Analysis & Trading Indicators</p>
-        </header>
+            <p>Advanced market analysis with real-time crypto health indicators and macro intelligence</p>
+        </div>
 
-        <!-- Macro Market Intelligence Section -->
-        <section class="section">
-            <h2 class="section-title">📊 Macro Market Intelligence</h2>
-            <p class="section-description">
-                Comprehensive macroeconomic indicators and market sentiment analysis tools to track global market conditions, 
-                economic cycles, and institutional money flows across major asset classes.
-            </p>
-            
-            <div class="indicators-grid">
-                <div class="indicator-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-live"></span>
-                        Global Market Sentiment
-                    </h3>
-                    <p class="indicator-description">
-                        Real-time sentiment analysis combining VIX, bond yields, currency strength, and commodity flows 
-                        to gauge overall market risk appetite and institutional positioning.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
-                </div>
-
-                <div class="indicator-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-live"></span>
-                        Economic Cycle Tracker
-                    </h3>
-                    <p class="indicator-description">
-                        Track economic expansion, peak, contraction, and trough phases using leading indicators 
-                        like yield curves, employment data, and GDP growth rates.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
-                </div>
-
-                <div class="indicator-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-live"></span>
-                        Institutional Flow Monitor
-                    </h3>
-                    <p class="indicator-description">
-                        Monitor smart money movements through dark pool activity, block trades, and institutional 
-                        positioning across equities, bonds, and currencies.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
-                </div>
-
-                <div class="indicator-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-beta"></span>
-                        Central Bank Policy Tracker
-                    </h3>
-                    <p class="indicator-description">
-                        Aggregate central bank policy decisions, forward guidance, and monetary policy divergence 
-                        across major economies to anticipate market reactions.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
-                </div>
-            </div>
-        </section>
+        <div class="tabs">
+            <button class="tab active" onclick="showChart('crypto-health')">Crypto Health</button>
+            <button class="tab" onclick="showChart('macro-intelligence')">Macro Intelligence</button>
+            <button class="tab" onclick="showChart('options-flow')">Options Flow</button>
+            <button class="tab" onclick="showChart('risk-management')">Risk Management</button>
+        </div>
 
         <!-- Crypto Health Section -->
-        <section class="section crypto-section">
-            <h2 class="section-title">₿ Crypto Health Intelligence</h2>
-            <p class="section-description">
-                Advanced cryptocurrency market health indicators combining sentiment, market structure, momentum, and volume analysis 
-                to provide comprehensive insights into crypto market conditions and trading opportunities.
-            </p>
+        <div id="crypto-health" class="chart-section active">
+            <div class="chart-header">
+                <div class="chart-title">₿ Crypto Health Intelligence</div>
+                <div class="chart-description">
+                    Comprehensive cryptocurrency market health indicators combining sentiment, market structure, momentum, and volume analysis
+                </div>
+            </div>
             
-            <div class="indicators-grid">
-                <div class="indicator-card crypto-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-live"></span>
-                        Crypto Fear & Greed Index
-                    </h3>
-                    <p class="indicator-description">
-                        Multi-factor sentiment analysis combining RSI, momentum, volume, volatility, and market dominance 
-                        to gauge crypto market sentiment and identify extreme fear/greed conditions.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
+            <div class="chart-container">
+                <div id="crypto-main-chart" class="tradingview-widget"></div>
+            </div>
+
+            <div class="indicator-grid">
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-live"></span>Fear & Greed Index</h3>
+                    <p>Multi-factor sentiment analysis combining RSI, momentum, volume, and volatility to gauge market sentiment</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
                 </div>
 
-                <div class="indicator-card crypto-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-live"></span>
-                        Market Structure Analyzer
-                    </h3>
-                    <p class="indicator-description">
-                        Detect market structure shifts, break of structure (BOS), change of character (CHoCH), 
-                        and support/resistance levels with automated higher highs/lower lows identification.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-live"></span>Market Structure</h3>
+                    <p>Real-time detection of higher highs, lower lows, break of structure, and change of character patterns</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
                 </div>
 
-                <div class="indicator-card crypto-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-live"></span>
-                        Momentum Tracker
-                    </h3>
-                    <p class="indicator-description">
-                        Comprehensive momentum analysis combining RSI, MACD, Stochastic, price ROC, volume momentum, 
-                        and moving average trends with divergence detection.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-live"></span>Momentum Tracker</h3>
+                    <p>Comprehensive momentum analysis with RSI, MACD, Stochastic, and divergence detection</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
                 </div>
 
-                <div class="indicator-card crypto-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-live"></span>
-                        Volume Analysis Suite
-                    </h3>
-                    <p class="indicator-description">
-                        Advanced volume analysis with OBV, Money Flow Index, Accumulation/Distribution, Klinger Oscillator, 
-                        and volume spike detection with divergence alerts.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-live"></span>Volume Analysis</h3>
+                    <p>Advanced volume indicators including OBV, Money Flow, A/D Line, and volume spike detection</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
                 </div>
 
-                <div class="indicator-card crypto-card">
-                    <h3 class="indicator-title">
-                        <span class="status-indicator status-beta"></span>
-                        Composite Health Score
-                    </h3>
-                    <p class="indicator-description">
-                        Unified crypto health indicator combining market structure, momentum, volume, volatility, 
-                        and trend components into a single actionable score with buy/sell signals.
-                    </p>
-                    <a href="#" class="indicator-link">View on TradingView</a>
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-beta"></span>Composite Health Score</h3>
+                    <p>Unified health indicator combining all components into a single actionable score</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Features Section -->
-        <section class="section">
-            <h2 class="section-title">🚀 Platform Features</h2>
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">📈</div>
-                    <h3>Real-Time Analysis</h3>
-                    <p>Live market data processing with instant indicator updates and alerts</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Precision Signals</h3>
-                    <p>High-accuracy buy/sell signals with customizable alert thresholds</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🔧</div>
-                    <h3>Customizable</h3>
-                    <p>Adjustable parameters and timeframes for different trading strategies</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">📱</div>
-                    <h3>Mobile Optimized</h3>
-                    <p>Responsive design works seamlessly across all devices</p>
+        <!-- Macro Intelligence Section -->
+        <div id="macro-intelligence" class="chart-section">
+            <div class="chart-header">
+                <div class="chart-title">📊 Macro Market Intelligence</div>
+                <div class="chart-description">
+                    Global macroeconomic indicators and institutional money flow analysis across major asset classes
                 </div>
             </div>
-        </section>
+            
+            <div class="chart-container">
+                <div id="macro-main-chart" class="tradingview-widget"></div>
+            </div>
 
-        <!-- Coming Soon Sections -->
-        <section class="section coming-soon">
-            <h2 class="section-title">🔜 Options Flow Intelligence</h2>
-            <p class="section-description">
-                Real-time options flow analysis, unusual activity detection, and institutional positioning insights.
-            </p>
-        </section>
+            <div class="indicator-grid">
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-live"></span>Global Market Sentiment</h3>
+                    <p>Real-time sentiment combining VIX, bond yields, currency strength, and commodity flows</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
+                </div>
 
-        <section class="section coming-soon">
-            <h2 class="section-title">🔜 Risk Management Suite</h2>
-            <p class="section-description">
-                Advanced portfolio risk metrics, position sizing calculators, and drawdown protection tools.
-            </p>
-        </section>
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-live"></span>Economic Cycle Tracker</h3>
+                    <p>Track expansion, peak, contraction, and trough phases using leading indicators</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
+                </div>
+
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-live"></span>Institutional Flow Monitor</h3>
+                    <p>Monitor smart money through dark pools, block trades, and institutional positioning</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
+                </div>
+
+                <div class="indicator-card">
+                    <h3><span class="status-dot status-beta"></span>Central Bank Policy Tracker</h3>
+                    <p>Aggregate policy decisions and monetary policy divergence across major economies</p>
+                    <a href="#" class="indicator-link">View Indicator</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Options Flow Section -->
+        <div id="options-flow" class="chart-section coming-soon">
+            <div class="chart-header">
+                <div class="chart-title">🔜 Options Flow Intelligence</div>
+                <div class="chart-description">
+                    Real-time options flow analysis and unusual activity detection
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">
+                    Coming Soon - Options Flow Analysis
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Management Section -->
+        <div id="risk-management" class="chart-section coming-soon">
+            <div class="chart-header">
+                <div class="chart-title">🔜 Risk Management Suite</div>
+                <div class="chart-description">
+                    Advanced portfolio risk metrics and position sizing tools
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">
+                    Coming Soon - Risk Management Tools
+                </div>
+            </div>
+        </div>
     </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Trading Intelligence Platform. Advanced market analysis for professional traders.</p>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        function showChart(chartId) {
+            // Hide all chart sections
+            const sections = document.querySelectorAll('.chart-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected chart section
+            document.getElementById(chartId).classList.add('active');
+            
+            // Activate clicked tab
+            event.target.classList.add('active');
+            
+            // Load appropriate chart
+            loadChart(chartId);
+        }
+
+        function loadChart(chartId) {
+            let symbol = 'COINBASE:BTCUSD';
+            let containerId = 'crypto-main-chart';
+            
+            if (chartId === 'macro-intelligence') {
+                symbol = 'ECONOMICS:USIRYY';
+                containerId = 'macro-main-chart';
+            }
+            
+            // Clear existing chart
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = '';
+                
+                // Create new TradingView widget
+                new TradingView.widget({
+                    "width": "100%",
+                    "height": "600",
+                    "symbol": symbol,
+                    "interval": "1D",
+                    "timezone": "Etc/UTC",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#111111",
+                    "enable_publishing": false,
+                    "backgroundColor": "#0a0a0a",
+                    "gridColor": "#2a2a2a",
+                    "hide_top_toolbar": false,
+                    "hide_legend": false,
+                    "save_image": false,
+                    "container_id": containerId,
+                    "studies": chartId === 'crypto-health' ? [
+                        "RSI@tv-basicstudies",
+                        "MAExp@tv-basicstudies"
+                    ] : [],
+                    "show_popup_button": true,
+                    "popup_width": "1000",
+                    "popup_height": "650"
+                });
+            }
+        }
+
+        // Initialize default chart on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadChart('crypto-health');
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
