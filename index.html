@@ -469,10 +469,17 @@
             event.target.classList.add('active');
             
             // Load appropriate chart
-            loadChart(chartId);
+            setTimeout(() => loadChart(chartId), 100);
         }
 
         function loadChart(chartId) {
+            // Check if TradingView is available
+            if (typeof TradingView === 'undefined') {
+                console.log('TradingView library loading...');
+                setTimeout(() => loadChart(chartId), 1000);
+                return;
+            }
+
             let symbol = 'COINBASE:BTCUSD';
             let containerId = 'crypto-main-chart';
             
@@ -486,38 +493,46 @@
             if (container) {
                 container.innerHTML = '';
                 
-                // Create new TradingView widget
-                new TradingView.widget({
-                    "width": "100%",
-                    "height": "600",
-                    "symbol": symbol,
-                    "interval": "1D",
-                    "timezone": "Etc/UTC",
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": "en",
-                    "toolbar_bg": "#111111",
-                    "enable_publishing": false,
-                    "backgroundColor": "#0a0a0a",
-                    "gridColor": "#2a2a2a",
-                    "hide_top_toolbar": false,
-                    "hide_legend": false,
-                    "save_image": false,
-                    "container_id": containerId,
-                    "studies": chartId === 'crypto-health' ? [
-                        "RSI@tv-basicstudies",
-                        "MAExp@tv-basicstudies"
-                    ] : [],
-                    "show_popup_button": true,
-                    "popup_width": "1000",
-                    "popup_height": "650"
-                });
+                try {
+                    // Create new TradingView widget
+                    new TradingView.widget({
+                        "width": "100%",
+                        "height": "600",
+                        "symbol": symbol,
+                        "interval": "1D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#111111",
+                        "enable_publishing": false,
+                        "backgroundColor": "#0a0a0a",
+                        "gridColor": "#2a2a2a",
+                        "hide_top_toolbar": false,
+                        "hide_legend": false,
+                        "save_image": false,
+                        "container_id": containerId,
+                        "studies": chartId === 'crypto-health' ? [
+                            "RSI@tv-basicstudies",
+                            "MAExp@tv-basicstudies"
+                        ] : [],
+                        "show_popup_button": true,
+                        "popup_width": "1000",
+                        "popup_height": "650"
+                    });
+                } catch (error) {
+                    console.log('Chart loading error:', error);
+                    container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666; flex-direction: column;"><div>📊</div><div>Chart loading...</div><div style="font-size: 0.9rem; margin-top: 10px;">TradingView charts will appear here</div></div>';
+                }
             }
         }
 
         // Initialize default chart on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadChart('crypto-health');
+            // Wait for TradingView library to load
+            setTimeout(() => {
+                loadChart('crypto-health');
+            }, 1500);
         });
 
         // Smooth scrolling for navigation
