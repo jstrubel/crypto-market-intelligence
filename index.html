@@ -407,6 +407,7 @@
                     <div class="chart-tab active" onclick="switchMacroChart('liquidity')">Global Liquidity</div>
                     <div class="chart-tab" onclick="switchMacroChart('yields')">DXY & Yields</div>
                     <div class="chart-tab" onclick="switchMacroChart('risk')">Risk Assets</div>
+                    <div class="chart-tab" onclick="switchMacroChart('correlations')">Correlations</div>
                 </div>
                 
                 <div id="macro-chart" class="chart-container">
@@ -447,15 +448,15 @@
                 </div>
                 
                 <div class="chart-tabs">
-                    <div class="chart-tab active" onclick="switchCryptoChart('health')">Health Score</div>
-                    <div class="chart-tab" onclick="switchCryptoChart('altseason')">Alt Season</div>
-                    <div class="chart-tab" onclick="switchCryptoChart('risk')">Risk Dashboard</div>
+                    <div class="chart-tab active" onclick="switchCryptoChart('btc')">BTC Analysis</div>
+                    <div class="chart-tab" onclick="switchCryptoChart('eth')">ETH Analysis</div>
+                    <div class="chart-tab" onclick="switchCryptoChart('alts')">Altcoin Analysis</div>
                 </div>
                 
                 <div id="crypto-chart" class="chart-container">
                     <div class="loading">
                         <div class="spinner"></div>
-                        Loading Market Health Analysis...
+                        Loading Crypto Analysis...
                     </div>
                 </div>
                 
@@ -491,8 +492,8 @@
                 
                 <div class="chart-tabs">
                     <div class="chart-tab active" onclick="switchFlowChart('stables')">Stablecoin Dom</div>
-                    <div class="chart-tab" onclick="switchFlowChart('institutional')">Institutional</div>
-                    <div class="chart-tab" onclick="switchFlowChart('correlations')">Correlations</div>
+                    <div class="chart-tab" onclick="switchFlowChart('btc-dom')">BTC Dominance</div>
+                    <div class="chart-tab" onclick="switchFlowChart('total-mc')">Total Market Cap</div>
                 </div>
                 
                 <div id="flow-chart" class="chart-container">
@@ -609,26 +610,43 @@
     </footer>
 
     <script>
-        // Chart switching functions
+        // Chart switching functions with your custom indicators
         function switchMacroChart(type) {
             updateTabState('macro', type);
             
-            const symbols = {
-                'liquidity': 'FRED:WALCL',
-                'yields': 'TVC:DXY',
-                'risk': 'SPY'
+            const chartConfigs = {
+                'liquidity': {
+                    symbol: "COINBASE:BTCUSD",
+                    script: "3vgyHzC5-Global-Liquidity-Dashboard",
+                    title: "Global Liquidity Analysis"
+                },
+                'yields': {
+                    symbol: "TVC:DXY", 
+                    script: "DEOIIjim-DXY-Yields-Dashboard",
+                    title: "DXY & Yields Analysis"
+                },
+                'risk': {
+                    symbol: "SPY",
+                    script: "toCpdN6P-Risk-Assets-Dashboard", 
+                    title: "Risk Assets Analysis"
+                },
+                'correlations': {
+                    symbol: "COINBASE:BTCUSD",
+                    script: "zqcUHee2-Cross-Asset-Correlations",
+                    title: "Cross-Asset Correlations"
+                }
             };
             
-            loadChart('macro-chart', symbols[type] || 'TVC:DXY');
+            loadCustomChart('macro-chart', chartConfigs[type] || chartConfigs['liquidity']);
         }
         
         function switchCryptoChart(type) {
             updateTabState('crypto', type);
             
             const symbols = {
-                'health': 'COINBASE:BTCUSD',
-                'altseason': 'CRYPTOCAP:OTHERS',
-                'risk': 'COINBASE:BTCUSD'
+                'btc': 'COINBASE:BTCUSD',
+                'eth': 'COINBASE:ETHUSD', 
+                'alts': 'CRYPTOCAP:OTHERS'
             };
             
             loadChart('crypto-chart', symbols[type] || 'COINBASE:BTCUSD');
@@ -639,8 +657,8 @@
             
             const symbols = {
                 'stables': 'CRYPTOCAP:USDT.D',
-                'institutional': 'COINBASE:BTCUSD',
-                'correlations': 'SPY'
+                'btc-dom': 'CRYPTOCAP:BTC.D',
+                'total-mc': 'CRYPTOCAP:TOTAL'
             };
             
             loadChart('flow-chart', symbols[type] || 'CRYPTOCAP:USDT.D');
@@ -672,10 +690,10 @@
             tabs.forEach(tab => tab.classList.remove('active'));
             
             const typeMap = {
-                'liquidity': 0, 'yields': 1, 'risk': 2,
-                'health': 0, 'altseason': 1,
-                'stables': 0, 'institutional': 1, 'correlations': 2,
-                'btc': 0, 'eth': 1, 'dominance': 2
+                'liquidity': 0, 'yields': 1, 'risk': 2, 'correlations': 3,
+                'btc': 0, 'eth': 1, 'alts': 2,
+                'stables': 0, 'btc-dom': 1, 'total-mc': 2,
+                'dominance': 2
             };
             
             const activeIndex = typeMap[activeType] || 0;
@@ -684,6 +702,38 @@
             }
         }
         
+        // Function to load charts with your custom indicators
+        function loadCustomChart(containerId, config) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '<div class="loading"><div class="spinner"></div>Loading ' + config.title + '...</div>';
+            
+            setTimeout(() => {
+                container.innerHTML = '';
+                
+                // Create the chart with your custom indicator
+                new TradingView.widget({
+                    "width": "100%",
+                    "height": "400",
+                    "symbol": config.symbol,
+                    "interval": "D",
+                    "timezone": "Etc/UTC", 
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "hide_top_toolbar": true,
+                    "hide_legend": true,
+                    "save_image": false,
+                    "container_id": containerId,
+                    "studies": [
+                        "STD;" + config.script
+                    ]
+                });
+            }, 500);
+        }
+        
+        // Function for basic charts (without custom indicators)
         function loadChart(containerId, symbol) {
             const container = document.getElementById(containerId);
             container.innerHTML = '<div class="loading"><div class="spinner"></div>Loading chart data...</div>';
@@ -713,7 +763,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Load initial charts
             switchMacroChart('liquidity');
-            switchCryptoChart('health');
+            switchCryptoChart('btc');
             switchFlowChart('stables');
             switchTechnicalChart('btc');
             
@@ -736,7 +786,7 @@
                         break;
                     case '2':
                         e.preventDefault();
-                        switchCryptoChart('health');
+                        switchCryptoChart('btc');
                         break;
                     case '3':
                         e.preventDefault();
