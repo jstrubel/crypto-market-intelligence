@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Health Dashboard</title>
+    <title>Trading Intelligence Platform</title>
     <style>
         * {
             margin: 0;
@@ -12,708 +12,425 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1d3a 100%);
-            color: #ffffff;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            color: #e8eaed;
+            line-height: 1.6;
         }
 
-        .header {
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
             text-align: center;
-            padding: 30px 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 50px;
+            padding: 40px 0;
+            background: linear-gradient(45deg, #2563eb, #3b82f6);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3);
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
+        h1 {
+            font-size: 3.5rem;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #6bcf7f 0%, #00d4ff 100%);
+            background: linear-gradient(45deg, #ffffff, #e2e8f0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 700;
         }
 
-        .header p {
-            color: #a0a9c0;
-            font-size: 1.1rem;
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
         }
 
-        /* Navigation */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .nav-tab {
-            padding: 12px 24px;
+        .section {
+            margin-bottom: 60px;
             background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #a0a9c0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            text-decoration: none;
-        }
-
-        .nav-tab:hover {
-            border-color: #6bcf7f;
-            color: #ffffff;
-            background: rgba(107, 207, 127, 0.1);
-            text-decoration: none;
-        }
-
-        .nav-tab.active {
-            border-color: #6bcf7f;
-            color: #ffffff;
-            background: rgba(107, 207, 127, 0.1);
-        }
-
-        /* Key Charts Section - LARGER */
-        .key-charts {
-            padding: 30px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .key-charts h2 {
-            text-align: center;
-            color: #ffffff;
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-        }
-
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .chart-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-        }
-
-        .chart-title {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #ffffff;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .tradingview-widget-container {
-            height: 550px;
-            width: 100%;
-        }
-
-        /* Master Health Score */
-        .master-health {
-            text-align: center;
-            padding: 35px;
-            background: linear-gradient(135deg, rgba(107, 207, 127, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
-            border-radius: 16px;
-            border: 1px solid rgba(107, 207, 127, 0.2);
-            margin: 30px auto;
-            max-width: 900px;
-        }
-
-        .health-score-number {
-            font-size: 4.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #6bcf7f;
-        }
-
-        .health-score-label {
-            font-size: 1.3rem;
-            color: #a0a9c0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-        }
-
-        .health-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            background: rgba(107, 207, 127, 0.2);
-            color: #6bcf7f;
-            border: 1px solid #6bcf7f;
-        }
-
-        .health-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .health-component {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-        }
-
-        .component-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .component-label {
-            font-size: 1rem;
-            color: #a0a9c0;
-        }
-
-        .bullish { color: #6bcf7f; }
-        .bearish { color: #ff6b6b; }
-        .neutral { color: #ffd93d; }
-
-        /* Health Analysis Section */
-        .health-section {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px 20px;
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
             text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: #ffffff;
-        }
-
-        .health-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-            gap: 25px;
-        }
-
-        .health-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .health-title {
-            font-size: 1.4rem;
+            color: #3b82f6;
             font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
 
-        .tradingview-link {
-            background: linear-gradient(135deg, #6bcf7f 0%, #00d4ff 100%);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: transform 0.2s ease;
-        }
-
-        .tradingview-link:hover {
-            transform: translateY(-2px);
-            text-decoration: none;
-            color: white;
-        }
-
-        .health-interpretation {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .interpretation-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .signal-indicator {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .signal-bullish {
-            background: rgba(107, 207, 127, 0.2);
-            color: #6bcf7f;
-            border: 1px solid #6bcf7f;
-        }
-
-        .signal-bearish {
-            background: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
-            border: 1px solid #ff6b6b;
-        }
-
-        .signal-neutral {
-            background: rgba(255, 217, 61, 0.2);
-            color: #ffd93d;
-            border: 1px solid #ffd93d;
-        }
-
-        .interpretation-text {
-            color: #a0a9c0;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .key-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .metric-box {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .metric-value {
+        .section-description {
             font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 4px;
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .metric-label {
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .indicator-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .indicator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .indicator-card:hover::before {
+            left: 100%;
+        }
+
+        .indicator-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.4);
+        }
+
+        .indicator-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .indicator-description {
+            margin-bottom: 20px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .indicator-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #3b82f6, #6366f1);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+
+        .indicator-link:hover {
+            background: linear-gradient(45deg, #2563eb, #4f46e5);
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .crypto-section {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .crypto-section .section-title {
+            color: #22c55e;
+        }
+
+        .crypto-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .crypto-card .indicator-title {
+            color: #4ade80;
+        }
+
+        .crypto-card .indicator-link {
+            background: linear-gradient(45deg, #22c55e, #10b981);
+        }
+
+        .crypto-card .indicator-link:hover {
+            background: linear-gradient(45deg, #16a34a, #059669);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #3b82f6;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #60a5fa;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-live {
+            background-color: #22c55e;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+
+        .status-beta {
+            background-color: #f59e0b;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+
+        .coming-soon {
+            opacity: 0.6;
+            position: relative;
+        }
+
+        .coming-soon::after {
+            content: 'Coming Soon';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f59e0b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
             font-size: 0.8rem;
-            color: #a0a9c0;
+            font-weight: 500;
         }
 
         @media (max-width: 768px) {
-            .charts-grid {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .indicators-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .health-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .health-score-number {
-                font-size: 3.5rem;
-            }
-            
-            .health-title {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Crypto Health Dashboard</h1>
-        <p>Internal market health analysis for portfolio allocation decisions</p>
-    </div>
+    <div class="container">
+        <header>
+            <h1>Trading Intelligence Platform</h1>
+            <p class="subtitle">Advanced Market Analysis & Trading Indicators</p>
+        </header>
 
-    <!-- Navigation -->
-    <div class="nav-tabs">
-        <a href="#" class="nav-tab">🔬 Macro Master</a>
-        <a href="#" class="nav-tab active">🏥 Crypto Health</a>
-        <a href="#" class="nav-tab">💰 Flow Analysis</a>
-        <a href="#" class="nav-tab">📈 Technical Levels</a>
-    </div>
-
-    <!-- Key Health Charts Section - LARGER -->
-    <div class="key-charts">
-        <h2>📊 Key Health Metrics</h2>
-        <div class="charts-grid">
-            <!-- Network Health (On-chain metrics) -->
-            <div class="chart-card">
-                <div class="chart-title">🏥 Bitcoin Network Health</div>
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                    {
-                        "autosize": true,
-                        "symbol": "QUANDL:BCHAIN/HRATE",
-                        "interval": "D",
-                        "timezone": "Etc/UTC",
-                        "theme": "dark",
-                        "style": "1",
-                        "locale": "en",
-                        "enable_publishing": false,
-                        "backgroundColor": "rgba(19, 23, 34, 0)",
-                        "gridColor": "rgba(240, 243, 250, 0.06)",
-                        "hide_top_toolbar": false,
-                        "hide_legend": false,
-                        "save_image": false,
-                        "calendar": false,
-                        "container_id": "tradingview_network_health"
-                    }
-                    </script>
-                </div>
-            </div>
-
-            <!-- Altcoin Season Tracking -->
-            <div class="chart-card">
-                <div class="chart-title">🌟 Altcoin Season Tracker</div>
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                    {
-                        "autosize": true,
-                        "symbol": "CRYPTOCAP:TOTAL2",
-                        "interval": "D",
-                        "timezone": "Etc/UTC",
-                        "theme": "dark",
-                        "style": "1",
-                        "locale": "en",
-                        "enable_publishing": false,
-                        "backgroundColor": "rgba(19, 23, 34, 0)",
-                        "gridColor": "rgba(240, 243, 250, 0.06)",
-                        "hide_top_toolbar": false,
-                        "hide_legend": false,
-                        "save_image": false,
-                        "calendar": false,
-                        "container_id": "tradingview_altcoin_season"
-                    }
-                    </script>
-                </div>
-            </div>
-
-            <!-- Funding Rates Overview -->
-            <div class="chart-card">
-                <div class="chart-title">💸 Funding Rates Health</div>
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                    {
-                        "autosize": true,
-                        "symbol": "BINANCE:BTCUSDTPERP",
-                        "interval": "4H",
-                        "timezone": "Etc/UTC",
-                        "theme": "dark",
-                        "style": "1",
-                        "locale": "en",
-                        "enable_publishing": false,
-                        "backgroundColor": "rgba(19, 23, 34, 0)",
-                        "gridColor": "rgba(240, 243, 250, 0.06)",
-                        "hide_top_toolbar": false,
-                        "hide_legend": false,
-                        "save_image": false,
-                        "calendar": false,
-                        "container_id": "tradingview_funding_rates"
-                    }
-                    </script>
-                </div>
-            </div>
-
-            <!-- Market Cap Distribution -->
-            <div class="chart-card">
-                <div class="chart-title">📊 Market Cap Distribution</div>
-                <div class="tradingview-widget-container">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                    {
-                        "autosize": true,
-                        "symbol": "CRYPTOCAP:TOTAL",
-                        "interval": "D",
-                        "timezone": "Etc/UTC",
-                        "theme": "dark",
-                        "style": "1",
-                        "locale": "en",
-                        "enable_publishing": false,
-                        "backgroundColor": "rgba(19, 23, 34, 0)",
-                        "gridColor": "rgba(240, 243, 250, 0.06)",
-                        "hide_top_toolbar": false,
-                        "hide_legend": false,
-                        "save_image": false,
-                        "calendar": false,
-                        "container_id": "tradingview_market_cap"
-                    }
-                    </script>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Master Health Score -->
-    <div class="key-charts">
-        <div class="master-health">
-            <div class="health-score-number" id="masterHealthScore">78.2</div>
-            <div class="health-score-label">Master Health Score</div>
-            <div class="health-status" id="healthStatus">
-                💚 HEALTHY - AGGRESSIVE ALLOCATION RECOMMENDED
-            </div>
+        <!-- Macro Market Intelligence Section -->
+        <section class="section">
+            <h2 class="section-title">📊 Macro Market Intelligence</h2>
+            <p class="section-description">
+                Comprehensive macroeconomic indicators and market sentiment analysis tools to track global market conditions, 
+                economic cycles, and institutional money flows across major asset classes.
+            </p>
             
-            <div class="health-details">
-                <div class="health-component">
-                    <div class="component-value bullish" id="networkScore">85.4</div>
-                    <div class="component-label">Network Health</div>
+            <div class="indicators-grid">
+                <div class="indicator-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-live"></span>
+                        Global Market Sentiment
+                    </h3>
+                    <p class="indicator-description">
+                        Real-time sentiment analysis combining VIX, bond yields, currency strength, and commodity flows 
+                        to gauge overall market risk appetite and institutional positioning.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
                 </div>
-                <div class="health-component">
-                    <div class="component-value neutral" id="altcoinScore">64.2</div>
-                    <div class="component-label">Altcoin Season</div>
+
+                <div class="indicator-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-live"></span>
+                        Economic Cycle Tracker
+                    </h3>
+                    <p class="indicator-description">
+                        Track economic expansion, peak, contraction, and trough phases using leading indicators 
+                        like yield curves, employment data, and GDP growth rates.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
                 </div>
-                <div class="health-component">
-                    <div class="component-value bullish" id="fundingScore">72.8</div>
-                    <div class="component-label">Funding Health</div>
+
+                <div class="indicator-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-live"></span>
+                        Institutional Flow Monitor
+                    </h3>
+                    <p class="indicator-description">
+                        Monitor smart money movements through dark pool activity, block trades, and institutional 
+                        positioning across equities, bonds, and currencies.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
                 </div>
-                <div class="health-component">
-                    <div class="component-value bearish" id="breadthScore">45.1</div>
-                    <div class="component-label">Premium Breadth</div>
+
+                <div class="indicator-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-beta"></span>
+                        Central Bank Policy Tracker
+                    </h3>
+                    <p class="indicator-description">
+                        Aggregate central bank policy decisions, forward guidance, and monetary policy divergence 
+                        across major economies to anticipate market reactions.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Health Analysis Section -->
-    <div class="health-section">
-        <h2 class="section-title">🔬 Health Intelligence Analysis</h2>
-        
-        <div class="health-grid">
-            <!-- Master Health Score Analysis -->
-            <div class="health-card">
-                <div class="health-title">
-                    <span>🏥 Master Health Score (Custom)</span>
-                    <a href="#" target="_blank" class="tradingview-link">Create Indicator →</a>
-                </div>
-                
-                <div class="health-interpretation">
-                    <div class="interpretation-header">
-                        <div class="signal-indicator signal-bullish">HEALTHY</div>
-                        <span style="font-weight: 600;">Network Fundamentals Strong</span>
-                    </div>
-                    <div class="interpretation-text">
-                        Network hash rate at all-time highs with strong miner confidence. Exchange outflows indicate 
-                        accumulation behavior from long-term holders. On-chain metrics show healthy distribution and 
-                        reduced exchange reserves. Foundation extremely solid for sustained growth.
-                        <br><br>
-                        <strong>Portfolio Signal:</strong> Aggressive allocation recommended (70-85% of target position).
-                    </div>
-                </div>
-
-                <div class="key-metrics">
-                    <div class="metric-box">
-                        <div class="metric-value bullish">85.4</div>
-                        <div class="metric-label">Health Score</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value bullish">ATH</div>
-                        <div class="metric-label">Hash Rate</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value bullish">-12.3%</div>
-                        <div class="metric-label">Exchange Flow</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value bullish">68.2%</div>
-                        <div class="metric-label">LTH Supply</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Altcoin Season Indicator -->
-            <div class="health-card">
-                <div class="health-title">
-                    <span>🌟 Altcoin Season Indicator (Custom)</span>
-                    <a href="#" target="_blank" class="tradingview-link">Create Indicator →</a>
-                </div>
-                
-                <div class="health-interpretation">
-                    <div class="interpretation-header">
-                        <div class="signal-indicator signal-neutral">EARLY STAGE</div>
-                        <span style="font-weight: 600;">Alt Season Building</span>
-                    </div>
-                    <div class="interpretation-text">
-                        64% of top altcoins outperforming Bitcoin over 90-day period indicates early altcoin season 
-                        development. Still below 75% threshold for full alt season confirmation but trending upward. 
-                        ETH/BTC ratio showing strength suggests rotation into higher-beta crypto assets beginning.
-                        <br><br>
-                        <strong>Strategy:</strong> Begin selective altcoin allocation while maintaining BTC core position.
-                    </div>
-                </div>
-
-                <div class="key-metrics">
-                    <div class="metric-box">
-                        <div class="metric-value neutral">64.2%</div>
-                        <div class="metric-label">Alts Outperforming</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value">58.9%</div>
-                        <div class="metric-label">BTC Dominance</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value bullish">0.0365</div>
-                        <div class="metric-label">ETH/BTC</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value neutral">47</div>
-                        <div class="metric-label">Alt Season Days</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Funding Rates Dashboard -->
-            <div class="health-card">
-                <div class="health-title">
-                    <span>💸 Funding Rates Dashboard (Custom)</span>
-                    <a href="#" target="_blank" class="tradingview-link">Create Indicator →</a>
-                </div>
-                
-                <div class="health-interpretation">
-                    <div class="interpretation-header">
-                        <div class="signal-indicator signal-bullish">HEALTHY RESET</div>
-                        <span style="font-weight: 600;">Low Leverage Risk</span>
-                    </div>
-                    <div class="interpretation-text">
-                        Funding rates have reset to healthy levels after previous overheating periods. Low funding rates 
-                        across BTC and ETH indicate reduced speculation and leverage, creating favorable conditions for 
-                        sustained upside moves without immediate overleveraged liquidation risks.
-                        <br><br>
-                        <strong>Risk Assessment:</strong> Low leverage environment favorable for aggressive positioning.
-                    </div>
-                </div>
-
-                <div class="key-metrics">
-                    <div class="metric-box">
-                        <div class="metric-value bullish">0.008%</div>
-                        <div class="metric-label">BTC Funding</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value bullish">0.012%</div>
-                        <div class="metric-label">ETH Funding</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value neutral">0.025%</div>
-                        <div class="metric-label">Alt Avg</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value bullish">LOW</div>
-                        <div class="metric-label">Leverage Risk</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Premium Breadth Analysis -->
-            <div class="health-card">
-                <div class="health-title">
-                    <span>📊 Premium Breadth Analysis (Custom)</span>
-                    <a href="#" target="_blank" class="tradingview-link">Create Indicator →</a>
-                </div>
-                
-                <div class="health-interpretation">
-                    <div class="interpretation-header">
-                        <div class="signal-indicator signal-neutral">VALUE HUNTING</div>
-                        <span style="font-weight: 600;">Limited Market Froth</span>
-                    </div>
-                    <div class="interpretation-text">
-                        Only 6.2% of crypto assets trading at premium valuations indicates minimal speculative excess 
-                        and bubble formation. Large percentage (41.4%) trading at discount suggests significant value 
-                        opportunities. Low premium breadth constructive for future upside potential.
-                        <br><br>
-                        <strong>Opportunity:</strong> Value opportunities abundant with minimal bubble risk present.
-                    </div>
-                </div>
-
-                <div class="key-metrics">
-                    <div class="metric-box">
-                        <div class="metric-value bearish">6.2%</div>
-                        <div class="metric-label">Premium Assets</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value">52.4%</div>
-                        <div class="metric-label">Fair Value</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value bullish">41.4%</div>
-                        <div class="metric-label">Discount Assets</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value neutral">LOW</div>
-                        <div class="metric-label">Bubble Risk</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Update health scores with realistic variations
-        function updateHealthScores() {
-            const baseScores = {
-                masterHealth: 78.2,
-                network: 85.4,
-                altcoin: 64.2,
-                funding: 72.8,
-                breadth: 45.1
-            };
-
-            // Add small variations to scores
-            Object.keys(baseScores).forEach(key => {
-                const elementId = key + 'Score';
-                const element = document.getElementById(elementId);
-                if (element) {
-                    const variation = (Math.random() - 0.5) * 3;
-                    const newScore = Math.max(0, Math.min(100, baseScores[key] + variation));
-                    element.textContent = newScore.toFixed(1);
-                    
-                    // Update color classes
-                    element.className = newScore >= 70 ? 'component-value bullish' : 
-                                       newScore <= 50 ? 'component-value bearish' : 
-                                       'component-value neutral';
-                }
-            });
-
-            // Update master health score styling
-            const masterScore = document.getElementById('masterHealthScore');
-            const healthStatus = document.getElementById('healthStatus');
-            const currentScore = parseFloat(masterScore.textContent);
+        <!-- Crypto Health Section -->
+        <section class="section crypto-section">
+            <h2 class="section-title">₿ Crypto Health Intelligence</h2>
+            <p class="section-description">
+                Advanced cryptocurrency market health indicators combining sentiment, market structure, momentum, and volume analysis 
+                to provide comprehensive insights into crypto market conditions and trading opportunities.
+            </p>
             
-            if (currentScore >= 75) {
-                masterScore.className = 'health-score-number bullish';
-                healthStatus.textContent = '💚 HEALTHY - AGGRESSIVE ALLOCATION RECOMMENDED';
-            } else if (currentScore >= 50) {
-                masterScore.className = 'health-score-number neutral';
-                healthStatus.textContent = '⚠️ CAUTION - MODERATE ALLOCATION SUGGESTED';
-            } else {
-                masterScore.className = 'health-score-number bearish';
-                healthStatus.textContent = '🔴 RISK - DEFENSIVE POSITIONING ADVISED';
-            }
-        }
+            <div class="indicators-grid">
+                <div class="indicator-card crypto-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-live"></span>
+                        Crypto Fear & Greed Index
+                    </h3>
+                    <p class="indicator-description">
+                        Multi-factor sentiment analysis combining RSI, momentum, volume, volatility, and market dominance 
+                        to gauge crypto market sentiment and identify extreme fear/greed conditions.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
+                </div>
 
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Crypto Health Dashboard (TradingView Layout) loaded');
-            console.log('📊 Charts: Network Health, Altcoin Season, Funding, Market Cap');
-            console.log('🔗 Placeholder links for TradingView indicator creation');
-            
-            // Update scores every 25 seconds
-            setInterval(updateHealthScores, 25000);
-        });
-    </script>
+                <div class="indicator-card crypto-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-live"></span>
+                        Market Structure Analyzer
+                    </h3>
+                    <p class="indicator-description">
+                        Detect market structure shifts, break of structure (BOS), change of character (CHoCH), 
+                        and support/resistance levels with automated higher highs/lower lows identification.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
+                </div>
+
+                <div class="indicator-card crypto-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-live"></span>
+                        Momentum Tracker
+                    </h3>
+                    <p class="indicator-description">
+                        Comprehensive momentum analysis combining RSI, MACD, Stochastic, price ROC, volume momentum, 
+                        and moving average trends with divergence detection.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
+                </div>
+
+                <div class="indicator-card crypto-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-live"></span>
+                        Volume Analysis Suite
+                    </h3>
+                    <p class="indicator-description">
+                        Advanced volume analysis with OBV, Money Flow Index, Accumulation/Distribution, Klinger Oscillator, 
+                        and volume spike detection with divergence alerts.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
+                </div>
+
+                <div class="indicator-card crypto-card">
+                    <h3 class="indicator-title">
+                        <span class="status-indicator status-beta"></span>
+                        Composite Health Score
+                    </h3>
+                    <p class="indicator-description">
+                        Unified crypto health indicator combining market structure, momentum, volume, volatility, 
+                        and trend components into a single actionable score with buy/sell signals.
+                    </p>
+                    <a href="#" class="indicator-link">View on TradingView</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <h2 class="section-title">🚀 Platform Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">📈</div>
+                    <h3>Real-Time Analysis</h3>
+                    <p>Live market data processing with instant indicator updates and alerts</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Precision Signals</h3>
+                    <p>High-accuracy buy/sell signals with customizable alert thresholds</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Customizable</h3>
+                    <p>Adjustable parameters and timeframes for different trading strategies</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Optimized</h3>
+                    <p>Responsive design works seamlessly across all devices</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Coming Soon Sections -->
+        <section class="section coming-soon">
+            <h2 class="section-title">🔜 Options Flow Intelligence</h2>
+            <p class="section-description">
+                Real-time options flow analysis, unusual activity detection, and institutional positioning insights.
+            </p>
+        </section>
+
+        <section class="section coming-soon">
+            <h2 class="section-title">🔜 Risk Management Suite</h2>
+            <p class="section-description">
+                Advanced portfolio risk metrics, position sizing calculators, and drawdown protection tools.
+            </p>
+        </section>
+    </div>
 </body>
 </html>
