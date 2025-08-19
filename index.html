@@ -1,803 +1,446 @@
-<!DOCTYPE html>
+<!-- TradingView Widget for Cross-Asset Correlations -->
+                <div class="tradingview-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Market Intelligence - Professional Dashboard</title>
-    <script src="https://s3.tradingview.com/tv.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Professional Crypto Market Analysis</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1d3a 100%);
             color: #ffffff;
-            overflow-x: hidden;
             min-height: 100vh;
         }
-        
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
-        
-        .logo {
-            font-size: 1.5rem;
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, #00d4ff, #00ff88, #ff6b00);
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00d4ff 0%, #ff6b6b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        .status-bar {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        
-        .status-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            min-width: 100px;
-        }
-        
-        .status-value {
+
+        .header p {
             font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-        
-        .status-label {
-            font-size: 0.75rem;
-            opacity: 0.8;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .status-neutral { background: linear-gradient(135deg, #ff6b00, #ff8c00); }
-        .status-risk-on { background: linear-gradient(135deg, #00ff88, #00d4ff); }
-        .status-risk-off { background: linear-gradient(135deg, #ff4757, #ff3838); }
-        
-        /* Main Content */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .section-header {
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #ffffff, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-        
-        .section-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.8;
+            color: #a0a9c0;
             max-width: 600px;
             margin: 0 auto;
-            line-height: 1.6;
         }
-        
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .dashboard-section {
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
             background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #a0a9c0;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 20px;
+            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
         }
-        
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .dashboard-title {
-            font-size: 1.3rem;
+
+        .chart-title {
+            font-size: 1.4rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin-bottom: 15px;
+            color: #ffffff;
         }
-        
-        .dashboard-icon {
-            font-size: 1.5rem;
+
+        .chart-description {
+            color: #a0a9c0;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
-        
-        .dashboard-status {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Chart Container */
-        .chart-container {
-            height: 400px;
-            background: #000000;
+
+        .tradingview-widget-container {
+            height: 500px;
+            width: 100%;
             border-radius: 12px;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
         }
-        
-        .chart-tabs {
-            display: flex;
-            margin-bottom: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 0.25rem;
-        }
-        
-        .chart-tab {
-            flex: 1;
-            padding: 0.75rem;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .chart-tab.active {
-            background: linear-gradient(45deg, #00d4ff, #00ff88);
-            color: #000000;
-            font-weight: 600;
-        }
-        
-        .chart-tab:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Metrics Grid */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .metric-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
+
+        .alerts-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .metric-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        
-        .metric-label {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Alerts Panel */
-        .alerts-panel {
-            background: rgba(255, 107, 0, 0.1);
-            border: 1px solid rgba(255, 107, 0, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-        
+
         .alerts-title {
-            color: #ff6b00;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 20px;
+            color: #ffffff;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
         }
-        
+
         .alert-item {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255, 107, 0, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .alert-item:last-child {
-            border-bottom: none;
-        }
-        
-        .alert-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .badge-warning { background: #ff6b00; color: white; }
-        .badge-info { background: #00d4ff; color: black; }
-        .badge-success { background: #00ff88; color: black; }
-        
-        /* Footer */
-        .footer {
             background: rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            text-align: center;
-            margin-top: 3rem;
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .footer-text {
-            opacity: 0.7;
-            margin-bottom: 1rem;
-        }
-        
-        .footer-links {
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .footer-link {
-            color: #00d4ff;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-        
-        .footer-link:hover {
-            opacity: 0.8;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .status-bar {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .chart-container {
-                height: 300px;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .main-container {
-                padding: 1rem;
-            }
-        }
-        
-        /* Loading Animation */
-        .loading {
-            display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100px;
-            font-size: 1.1rem;
-            opacity: 0.7;
+            gap: 15px;
         }
-        
+
+        .alert-warning { border-left-color: #ff6b6b; }
+        .alert-event { border-left-color: #ffd93d; }
+        .alert-positive { border-left-color: #6bcf7f; }
+        .alert-headwind { border-left-color: #ff9f43; }
+
+        .alert-icon {
+            font-size: 1.5rem;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .alert-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .alert-content p {
+            color: #a0a9c0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #a0a9c0;
+        }
+
         .spinner {
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-left: 2px solid #00d4ff;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #00d4ff;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
             animation: spin 1s linear infinite;
-            margin-right: 1rem;
+            margin-bottom: 15px;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .tab {
+                flex: 1;
+                min-width: 120px;
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .tradingview-widget-container {
+                height: 400px;
+            }
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">Crypto Market Intelligence</div>
-            <div class="status-bar">
-                <div class="status-item status-neutral">
-                    <div class="status-value">0.45</div>
-                    <div class="status-label">Master Score</div>
-                </div>
-                <div class="status-item status-neutral">
-                    <div class="status-value">NEUTRAL</div>
-                    <div class="status-label">Market Regime</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-value">$113.8K</div>
-                    <div class="status-label">BTC Price</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-value">LIVE</div>
-                    <div class="status-label">Data Status</div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="main-container">
-        <div class="section-header">
-            <h1 class="section-title">Professional Crypto Market Analysis</h1>
-            <p class="section-subtitle">
-                Real-time market intelligence combining macro economics, crypto-native metrics, 
-                and institutional flow analysis for informed portfolio decisions.
-            </p>
+    <div class="container">
+        <div class="header">
+            <h1>Professional Crypto Market Analysis</h1>
+            <p>Institutional-grade macro analysis and market intelligence for crypto traders and portfolio managers</p>
         </div>
 
-        <div class="dashboard-grid">
-            <!-- Macro Environment Section -->
-            <div class="dashboard-section">
-                <div class="dashboard-header">
-                    <h2 class="dashboard-title">
-                        <span class="dashboard-icon">🌐</span>
-                        Macro Environment
-                    </h2>
-                    <div class="dashboard-status status-neutral">MIXED SIGNALS</div>
-                </div>
-                
-                <div class="chart-tabs">
-                    <div class="chart-tab active" onclick="switchMacroChart('liquidity')">Global Liquidity</div>
-                    <div class="chart-tab" onclick="switchMacroChart('yields')">DXY & Yields</div>
-                    <div class="chart-tab" onclick="switchMacroChart('risk')">Risk Assets</div>
-                    <div class="chart-tab" onclick="switchMacroChart('correlations')">Correlations</div>
-                </div>
-                
-                <div id="macro-chart" class="chart-container">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        Loading Global Liquidity Analysis...
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-value" style="color: #ff4757;">STRONG</div>
-                        <div class="metric-label">Dollar Trend</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" style="color: #00ff88;">STEEP</div>
-                        <div class="metric-label">Yield Curve</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">29.75</div>
-                        <div class="metric-label">Liquidity Index</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" style="color: #ff6b00;">ELEVATED</div>
-                        <div class="metric-label">VIX Regime</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Crypto Market Structure Section -->
-            <div class="dashboard-section">
-                <div class="dashboard-header">
-                    <h2 class="dashboard-title">
-                        <span class="dashboard-icon">⚡</span>
-                        Crypto Market Structure
-                    </h2>
-                    <div class="dashboard-status" style="background: #ff6b00;">APPROACHING STRESS</div>
-                </div>
-                
-                <div class="chart-tabs">
-                    <div class="chart-tab active" onclick="switchCryptoChart('btc')">BTC Analysis</div>
-                    <div class="chart-tab" onclick="switchCryptoChart('eth')">ETH Analysis</div>
-                    <div class="chart-tab" onclick="switchCryptoChart('alts')">Altcoin Analysis</div>
-                </div>
-                
-                <div id="crypto-chart" class="chart-container">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        Loading Crypto Analysis...
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-value" style="color: #00ff88;">NEUTRAL</div>
-                        <div class="metric-label">Funding Rates</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" style="color: #00ff88;">6.0%</div>
-                        <div class="metric-label">Premium Breadth</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">39% / 31%</div>
-                        <div class="metric-label">BTC / Alt OI</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" style="color: #ff6b00;">BTC SEASON</div>
-                        <div class="metric-label">Alt Season</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Flow Analysis Section -->
-            <div class="dashboard-section">
-                <div class="dashboard-header">
-                    <h2 class="dashboard-title">
-                        <span class="dashboard-icon">💧</span>
-                        Flow & Positioning
-                    </h2>
-                    <div class="dashboard-status" style="background: #00d4ff; color: black;">INSTITUTIONAL MIXED</div>
-                </div>
-                
-                <div class="chart-tabs">
-                    <div class="chart-tab active" onclick="switchFlowChart('stables')">Stablecoin Dom</div>
-                    <div class="chart-tab" onclick="switchFlowChart('btc-dom')">BTC Dominance</div>
-                    <div class="chart-tab" onclick="switchFlowChart('total-mc')">Total Market Cap</div>
-                </div>
-                
-                <div id="flow-chart" class="chart-container">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        Loading Flow Analysis...
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-value">6.2%</div>
-                        <div class="metric-label">Stable Dominance</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" style="color: #ff6b00;">MIXED</div>
-                        <div class="metric-label">Inst. Flow</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">53.9</div>
-                        <div class="metric-label">Inst. Score</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" style="color: #00ff88;">NORMAL</div>
-                        <div class="metric-label">Whale Activity</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Technical Analysis Section -->
-            <div class="dashboard-section">
-                <div class="dashboard-header">
-                    <h2 class="dashboard-title">
-                        <span class="dashboard-icon">📈</span>
-                        Technical Levels
-                    </h2>
-                    <div class="dashboard-status" style="background: #ff4757;">SUPPORT TEST</div>
-                </div>
-                
-                <div class="chart-tabs">
-                    <div class="chart-tab active" onclick="switchTechnicalChart('btc')">BTC/USD</div>
-                    <div class="chart-tab" onclick="switchTechnicalChart('eth')">ETH/USD</div>
-                    <div class="chart-tab" onclick="switchTechnicalChart('dominance')">BTC.D</div>
-                </div>
-                
-                <div id="technical-chart" class="chart-container">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        Loading Technical Analysis...
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-value">$110,000</div>
-                        <div class="metric-label">BTC Support</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">$2,800</div>
-                        <div class="metric-label">ETH Support</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">57.2%</div>
-                        <div class="metric-label">BTC Dominance</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">0.025</div>
-                        <div class="metric-label">ETH/BTC Ratio</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Current Alerts -->
-        <div class="alerts-panel">
+        <!-- Alert Section -->
+        <div class="alerts-section">
             <div class="alerts-title">
-                <span>⚠️</span>
-                Current Market Alerts
+                ⚠️ Current Market Alerts
             </div>
-            <div class="alert-item">
-                <span><strong>Master Score at 0.45</strong> - Approaching stress threshold, maintain defensive positioning</span>
-                <span class="alert-badge badge-warning">WARNING</span>
+            
+            <div class="alert-item alert-warning">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content">
+                    <h4>Master Score at 0.45 - Approaching stress threshold, maintain defensive positioning</h4>
+                    <p>WARNING</p>
+                </div>
             </div>
-            <div class="alert-item">
-                <span><strong>Jackson Hole This Week</strong> - High event risk, monitor for volatility spikes</span>
-                <span class="alert-badge badge-info">EVENT RISK</span>
-            </div>
-            <div class="alert-item">
-                <span><strong>Low Premium Breadth (6%)</strong> - Minimal speculative excess, constructive for future upside</span>
-                <span class="alert-badge badge-success">POSITIVE</span>
-            </div>
-            <div class="alert-item">
-                <span><strong>Strong Dollar Headwind</strong> - DXY strength creating persistent pressure on risk assets</span>
-                <span class="alert-badge badge-warning">HEADWIND</span>
-            </div>
-        </div>
-    </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-text">
-                Professional crypto market intelligence • Real-time analysis • Institutional-grade insights
+            <div class="alert-item alert-event">
+                <div class="alert-icon">📅</div>
+                <div class="alert-content">
+                    <h4>Jackson Hole This Week - High event risk, monitor for volatility spikes</h4>
+                    <p>EVENT RISK</p>
+                </div>
             </div>
-            <div class="footer-links">
-                <a href="#" class="footer-link">About</a>
-                <a href="#" class="footer-link">Methodology</a>
-                <a href="#" class="footer-link">Contact</a>
-                <a href="#" class="footer-link">API Access</a>
+
+            <div class="alert-item alert-positive">
+                <div class="alert-icon">📈</div>
+                <div class="alert-content">
+                    <h4>Low Premium Breadth (6%) - Minimal speculative excess, constructive for future upside</h4>
+                    <p>POSITIVE</p>
+                </div>
             </div>
-            <div style="opacity: 0.5; font-size: 0.9rem;">
-                © 2025 Crypto Market Intelligence • Data provided by TradingView
+
+            <div class="alert-item alert-headwind">
+                <div class="alert-icon">💨</div>
+                <div class="alert-content">
+                    <h4>Strong Dollar Headwind - DXY strength creating persistent pressure on risk assets</h4>
+                    <p>HEADWIND</p>
+                </div>
             </div>
         </div>
-    </footer>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'global-liquidity')">Global Liquidity</button>
+            <button class="tab" onclick="openTab(event, 'dxy-yields')">DXY & Yields</button>
+            <button class="tab" onclick="openTab(event, 'risk-assets')">Risk Assets</button>
+            <button class="tab" onclick="openTab(event, 'correlations')">Correlations</button>
+        </div>
+
+        <!-- Global Liquidity Tab -->
+        <div id="global-liquidity" class="tab-content active">
+            <div class="chart-container">
+                <div class="chart-title">📊 Global Liquidity Dashboard</div>
+                <div class="chart-description">
+                    Comprehensive macro analysis combining global money supply trends, dollar strength momentum, real yield environment, 
+                    and risk asset performance. The liquidity score above 70 indicates abundant liquidity favorable for crypto/risk assets.
+                </div>
+                
+                <!-- TradingView Widget for Global Liquidity Dashboard -->
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                    {
+                        "autosize": true,
+                        "symbol": "BITSTAMP:BTCUSD",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "calendar": false,
+                        "studies": [
+                            "STD;Global%1Liquidity%1Dashboard@tv-basicstudies-1!3vgyHzC5"
+                        ],
+                        "container_id": "tradingview_global_liquidity"
+                    }
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- DXY & Yields Tab -->
+        <div id="dxy-yields" class="tab-content">
+            <div class="chart-container">
+                <div class="chart-title">📈 DXY + Yields Dashboard</div>
+                <div class="chart-description">
+                    Multi-timeframe DXY trend analysis with 10Y and 2Y Treasury yields. Strong DXY + Rising Yields typically create crypto headwinds, 
+                    while Weak DXY + Falling Yields provide crypto tailwinds.
+                </div>
+                
+                <!-- TradingView Widget for DXY + Yields Dashboard -->
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                    {
+                        "autosize": true,
+                        "symbol": "TVC:DXY",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "calendar": false,
+                        "studies": [
+                            "STD;DXY%1%2B%1Yields%1Dashboard@tv-basicstudies-1!DEOIIjim"
+                        ],
+                        "container_id": "tradingview_dxy_yields"
+                    }
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Assets Tab -->
+        <div id="risk-assets" class="tab-content">
+            <div class="chart-container">
+                <div class="chart-title">⚡ Risk Assets Dashboard</div>
+                <div class="chart-description">
+                    Monitor key risk asset performance including Bitcoin, Ethereum, and traditional risk assets like SPY and emerging markets. 
+                    Correlations with traditional markets provide insights into crypto's risk-on/risk-off behavior.
+                </div>
+                
+                <!-- TradingView Widget for Risk Assets Dashboard -->
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                    {
+                        "autosize": true,
+                        "symbol": "BITSTAMP:BTCUSD",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "calendar": false,
+                        "studies": [
+                            "STD;Risk%1Assets%1Dashboard@tv-basicstudies-1!toCpdN6P"
+                        ],
+                        "container_id": "tradingview_risk_assets"
+                    }
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Correlations Tab -->
+        <div id="correlations" class="tab-content">
+            <div class="chart-container">
+                <div class="chart-title">🔗 Cross-Asset Correlations</div>
+                <div class="chart-description">
+                    Real-time correlation analysis between Bitcoin, traditional assets, and macro indicators. 
+                    High correlations with traditional risk assets indicate crypto's integration into broader market cycles.
+                </div>
+                
+                <!-- TradingView Widget for Cross-Asset Correlations -->
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                    {
+                        "autosize": true,
+                        "symbol": "BITSTAMP:BTCUSD",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "calendar": false,
+                        "studies": [
+                            "STD;Cross%1Asset%1Correlations@tv-basicstudies-1!zqcUHee2"
+                        ],
+                        "container_id": "tradingview_correlations"
+                    }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Chart switching functions with your custom indicators
-        function switchMacroChart(type) {
-            updateTabState('macro', type);
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabs;
             
-            const chartConfigs = {
-                'liquidity': {
-                    symbol: "COINBASE:BTCUSD",
-                    script: "3vgyHzC5-Global-Liquidity-Dashboard",
-                    title: "Global Liquidity Analysis"
-                },
-                'yields': {
-                    symbol: "TVC:DXY", 
-                    script: "DEOIIjim-DXY-Yields-Dashboard",
-                    title: "DXY & Yields Analysis"
-                },
-                'risk': {
-                    symbol: "SPY",
-                    script: "toCpdN6P-Risk-Assets-Dashboard", 
-                    title: "Risk Assets Analysis"
-                },
-                'correlations': {
-                    symbol: "COINBASE:BTCUSD",
-                    script: "zqcUHee2-Cross-Asset-Correlations",
-                    title: "Cross-Asset Correlations"
-                }
-            };
-            
-            loadCustomChart('macro-chart', chartConfigs[type] || chartConfigs['liquidity']);
-        }
-        
-        function switchCryptoChart(type) {
-            updateTabState('crypto', type);
-            
-            const symbols = {
-                'btc': 'COINBASE:BTCUSD',
-                'eth': 'COINBASE:ETHUSD', 
-                'alts': 'CRYPTOCAP:OTHERS'
-            };
-            
-            loadChart('crypto-chart', symbols[type] || 'COINBASE:BTCUSD');
-        }
-        
-        function switchFlowChart(type) {
-            updateTabState('flow', type);
-            
-            const symbols = {
-                'stables': 'CRYPTOCAP:USDT.D',
-                'btc-dom': 'CRYPTOCAP:BTC.D',
-                'total-mc': 'CRYPTOCAP:TOTAL'
-            };
-            
-            loadChart('flow-chart', symbols[type] || 'CRYPTOCAP:USDT.D');
-        }
-        
-        function switchTechnicalChart(type) {
-            updateTabState('technical', type);
-            
-            const symbols = {
-                'btc': 'COINBASE:BTCUSD',
-                'eth': 'COINBASE:ETHUSD',
-                'dominance': 'CRYPTOCAP:BTC.D'
-            };
-            
-            loadChart('technical-chart', symbols[type] || 'COINBASE:BTCUSD');
-        }
-        
-        function updateTabState(section, activeType) {
-            const sectionMap = {
-                'macro': 0,
-                'crypto': 1, 
-                'flow': 2,
-                'technical': 3
-            };
-            
-            const sectionIndex = sectionMap[section];
-            const tabs = document.querySelectorAll('.dashboard-section')[sectionIndex].querySelectorAll('.chart-tab');
-            
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            const typeMap = {
-                'liquidity': 0, 'yields': 1, 'risk': 2, 'correlations': 3,
-                'btc': 0, 'eth': 1, 'alts': 2,
-                'stables': 0, 'btc-dom': 1, 'total-mc': 2,
-                'dominance': 2
-            };
-            
-            const activeIndex = typeMap[activeType] || 0;
-            if (tabs[activeIndex]) {
-                tabs[activeIndex].classList.add('active');
+            // Hide all tab content
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
             }
-        }
-        
-        // Function to load charts with your custom indicators
-        function loadCustomChart(containerId, config) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '<div class="loading"><div class="spinner"></div>Loading ' + config.title + '...</div>';
             
-            setTimeout(() => {
-                container.innerHTML = '';
-                
-                // Create the chart with your custom indicator
-                new TradingView.widget({
-                    "width": "100%",
-                    "height": "400",
-                    "symbol": config.symbol,
-                    "interval": "D",
-                    "timezone": "Etc/UTC", 
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": "en",
-                    "toolbar_bg": "#f1f3f6",
-                    "enable_publishing": false,
-                    "hide_top_toolbar": true,
-                    "hide_legend": true,
-                    "save_image": false,
-                    "container_id": containerId,
-                    "studies": [
-                        "STD;" + config.script
-                    ]
-                });
-            }, 500);
-        }
-        
-        // Function for basic charts (without custom indicators)
-        function loadChart(containerId, symbol) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '<div class="loading"><div class="spinner"></div>Loading chart data...</div>';
-            
-            setTimeout(() => {
-                container.innerHTML = '';
-                new TradingView.widget({
-                    "width": "100%",
-                    "height": "400",
-                    "symbol": symbol,
-                    "interval": "D",
-                    "timezone": "Etc/UTC",
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": "en",
-                    "toolbar_bg": "#f1f3f6",
-                    "enable_publishing": false,
-                    "hide_top_toolbar": true,
-                    "hide_legend": true,
-                    "save_image": false,
-                    "container_id": containerId
-                });
-            }, 500);
-        }
-        
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load initial charts
-            switchMacroChart('liquidity');
-            switchCryptoChart('btc');
-            switchFlowChart('stables');
-            switchTechnicalChart('btc');
-            
-            // Update data every 30 seconds
-            setInterval(updateRealTimeData, 30000);
-        });
-        
-        function updateRealTimeData() {
-            // This would connect to real APIs for live updates
-            console.log('Updating real-time data...');
-        }
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey || e.metaKey) {
-                switch(e.key) {
-                    case '1':
-                        e.preventDefault();
-                        switchMacroChart('liquidity');
-                        break;
-                    case '2':
-                        e.preventDefault();
-                        switchCryptoChart('btc');
-                        break;
-                    case '3':
-                        e.preventDefault();
-                        switchFlowChart('stables');
-                        break;
-                    case '4':
-                        e.preventDefault();
-                        switchTechnicalChart('btc');
-                        break;
-                }
+            // Remove active class from all tabs
+            tabs = document.getElementsByClassName("tab");
+            for (i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
             }
+            
+            // Show selected tab content and mark tab as active
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Initialize TradingView widgets after page load
+        window.addEventListener('load', function() {
+            console.log('Dashboard loaded successfully');
         });
     </script>
 </body>
