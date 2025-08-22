@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoRisk Intelligence | Professional Market Analysis</title>
+    <title>CryptoRisk Intelligence | Live Price Feed</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,7 +21,6 @@
             --text-muted: #71717a;
             --border-primary: rgba(255, 255, 255, 0.1);
             --border-accent: rgba(14, 165, 233, 0.3);
-            --shadow-glow: 0 0 20px rgba(14, 165, 233, 0.3);
         }
 
         * {
@@ -58,14 +57,6 @@
         @keyframes backgroundShift {
             0%, 100% { transform: scale(1) rotate(0deg); }
             50% { transform: scale(1.1) rotate(1deg); }
-        }
-
-        /* Glassmorphism effect */
-        .glass {
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-primary);
         }
 
         /* Header */
@@ -114,55 +105,168 @@
             font-weight: bold;
         }
 
-        .status-bar {
+        .connection-status {
             display: flex;
-            gap: 0.75rem;
             align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
         }
 
-        .status-indicator {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-danger);
             transition: all 0.3s ease;
         }
 
-        .status-safe {
-            background: linear-gradient(135deg, var(--accent-success), #059669);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        .status-dot.connected {
+            background: var(--accent-success);
+            animation: pulse 2s infinite;
         }
 
-        .status-caution {
-            background: linear-gradient(135deg, var(--accent-warning), #d97706);
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
-        .status-danger {
-            background: linear-gradient(135deg, var(--accent-danger), #dc2626);
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        /* Live Price Ticker */
+        .price-ticker {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 1400px;
+            backdrop-filter: blur(20px);
         }
 
-        /* Main Container */
+        .ticker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .ticker-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .last-update {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .price-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+        }
+
+        .price-card.price-up {
+            border-color: var(--accent-success);
+            background: linear-gradient(135deg, var(--bg-secondary), rgba(16, 185, 129, 0.05));
+        }
+
+        .price-card.price-down {
+            border-color: var(--accent-danger);
+            background: linear-gradient(135deg, var(--bg-secondary), rgba(239, 68, 68, 0.05));
+        }
+
+        .crypto-symbol {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .crypto-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-variant-numeric: tabular-nums;
+            transition: all 0.3s ease;
+        }
+
+        .crypto-change {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .change-positive {
+            color: var(--accent-success);
+        }
+
+        .change-negative {
+            color: var(--accent-danger);
+        }
+
+        .change-neutral {
+            color: var(--text-muted);
+        }
+
+        .price-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+
+        .price-flash.flash-up {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .price-flash.flash-down {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* Hero Section */
         .hero {
             text-align: center;
-            padding: 3rem 0 4rem;
-            position: relative;
+            padding: 2rem 0;
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 800;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
@@ -173,350 +277,30 @@
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             color: var(--text-secondary);
             max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-
-        .live-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--bg-glass);
-            border: 1px solid var(--border-accent);
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-        }
-
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-success);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Metrics Grid */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .metric-card {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-primary);
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-            cursor: pointer;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--card-accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--card-accent);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .metric-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .metric-title {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 1rem;
-        }
-
-        .metric-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            font-variant-numeric: tabular-nums;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .metric-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: var(--status-bg);
-            color: var(--status-color);
-            margin-bottom: 1rem;
-        }
-
-        .metric-change {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .change-positive { color: var(--accent-success); }
-        .change-negative { color: var(--accent-danger); }
-
-        /* Chart Section */
-        .chart-section {
-            margin-bottom: 3rem;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .section-title {
-            font-size: 1.875rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .chart-controls {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .chart-control {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-primary);
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .chart-control.active,
-        .chart-control:hover {
-            background: var(--accent-primary);
-            color: var(--text-primary);
-            border-color: var(--accent-primary);
-        }
-
-        .chart-container {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-primary);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Analysis Grid */
-        .analysis-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .analysis-card {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-primary);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(20px);
-        }
-
-        .analysis-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .insight-item {
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            border-left: 3px solid var(--insight-color);
-            transition: all 0.2s ease;
-        }
-
-        .insight-item:hover {
-            transform: translateX(4px);
-            background: var(--bg-tertiary);
-        }
-
-        .insight-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.25rem;
-        }
-
-        .insight-text {
-            font-size: 0.875rem;
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        /* Alerts */
-        .alert-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            margin-bottom: 0.75rem;
-            transition: all 0.2s ease;
-        }
-
-        .alert-item:hover {
-            background: var(--bg-tertiary);
-        }
-
-        .alert-icon {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-top: 0.25rem;
-            flex-shrink: 0;
-        }
-
-        .alert-content {
-            flex: 1;
-        }
-
-        .alert-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .alert-description {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--border-primary);
-            margin-top: 4rem;
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-        }
-
-        .footer-content {
-            max-width: 800px;
             margin: 0 auto;
-        }
-
-        .footer-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-
-        .beta-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, var(--accent-warning), #d97706);
-            color: #000;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Loading states */
-        .loading {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .analysis-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .header-content {
                 padding: 0 1rem;
             }
             
-            .status-bar {
-                display: none;
+            .container {
+                padding: 1rem;
+            }
+            
+            .price-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ticker-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
             }
         }
     </style>
@@ -529,13 +313,9 @@
                 <div class="logo-icon">CR</div>
                 CryptoRisk Intelligence
             </div>
-            <div class="status-bar">
-                <div class="status-indicator status-caution" id="cascade-status">
-                    <span>CASCADE: LOADING...</span>
-                </div>
-                <div class="status-indicator status-safe" id="macro-status">
-                    <span>MACRO: LOADING...</span>
-                </div>
+            <div class="connection-status">
+                <div class="status-dot" id="connection-dot"></div>
+                <span id="connection-text">Connecting...</span>
             </div>
         </div>
     </header>
@@ -544,640 +324,287 @@
     <div class="container">
         <!-- Hero Section -->
         <div class="hero">
-            <h1>Professional Crypto Market Intelligence</h1>
-            <p>Advanced risk detection and market analysis powered by proprietary indicators used by professional traders.</p>
-            <div class="live-indicator">
-                <div class="live-dot"></div>
-                <span>Connecting to live data...</span>
-            </div>
+            <h1>Live Crypto Market Data</h1>
+            <p>Real-time price feeds powered by Binance WebSocket connections</p>
         </div>
 
-        <!-- Key Metrics -->
-        <div class="metrics-grid">
-            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #0ea5e9, #0284c7); --status-bg: rgba(14, 165, 233, 0.1); --status-color: #0ea5e9;">
-                <div class="metric-title">Market Health</div>
-                <div class="metric-value">0.40</div>
-                <div class="metric-status">
-                    <span>LOADING...</span>
-                </div>
-                <div class="metric-change">
-                    <span>Calculating change...</span>
-                </div>
+        <!-- Live Price Ticker -->
+        <div class="price-ticker">
+            <div class="ticker-header">
+                <h2 class="ticker-title">Live Price Feed</h2>
+                <div class="last-update" id="last-update">Connecting to live data...</div>
             </div>
-
-            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #ef4444, #dc2626); --status-bg: rgba(239, 68, 68, 0.1); --status-color: #ef4444;">
-                <div class="metric-title">Cascade Risk Index</div>
-                <div class="metric-value">59.4</div>
-                <div class="metric-status">
-                    <span>LOADING...</span>
-                </div>
-                <div class="metric-change">
-                    <span>Calculating change...</span>
-                </div>
-            </div>
-
-            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #8b5cf6, #7c3aed); --status-bg: rgba(139, 92, 246, 0.1); --status-color: #8b5cf6;">
-                <div class="metric-title">Froth Detector</div>
-                <div class="metric-value">48.5</div>
-                <div class="metric-status">
-                    <span>LOADING...</span>
-                </div>
-                <div class="metric-change">
-                    <span>Calculating change...</span>
-                </div>
-            </div>
-
-            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #10b981, #059669); --status-bg: rgba(16, 185, 129, 0.1); --status-color: #10b981;">
-                <div class="metric-title">Macro MMI</div>
-                <div class="metric-value">60.6</div>
-                <div class="metric-status">
-                    <span>LOADING...</span>
-                </div>
-                <div class="metric-change">
-                    <span>Calculating change...</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Chart Section -->
-        <div class="chart-section">
-            <div class="section-header">
-                <h2 class="section-title">Live Market Analysis</h2>
-                <div class="chart-controls">
-                    <button class="chart-control">15M</button>
-                    <button class="chart-control">1H</button>
-                    <button class="chart-control">4H</button>
-                    <button class="chart-control active">1D</button>
-                </div>
-            </div>
-            <div class="chart-container">
-                <div id="tradingview_chart" style="height: 500px; width: 100%;"></div>
-            </div>
-        </div>
-
-        <!-- Analysis Grid -->
-        <div class="analysis-grid">
-            <div class="analysis-card">
-                <h3 class="analysis-title">Market Intelligence Summary</h3>
-                
-                <div class="insight-item" style="--insight-color: #f59e0b;">
-                    <div class="insight-label">Current Assessment</div>
-                    <div class="insight-text" id="current-assessment">Analyzing market conditions...</div>
-                </div>
-
-                <div class="insight-item" style="--insight-color: #ef4444;">
-                    <div class="insight-label">Critical Warning</div>
-                    <div class="insight-text" id="critical-warning">Evaluating risk factors...</div>
-                </div>
-
-                <div class="insight-item" style="--insight-color: #10b981;">
-                    <div class="insight-label">Positive Signal</div>
-                    <div class="insight-text" id="positive-signal">Identifying opportunities...</div>
-                </div>
-
-                <div class="insight-item" style="--insight-color: #8b5cf6;">
-                    <div class="insight-label">Strategy Recommendation</div>
-                    <div class="insight-text" id="strategy-recommendation">Calculating optimal allocation...</div>
-                </div>
-            </div>
-
-            <div class="analysis-card">
-                <h3 class="analysis-title">Active Monitoring</h3>
-                
-                <div class="alert-item">
-                    <div class="alert-icon" style="background: #f59e0b;"></div>
-                    <div class="alert-content">
-                        <div class="alert-title">Market Health Status</div>
-                        <div class="alert-description" id="health-alert">Connecting to data sources...</div>
+            
+            <div class="price-grid">
+                <div class="price-card" id="btc-card">
+                    <div class="price-flash" id="btc-flash"></div>
+                    <div class="crypto-symbol">BTC/USDT</div>
+                    <div class="crypto-price" id="btc-price">Loading...</div>
+                    <div class="crypto-change" id="btc-change">
+                        <span>Connecting...</span>
                     </div>
                 </div>
 
-                <div class="alert-item">
-                    <div class="alert-icon" style="background: #ef4444;"></div>
-                    <div class="alert-content">
-                        <div class="alert-title">Cascade Risk Monitor</div>
-                        <div class="alert-description" id="cascade-alert">Initializing risk calculations...</div>
+                <div class="price-card" id="eth-card">
+                    <div class="price-flash" id="eth-flash"></div>
+                    <div class="crypto-symbol">ETH/USDT</div>
+                    <div class="crypto-price" id="eth-price">Loading...</div>
+                    <div class="crypto-change" id="eth-change">
+                        <span>Connecting...</span>
                     </div>
                 </div>
 
-                <div class="alert-item">
-                    <div class="alert-icon" style="background: #10b981;"></div>
-                    <div class="alert-content">
-                        <div class="alert-title">Macro Environment</div>
-                        <div class="alert-description" id="macro-alert">Loading macro indicators...</div>
+                <div class="price-card" id="sol-card">
+                    <div class="price-flash" id="sol-flash"></div>
+                    <div class="crypto-symbol">SOL/USDT</div>
+                    <div class="crypto-price" id="sol-price">Loading...</div>
+                    <div class="crypto-change" id="sol-change">
+                        <span>Connecting...</span>
                     </div>
                 </div>
 
-                <div class="alert-item">
-                    <div class="alert-icon" style="background: #8b5cf6;"></div>
-                    <div class="alert-content">
-                        <div class="alert-title">Froth Level Update</div>
-                        <div class="alert-description" id="froth-alert">Analyzing speculation levels...</div>
+                <div class="price-card" id="hype-card">
+                    <div class="price-flash" id="hype-flash"></div>
+                    <div class="crypto-symbol">HYPE/USDT</div>
+                    <div class="crypto-price" id="hype-price">Loading...</div>
+                    <div class="crypto-change" id="hype-change">
+                        <span>Connecting...</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <h3 class="footer-title">Professional-Grade Crypto Intelligence</h3>
-            <p class="footer-subtitle">Built by quantitative analysts and professional traders. Real indicators, real insights.</p>
-            <div class="beta-badge">
-                <span>Free Beta Access</span>
-            </div>
-        </div>
-    </footer>
-
-    <!-- TradingView Chart Script -->
-    <script src="https://s3.tradingview.com/tv.js"></script>
-
-    <!-- Live Data Dashboard Script -->
     <script>
-        class LiveCryptoDashboard {
+        class LivePriceFeed {
             constructor() {
-                this.isUpdating = false;
-                this.lastUpdate = null;
-                this.indicators = {
-                    marketHealth: { value: 0.40, status: 'NEUTRAL', change: 0 },
-                    cascadeRisk: { value: 59.4, status: 'ELEVATED RISK', change: 0 },
-                    frothLevel: { value: 48.5, status: 'MODERATE', change: 0 },
-                    macroMMI: { value: 60.6, status: 'BULLISH', change: 0 }
-                };
+                this.symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'HYPEUSDT'];
+                this.prices = {};
+                this.previousPrices = {};
+                this.ws = null;
+                this.reconnectAttempts = 0;
+                this.maxReconnectAttempts = 5;
+                this.reconnectDelay = 1000;
+                this.isConnected = false;
+                
                 this.init();
             }
 
-            async init() {
-                console.log('🚀 Starting live crypto dashboard...');
-                
-                // Initialize TradingView chart
-                this.initTradingViewChart();
-                
-                // Start data updates
-                await this.updateAllMetrics();
-                
-                // Update every 2 minutes
-                setInterval(() => this.updateAllMetrics(), 120000);
-                
-                // Update status indicators
-                this.updateLiveStatus();
-                setInterval(() => this.updateLiveStatus(), 1000);
-                
-                // Setup chart controls
-                this.setupChartControls();
+            init() {
+                console.log('🚀 Starting live price feed...');
+                this.connectWebSocket();
+                this.updateConnectionStatus('Connecting...', false);
             }
 
-            initTradingViewChart() {
-                new TradingView.widget({
-                    container_id: "tradingview_chart",
-                    width: "100%",
-                    height: "500",
-                    symbol: "BINANCE:BTCUSDT",
-                    interval: "D",
-                    timezone: "Etc/UTC",
-                    theme: "dark",
-                    style: "1",
-                    locale: "en",
-                    toolbar_bg: "#1a1a24",
-                    enable_publishing: false,
-                    backgroundColor: "#121218",
-                    gridColor: "#2a2a3e",
-                    hide_top_toolbar: false,
-                    hide_legend: false,
-                    save_image: false,
-                    studies: [],
-                    overrides: {
-                        "paneProperties.background": "#121218",
-                        "paneProperties.vertGridProperties.color": "#2a2a3e",
-                        "paneProperties.horzGridProperties.color": "#2a2a3e",
-                        "symbolWatermarkProperties.transparency": 90,
-                        "scalesProperties.textColor": "#a1a1aa",
-                        "mainSeriesProperties.candleStyle.wickUpColor": "#10b981",
-                        "mainSeriesProperties.candleStyle.wickDownColor": "#ef4444",
-                        "mainSeriesProperties.candleStyle.upColor": "#10b981",
-                        "mainSeriesProperties.candleStyle.downColor": "#ef4444",
-                        "mainSeriesProperties.candleStyle.borderUpColor": "#10b981",
-                        "mainSeriesProperties.candleStyle.borderDownColor": "#ef4444"
-                    },
-                    disabled_features: [
-                        "use_localstorage_for_settings",
-                        "volume_force_overlay",
-                        "create_volume_indicator_by_default"
-                    ]
-                });
-            }
-
-            setupChartControls() {
-                document.querySelectorAll('.chart-control').forEach(control => {
-                    control.addEventListener('click', (e) => {
-                        document.querySelectorAll('.chart-control').forEach(c => c.classList.remove('active'));
-                        e.target.classList.add('active');
-                        
-                        const timeframe = e.target.textContent;
-                        let interval;
-                        switch(timeframe) {
-                            case '15M': interval = '15'; break;
-                            case '1H': interval = '60'; break;
-                            case '4H': interval = '240'; break;
-                            case '1D': interval = 'D'; break;
-                            default: interval = 'D';
-                        }
-                        
-                        // Reinitialize chart with new interval
-                        document.getElementById('tradingview_chart').innerHTML = '';
-                        setTimeout(() => {
-                            new TradingView.widget({
-                                container_id: "tradingview_chart",
-                                width: "100%",
-                                height: "500",
-                                symbol: "BINANCE:BTCUSDT",
-                                interval: interval,
-                                timezone: "Etc/UTC",
-                                theme: "dark",
-                                style: "1",
-                                locale: "en",
-                                toolbar_bg: "#1a1a24",
-                                enable_publishing: false,
-                                backgroundColor: "#121218",
-                                gridColor: "#2a2a3e",
-                                hide_top_toolbar: false,
-                                hide_legend: false,
-                                save_image: false,
-                                studies: [],
-                                overrides: {
-                                    "paneProperties.background": "#121218",
-                                    "paneProperties.vertGridProperties.color": "#2a2a3e",
-                                    "paneProperties.horzGridProperties.color": "#2a2a3e",
-                                    "symbolWatermarkProperties.transparency": 90,
-                                    "scalesProperties.textColor": "#a1a1aa",
-                                    "mainSeriesProperties.candleStyle.wickUpColor": "#10b981",
-                                    "mainSeriesProperties.candleStyle.wickDownColor": "#ef4444",
-                                    "mainSeriesProperties.candleStyle.upColor": "#10b981",
-                                    "mainSeriesProperties.candleStyle.downColor": "#ef4444",
-                                    "mainSeriesProperties.candleStyle.borderUpColor": "#10b981",
-                                    "mainSeriesProperties.candleStyle.borderDownColor": "#ef4444"
-                                },
-                                disabled_features: [
-                                    "use_localstorage_for_settings",
-                                    "volume_force_overlay",
-                                    "create_volume_indicator_by_default"
-                                ]
-                            });
-                        }, 100);
-                    });
-                });
-            }
-
-            async updateAllMetrics() {
-                if (this.isUpdating) return;
-                this.isUpdating = true;
-
+            connectWebSocket() {
                 try {
-                    console.log('📡 Fetching live market data...');
-                    
-                    const marketData = await this.fetchLiveData();
-                    const indicators = this.calculateIndicators(marketData);
-                    
-                    this.indicators = indicators;
-                    this.updateDashboard(indicators);
-                    this.updateAnalysisText(indicators);
-                    this.updateHeaderStatus(indicators);
-                    
-                    this.lastUpdate = new Date();
-                    console.log('✅ Dashboard updated successfully');
-                    
+                    // Binance WebSocket stream for multiple symbols
+                const streams = this.symbols.map(symbol => `${symbol.toLowerCase()}@ticker`).join('/');
+                const wsUrl = `wss://stream.binance.com:9443/ws/${streams}`;
+                
+                console.log('📡 Connecting to Binance WebSocket...');
+                this.ws = new WebSocket(wsUrl);
+                
+                this.ws.onopen = () => {
+                    console.log('✅ WebSocket connected successfully');
+                    this.isConnected = true;
+                    this.reconnectAttempts = 0;
+                    this.updateConnectionStatus('Live Data Connected', true);
+                    this.updateLastUpdate();
+                };
+
+                this.ws.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        this.handlePriceUpdate(data);
+                    } catch (error) {
+                        console.error('Error parsing WebSocket data:', error);
+                    }
+                };
+
+                this.ws.onclose = () => {
+                    console.log('📡 WebSocket connection closed');
+                    this.isConnected = false;
+                    this.updateConnectionStatus('Disconnected', false);
+                    this.attemptReconnect();
+                };
+
+                this.ws.onerror = (error) => {
+                    console.error('❌ WebSocket error:', error);
+                    this.isConnected = false;
+                    this.updateConnectionStatus('Connection Error', false);
+                };
+                
                 } catch (error) {
-                    console.error('❌ Error updating dashboard:', error);
-                } finally {
-                    this.isUpdating = false;
+                    console.error('❌ Failed to create WebSocket connection:', error);
+                    this.updateConnectionStatus('Connection Failed', false);
+                    this.attemptReconnect();
                 }
             }
 
-            async fetchLiveData() {
-                const urls = {
-                    crypto: 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true',
-                    fearGreed: 'https://api.alternative.me/fng/',
-                    globalData: 'https://api.coingecko.com/api/v3/global'
+            handlePriceUpdate(data) {
+                const symbol = data.s; // Symbol (e.g., BTCUSDT)
+                const price = parseFloat(data.c); // Current price
+                const change = parseFloat(data.P); // 24h change percentage
+                const changeAmount = parseFloat(data.p); // 24h change amount
+
+                // Store previous price for flash effect
+                if (this.prices[symbol]) {
+                    this.previousPrices[symbol] = this.prices[symbol].price;
+                }
+
+                // Update price data
+                this.prices[symbol] = {
+                    price: price,
+                    change: change,
+                    changeAmount: changeAmount,
+                    timestamp: new Date()
                 };
 
-                try {
-                    const [cryptoResponse, fearGreedResponse, globalResponse] = await Promise.all([
-                        fetch(urls.crypto),
-                        fetch(urls.fearGreed),
-                        fetch(urls.globalData)
-                    ]);
-
-                    const [cryptoData, fearGreedData, globalData] = await Promise.all([
-                        cryptoResponse.json(),
-                        fearGreedResponse.json(),
-                        globalResponse.json()
-                    ]);
-
-                    return {
-                        btc: cryptoData.bitcoin,
-                        eth: cryptoData.ethereum,
-                        fearGreed: fearGreedData.data[0],
-                        global: globalData.data,
-                        timestamp: new Date()
-                    };
-                } catch (error) {
-                    console.error('API Error:', error);
-                    throw error;
-                }
+                // Update UI
+                this.updatePriceDisplay(symbol, this.prices[symbol]);
+                this.updateLastUpdate();
             }
 
-            calculateIndicators(data) {
-                const marketHealth = this.calculateMarketHealth(data);
-                const cascadeRisk = this.calculateCascadeRisk(data);
-                const frothLevel = this.calculateFroth(data);
-                const macroMMI = this.calculateMacroMMI(data);
-
-                return { marketHealth, cascadeRisk, frothLevel, macroMMI };
-            }
-
-            calculateMarketHealth(data) {
-                let score = 0.5;
-                
-                const btcChange = data.btc.usd_24h_change;
-                if (btcChange > 3) score += 0.15;
-                else if (btcChange < -3) score -= 0.15;
-                
-                const fearGreed = parseInt(data.fearGreed.value);
-                if (fearGreed > 60) score += 0.1;
-                else if (fearGreed < 30) score -= 0.1;
-                
-                const marketCapChange = data.global.market_cap_change_percentage_24h_usd;
-                if (marketCapChange > 2) score += 0.1;
-                else if (marketCapChange < -2) score -= 0.1;
-                
-                if (Math.abs(btcChange) > 8) score -= 0.05;
-                
-                score = Math.max(0, Math.min(1, score));
-                
-                return {
-                    value: score.toFixed(2),
-                    status: score > 0.65 ? 'BULLISH' : score < 0.35 ? 'BEARISH' : 'NEUTRAL',
-                    change: this.getStoredChange('marketHealth', score),
-                    raw: score
+            updatePriceDisplay(symbol, priceData) {
+                const symbolMap = {
+                    'BTCUSDT': 'btc',
+                    'ETHUSDT': 'eth',
+                    'SOLUSDT': 'sol',
+                    'HYPEUSDT': 'hype'
                 };
-            }
 
-            calculateCascadeRisk(data) {
-                let risk = 35;
-                
-                const btcVol = Math.abs(data.btc.usd_24h_change);
-                const ethVol = Math.abs(data.eth.usd_24h_change);
-                const avgVol = (btcVol + ethVol) / 2;
-                
-                if (avgVol > 15) risk += 25;
-                else if (avgVol > 10) risk += 15;
-                else if (avgVol > 5) risk += 8;
-                
-                const fearGreed = parseInt(data.fearGreed.value);
-                if (fearGreed < 15) risk += 15;
-                else if (fearGreed > 85) risk += 10;
-                
-                const btcVol24h = data.btc.usd_24h_vol;
-                if (btcVol24h > 40000000000) risk += 8;
-                
-                const correlation = Math.abs(data.btc.usd_24h_change - data.eth.usd_24h_change);
-                if (correlation < 2) risk += 5;
-                
-                risk = Math.max(0, Math.min(100, risk));
-                
-                return {
-                    value: risk.toFixed(1),
-                    status: risk > 75 ? 'HIGH RISK' : risk > 60 ? 'ELEVATED RISK' : risk > 40 ? 'CAUTION' : 'SAFE',
-                    change: this.getStoredChange('cascadeRisk', risk),
-                    raw: risk
-                };
-            }
+                const shortSymbol = symbolMap[symbol];
+                if (!shortSymbol) return;
 
-            calculateFroth(data) {
-                let froth = 40;
-                
-                const btcChange = data.btc.usd_24h_change;
-                if (btcChange > 10) froth += 20;
-                else if (btcChange > 5) froth += 10;
-                else if (btcChange < -10) froth -= 15;
-                
-                const volume = data.btc.usd_24h_vol;
-                if (volume > 50000000000) froth += 15;
-                else if (volume > 35000000000) froth += 8;
-                
-                const fearGreed = parseInt(data.fearGreed.value);
-                if (fearGreed > 75) froth += 12;
-                else if (fearGreed < 25) froth -= 8;
-                
-                froth = Math.max(0, Math.min(100, froth));
-                
-                return {
-                    value: froth.toFixed(1),
-                    status: froth > 70 ? 'EXTREME' : froth > 55 ? 'HIGH' : froth > 35 ? 'MODERATE' : 'LOW',
-                    change: this.getStoredChange('froth', froth),
-                    raw: froth
-                };
-            }
+                const priceElement = document.getElementById(`${shortSymbol}-price`);
+                const changeElement = document.getElementById(`${shortSymbol}-change`);
+                const cardElement = document.getElementById(`${shortSymbol}-card`);
+                const flashElement = document.getElementById(`${shortSymbol}-flash`);
 
-            calculateMacroMMI(data) {
-                let mmi = 50;
-                
-                const marketCapChange = data.global.market_cap_change_percentage_24h_usd;
-                if (marketCapChange > 3) mmi += 15;
-                else if (marketCapChange > 1) mmi += 8;
-                else if (marketCapChange < -3) mmi -= 15;
-                else if (marketCapChange < -1) mmi -= 8;
-                
-                const btcDominance = data.global.market_cap_percentage.btc;
-                if (btcDominance < 45) mmi += 5;
-                else if (btcDominance > 55) mmi -= 5;
-                
-                const fearGreed = parseInt(data.fearGreed.value);
-                if (fearGreed > 50) mmi += 8;
-                else if (fearGreed < 30) mmi -= 8;
-                
-                mmi = Math.max(0, Math.min(100, mmi));
-                
-                return {
-                    value: mmi.toFixed(1),
-                    status: mmi > 65 ? 'BULLISH' : mmi < 40 ? 'BEARISH' : 'NEUTRAL',
-                    change: this.getStoredChange('macroMMI', mmi),
-                    raw: mmi
-                };
-            }
+                if (!priceElement || !changeElement || !cardElement) return;
 
-            getStoredChange(metric, currentValue) {
-                const stored = localStorage.getItem(`crypto_dashboard_${metric}`);
-                const change = stored ? currentValue - parseFloat(stored) : 0;
-                localStorage.setItem(`crypto_dashboard_${metric}`, currentValue.toString());
-                return change;
-            }
-
-            updateDashboard(indicators) {
-                const metrics = [
-                    indicators.marketHealth,
-                    indicators.cascadeRisk,
-                    indicators.frothLevel,
-                    indicators.macroMMI
-                ];
-
-                metrics.forEach((metric, index) => {
-                    this.updateMetricCard(index, metric);
-                });
-            }
-
-            updateMetricCard(index, data) {
-                const cards = document.querySelectorAll('.metric-card');
-                const card = cards[index];
-                if (!card) return;
-
-                const valueElement = card.querySelector('.metric-value');
-                const statusElement = card.querySelector('.metric-status span');
-                const changeElement = card.querySelector('.metric-change span');
-
-                if (valueElement) {
-                    valueElement.style.transform = 'scale(1.05)';
-                    valueElement.style.color = '#0ea5e9';
-                    
-                    setTimeout(() => {
-                        valueElement.textContent = data.value;
-                        valueElement.style.transform = 'scale(1)';
-                        valueElement.style.color = 'var(--text-primary)';
-                    }, 300);
+                // Format price based on symbol
+                let formattedPrice;
+                if (symbol === 'BTCUSDT') {
+                    formattedPrice = `$${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                } else if (symbol === 'ETHUSDT') {
+                    formattedPrice = `$${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                } else if (priceData.price >= 1) {
+                    formattedPrice = `$${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
+                } else {
+                    formattedPrice = `$${priceData.price.toFixed(6)}`;
                 }
 
-                if (statusElement) {
-                    statusElement.textContent = data.status;
-                }
+                // Update price with animation
+                priceElement.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    priceElement.textContent = formattedPrice;
+                    priceElement.style.transform = 'scale(1)';
+                }, 100);
 
-                if (changeElement) {
-                    const arrow = data.change >= 0 ? '↗' : '↘';
-                    const sign = data.change >= 0 ? '+' : '';
-                    changeElement.textContent = `${arrow} ${sign}${Math.abs(data.change).toFixed(2)} from last update`;
-                    changeElement.parentElement.className = `metric-change ${data.change >= 0 ? 'change-positive' : 'change-negative'}`;
-                }
-            }
-
-            updateAnalysisText(indicators) {
-                const currentAssessment = document.getElementById('current-assessment');
-                const criticalWarning = document.getElementById('critical-warning');
-                const positiveSignal = document.getElementById('positive-signal');
-                const strategyRecommendation = document.getElementById('strategy-recommendation');
+                // Update change
+                const changePercent = priceData.change.toFixed(2);
+                const changeIcon = priceData.change >= 0 ? '↗' : '↘';
+                const changeSign = priceData.change >= 0 ? '+' : '';
                 
-                if (currentAssessment) {
-                    const riskLevel = indicators.cascadeRisk.raw > 60 ? 'elevated' : 'manageable';
-                    const healthStatus = indicators.marketHealth.raw > 0.6 ? 'supportive' : 'challenging';
-                    currentAssessment.textContent = `Market showing ${riskLevel} cascade risk (${indicators.cascadeRisk.value}) with ${healthStatus} health conditions (${indicators.marketHealth.value}). Exercise appropriate caution with position sizing.`;
+                changeElement.innerHTML = `
+                    <span>${changeIcon} ${changeSign}${changePercent}%</span>
+                `;
+
+                // Update card styling
+                cardElement.className = 'price-card';
+                changeElement.className = 'crypto-change';
+                
+                if (priceData.change > 0) {
+                    cardElement.classList.add('price-up');
+                    changeElement.classList.add('change-positive');
+                } else if (priceData.change < 0) {
+                    cardElement.classList.add('price-down');
+                    changeElement.classList.add('change-negative');
+                } else {
+                    changeElement.classList.add('change-neutral');
                 }
 
-                if (criticalWarning) {
-                    if (indicators.cascadeRisk.raw > 70) {
-                        criticalWarning.textContent = `High cascade risk detected at ${indicators.cascadeRisk.value}. Consider defensive positioning and reduced leverage immediately.`;
-                    } else {
-                        criticalWarning.textContent = `Cascade risk within acceptable range at ${indicators.cascadeRisk.value}. Monitor for increases above 75 threshold.`;
-                    }
-                }
-
-                if (positiveSignal) {
-                    if (indicators.macroMMI.raw > 60) {
-                        positiveSignal.textContent = `Strong macro conditions (MMI: ${indicators.macroMMI.value}) support risk asset allocation. Market health at ${indicators.marketHealth.value} provides structural foundation.`;
-                    } else {
-                        positiveSignal.textContent = `Macro conditions neutral to weak (MMI: ${indicators.macroMMI.value}). Look for improvement in sentiment and market health metrics.`;
-                    }
-                }
-
-                if (strategyRecommendation) {
-                    let allocation = '';
-                    if (indicators.cascadeRisk.raw > 70) {
-                        allocation = '20% BTC, 10% alts, 70% cash';
-                    } else if (indicators.cascadeRisk.raw > 50) {
-                        allocation = '35% BTC, 20% alts, 45% cash';
-                    } else {
-                        allocation = '50% BTC, 30% alts, 20% cash';
-                    }
-                    strategyRecommendation.textContent = `Conservative allocation: ${allocation}. Monitor cascade risk for threshold breaches and adjust accordingly.`;
-                }
-
-                // Update alert descriptions
-                this.updateAlertDescriptions(indicators);
-            }
-
-            updateAlertDescriptions(indicators) {
-                const healthAlert = document.getElementById('health-alert');
-                const cascadeAlert = document.getElementById('cascade-alert');
-                const macroAlert = document.getElementById('macro-alert');
-                const frothAlert = document.getElementById('froth-alert');
-
-                if (healthAlert) {
-                    healthAlert.textContent = `Current health score: ${indicators.marketHealth.value} (${indicators.marketHealth.status}). Monitor for moves above 0.65 or below 0.35.`;
-                }
-
-                if (cascadeAlert) {
-                    cascadeAlert.textContent = `Risk level at ${indicators.cascadeRisk.value} - ${indicators.cascadeRisk.status.toLowerCase()}. Alert triggers at 75+ threshold.`;
-                }
-
-                if (macroAlert) {
-                    macroAlert.textContent = `MMI reading: ${indicators.macroMMI.value} (${indicators.macroMMI.status}). Bullish above 65, bearish below 40.`;
-                }
-
-                if (frothAlert) {
-                    frothAlert.textContent = `Speculation level: ${indicators.frothLevel.value} (${indicators.frothLevel.status}). Watch for extreme readings above 70.`;
-                }
-            }
-
-            updateHeaderStatus(indicators) {
-                const cascadeStatus = document.getElementById('cascade-status');
-                const macroStatus = document.getElementById('macro-status');
-
-                if (cascadeStatus) {
-                    const span = cascadeStatus.querySelector('span');
-                    span.textContent = `CASCADE: ${indicators.cascadeRisk.status}`;
-                    
-                    cascadeStatus.className = 'status-indicator';
-                    if (indicators.cascadeRisk.raw > 70) {
-                        cascadeStatus.classList.add('status-danger');
-                    } else if (indicators.cascadeRisk.raw > 50) {
-                        cascadeStatus.classList.add('status-caution');
-                    } else {
-                        cascadeStatus.classList.add('status-safe');
-                    }
-                }
-
-                if (macroStatus) {
-                    const span = macroStatus.querySelector('span');
-                    span.textContent = `MACRO: ${indicators.macroMMI.status}`;
-                    
-                    macroStatus.className = 'status-indicator';
-                    if (indicators.macroMMI.raw > 60) {
-                        macroStatus.classList.add('status-safe');
-                    } else if (indicators.macroMMI.raw > 40) {
-                        macroStatus.classList.add('status-caution');
-                    } else {
-                        macroStatus.classList.add('status-danger');
+                // Flash effect for price changes
+                if (this.previousPrices[symbol]) {
+                    const previousPrice = this.previousPrices[symbol];
+                    if (priceData.price > previousPrice) {
+                        this.flashPrice(flashElement, 'up');
+                    } else if (priceData.price < previousPrice) {
+                        this.flashPrice(flashElement, 'down');
                     }
                 }
             }
 
-            updateLiveStatus() {
-                const liveElement = document.querySelector('.live-indicator span');
-                if (liveElement && this.lastUpdate) {
-                    const timeSince = Math.floor((new Date() - this.lastUpdate) / 1000);
-                    if (timeSince < 60) {
-                        liveElement.textContent = `Live Market Data - Updated ${timeSince}s ago`;
-                    } else {
-                        const minutes = Math.floor(timeSince / 60);
-                        liveElement.textContent = `Live Market Data - Updated ${minutes}m ago`;
-                    }
-                } else if (liveElement) {
-                    liveElement.textContent = 'Live Market Data - Connecting...';
+            flashPrice(flashElement, direction) {
+                if (!flashElement) return;
+                
+                flashElement.className = `price-flash flash-${direction}`;
+                flashElement.style.opacity = '1';
+                
+                setTimeout(() => {
+                    flashElement.style.opacity = '0';
+                }, 200);
+            }
+
+            updateConnectionStatus(text, connected) {
+                const statusDot = document.getElementById('connection-dot');
+                const statusText = document.getElementById('connection-text');
+                
+                if (statusDot) {
+                    statusDot.className = connected ? 'status-dot connected' : 'status-dot';
+                }
+                
+                if (statusText) {
+                    statusText.textContent = text;
+                }
+            }
+
+            updateLastUpdate() {
+                const lastUpdateElement = document.getElementById('last-update');
+                if (lastUpdateElement) {
+                    const now = new Date();
+                    lastUpdateElement.textContent = `Last update: ${now.toLocaleTimeString()}`;
+                }
+            }
+
+            attemptReconnect() {
+                if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+                    console.log('❌ Max reconnection attempts reached');
+                    this.updateConnectionStatus('Connection Failed', false);
+                    return;
+                }
+
+                this.reconnectAttempts++;
+                const delay = this.reconnectDelay * this.reconnectAttempts;
+                
+                console.log(`🔄 Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
+                this.updateConnectionStatus(`Reconnecting... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`, false);
+                
+                setTimeout(() => {
+                    this.connectWebSocket();
+                }, delay);
+            }
+
+            disconnect() {
+                if (this.ws) {
+                    this.ws.close();
                 }
             }
         }
 
-        // Initialize dashboard when page loads
+        // Initialize the live price feed when page loads
+        let livePriceFeed;
         document.addEventListener('DOMContentLoaded', () => {
-            window.liveDashboard = new LiveCryptoDashboard();
+            livePriceFeed = new LivePriceFeed();
+        });
+
+        // Clean up WebSocket connection when page unloads
+        window.addEventListener('beforeunload', () => {
+            if (livePriceFeed) {
+                livePriceFeed.disconnect();
+            }
         });
     </script>
 </body>
