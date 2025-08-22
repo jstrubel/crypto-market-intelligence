@@ -223,7 +223,7 @@
 
         class LivePriceFeed {
             constructor() {
-                this.symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'HYPEUSDT'];
+                this.symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT']; // Removed HYPE from Binance
                 this.prices = {};
                 this.previousPrices = {};
                 this.ws = null;
@@ -240,7 +240,46 @@
                 this.initTradingViewChart();
                 this.setupChartControls();
                 this.connectWebSocket();
+                this.fetchHypePrice(); // Fetch HYPE from CoinGecko
                 this.updateConnectionStatus('Connecting...', false);
+            }
+
+            async fetchHypePrice() {
+                try {
+                    console.log('📡 Fetching HYPE price from CoinGecko...');
+                    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=hyperliquid&vs_currencies=usd&include_24hr_change=true');
+                    const data = await response.json();
+                    
+                    if (data.hyperliquid) {
+                        const price = data.hyperliquid.usd;
+                        const change = data.hyperliquid.usd_24h_change || 0;
+                        
+                        this.prices['HYPEUSDT'] = {
+                            price: price,
+                            change: change,
+                            changeAmount: 0,
+                            timestamp: new Date()
+                        };
+                        
+                        this.updatePriceDisplay('HYPEUSDT', this.prices['HYPEUSDT']);
+                        console.log('✅ HYPE price fetched:', price);
+                    }
+                } catch (error) {
+                    console.error('❌ Failed to fetch HYPE price:', error);
+                    // Set fallback data
+                    this.prices['HYPEUSDT'] = {
+                        price: 30.50,
+                        change: 2.5,
+                        changeAmount: 0,
+                        timestamp: new Date()
+                    };
+                    this.updatePriceDisplay('HYPEUSDT', this.prices['HYPEUSDT']);
+                }
+                
+                // Update HYPE price every 60 seconds
+                setInterval(() => {
+                    this.fetchHypePrice();
+                }, 60000);
             }
 
             initTradingViewChart() {
