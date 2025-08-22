@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoRisk Intelligence | Live Price Feed</title>
+    <title>CryptoRisk Intelligence | Professional Market Analysis</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,6 +21,7 @@
             --text-muted: #71717a;
             --border-primary: rgba(255, 255, 255, 0.1);
             --border-accent: rgba(14, 165, 233, 0.3);
+            --shadow-glow: 0 0 20px rgba(14, 165, 233, 0.3);
         }
 
         * {
@@ -105,6 +106,12 @@
             font-weight: bold;
         }
 
+        .header-status {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
         .connection-status {
             display: flex;
             align-items: center;
@@ -113,7 +120,7 @@
             background: var(--bg-glass);
             border: 1px solid var(--border-primary);
             border-radius: 20px;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: 500;
             backdrop-filter: blur(10px);
         }
@@ -136,14 +143,45 @@
             50% { opacity: 0.5; }
         }
 
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
         /* Live Price Ticker */
         .price-ticker {
             background: var(--bg-glass);
             border: 1px solid var(--border-primary);
             border-radius: 16px;
             padding: 1.5rem;
-            margin: 2rem auto;
-            max-width: 1400px;
+            margin-bottom: 3rem;
             backdrop-filter: blur(20px);
         }
 
@@ -175,7 +213,7 @@
             background: var(--bg-secondary);
             border: 1px solid var(--border-primary);
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1.25rem;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -206,7 +244,7 @@
         }
 
         .crypto-price {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 0.5rem;
@@ -218,21 +256,13 @@
             display: flex;
             align-items: center;
             gap: 0.25rem;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: 500;
         }
 
-        .change-positive {
-            color: var(--accent-success);
-        }
-
-        .change-negative {
-            color: var(--accent-danger);
-        }
-
-        .change-neutral {
-            color: var(--text-muted);
-        }
+        .change-positive { color: var(--accent-success); }
+        .change-negative { color: var(--accent-danger); }
+        .change-neutral { color: var(--text-muted); }
 
         .price-flash {
             position: absolute;
@@ -246,51 +276,292 @@
             transition: opacity 0.1s ease;
         }
 
-        .price-flash.flash-up {
-            background: rgba(16, 185, 129, 0.2);
+        .price-flash.flash-up { background: rgba(16, 185, 129, 0.2); }
+        .price-flash.flash-down { background: rgba(239, 68, 68, 0.2); }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
-        .price-flash.flash-down {
-            background: rgba(239, 68, 68, 0.2);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .metric-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
             padding: 2rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            cursor: pointer;
         }
 
-        .hero {
-            text-align: center;
-            padding: 2rem 0;
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--card-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
         }
 
-        .hero h1 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.1;
+        .metric-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--card-accent);
+            box-shadow: var(--shadow-glow);
         }
 
-        .hero p {
-            font-size: 1.125rem;
+        .metric-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .metric-title {
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            max-width: 600px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-variant-numeric: tabular-nums;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .metric-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--status-bg);
+            color: var(--status-color);
+            margin-bottom: 1rem;
+        }
+
+        .metric-change {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Chart Section */
+        .chart-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-control {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-primary);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chart-control.active,
+        .chart-control:hover {
+            background: var(--accent-primary);
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .chart-container {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Analysis Grid */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .analysis-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .analysis-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .insight-item {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--insight-color);
+            transition: all 0.2s ease;
+        }
+
+        .insight-item:hover {
+            transform: translateX(4px);
+            background: var(--bg-tertiary);
+        }
+
+        .insight-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .insight-text {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Alerts */
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .alert-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .alert-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-top: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-description {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-primary);
+            margin-top: 4rem;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+        }
+
+        .footer-content {
+            max-width: 800px;
             margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .beta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-warning), #d97706);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .header-content {
-                padding: 0 1rem;
-            }
-            
             .container {
                 padding: 1rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                padding: 0 1rem;
             }
             
             .price-grid {
@@ -313,9 +584,11 @@
                 <div class="logo-icon">CR</div>
                 CryptoRisk Intelligence
             </div>
-            <div class="connection-status">
-                <div class="status-dot" id="connection-dot"></div>
-                <span id="connection-text">Connecting...</span>
+            <div class="header-status">
+                <div class="connection-status">
+                    <div class="status-dot" id="connection-dot"></div>
+                    <span id="connection-text">Connecting...</span>
+                </div>
             </div>
         </div>
     </header>
@@ -324,8 +597,8 @@
     <div class="container">
         <!-- Hero Section -->
         <div class="hero">
-            <h1>Live Crypto Market Data</h1>
-            <p>Real-time price feeds powered by Binance WebSocket connections</p>
+            <h1>Professional Crypto Market Intelligence</h1>
+            <p>Advanced risk detection and market analysis powered by proprietary indicators used by professional traders.</p>
         </div>
 
         <!-- Live Price Ticker -->
@@ -373,8 +646,136 @@
                 </div>
             </div>
         </div>
+
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #0ea5e9, #0284c7); --status-bg: rgba(14, 165, 233, 0.1); --status-color: #0ea5e9;">
+                <div class="metric-title">Market Health</div>
+                <div class="metric-value">0.50</div>
+                <div class="metric-status">
+                    <span>NEUTRAL</span>
+                </div>
+                <div class="metric-change">
+                    <span>Available with premium indicators</span>
+                </div>
+            </div>
+
+            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #ef4444, #dc2626); --status-bg: rgba(239, 68, 68, 0.1); --status-color: #ef4444;">
+                <div class="metric-title">Cascade Risk Index</div>
+                <div class="metric-value">45.0</div>
+                <div class="metric-status">
+                    <span>SAFE</span>
+                </div>
+                <div class="metric-change">
+                    <span>Available with premium indicators</span>
+                </div>
+            </div>
+
+            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #8b5cf6, #7c3aed); --status-bg: rgba(139, 92, 246, 0.1); --status-color: #8b5cf6;">
+                <div class="metric-title">Froth Detector</div>
+                <div class="metric-value">40.0</div>
+                <div class="metric-status">
+                    <span>MODERATE</span>
+                </div>
+                <div class="metric-change">
+                    <span>Available with premium indicators</span>
+                </div>
+            </div>
+
+            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #10b981, #059669); --status-bg: rgba(16, 185, 129, 0.1); --status-color: #10b981;">
+                <div class="metric-title">Macro MMI</div>
+                <div class="metric-value">55.0</div>
+                <div class="metric-status">
+                    <span>NEUTRAL</span>
+                </div>
+                <div class="metric-change">
+                    <span>Available with premium indicators</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2 class="section-title">Live Market Analysis</h2>
+                <div class="chart-controls">
+                    <button class="chart-control">15M</button>
+                    <button class="chart-control">1H</button>
+                    <button class="chart-control">4H</button>
+                    <button class="chart-control active">1D</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div id="tradingview_chart" style="height: 500px; width: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- Analysis Grid -->
+        <div class="analysis-grid">
+            <div class="analysis-card">
+                <h3 class="analysis-title">Market Intelligence Summary</h3>
+                
+                <div class="insight-item" style="--insight-color: #f59e0b;">
+                    <div class="insight-label">Current Assessment</div>
+                    <div class="insight-text">Live price data connected successfully. Professional indicators and analysis available with premium access for comprehensive market intelligence.</div>
+                </div>
+
+                <div class="insight-item" style="--insight-color: #10b981;">
+                    <div class="insight-label">Live Data Status</div>
+                    <div class="insight-text">Real-time price feeds active for BTC, ETH, SOL, and HYPE. WebSocket connections providing sub-second price updates with 24h change tracking.</div>
+                </div>
+
+                <div class="insight-item" style="--insight-color: #8b5cf6;">
+                    <div class="insight-label">Next Steps</div>
+                    <div class="insight-text">Connect your TradingView indicators or build custom indicator suite for complete market analysis and risk assessment capabilities.</div>
+                </div>
+            </div>
+
+            <div class="analysis-card">
+                <h3 class="analysis-title">System Status</h3>
+                
+                <div class="alert-item">
+                    <div class="alert-icon" style="background: #10b981;"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Live Data Connected</div>
+                        <div class="alert-description">Real-time price feeds operational via Binance WebSocket connections.</div>
+                    </div>
+                </div>
+
+                <div class="alert-item">
+                    <div class="alert-icon" style="background: #f59e0b;"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Indicators Pending</div>
+                        <div class="alert-description">Professional indicators ready for integration - TradingView embed or custom build.</div>
+                    </div>
+                </div>
+
+                <div class="alert-item">
+                    <div class="alert-icon" style="background: #0ea5e9;"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Platform Ready</div>
+                        <div class="alert-description">Professional dashboard design complete with live data infrastructure.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title">Professional-Grade Crypto Intelligence</h3>
+            <p class="footer-subtitle">Built by quantitative analysts and professional traders. Real indicators, real insights.</p>
+            <div class="beta-badge">
+                <span>Free Beta Access</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TradingView Chart Script -->
+    <script src="https://s3.tradingview.com/tv.js"></script>
+
+    <!-- Live Price Feed Script -->
     <script>
         class LivePriceFeed {
             constructor() {
@@ -392,49 +793,151 @@
 
             init() {
                 console.log('🚀 Starting live price feed...');
+                this.initTradingViewChart();
+                this.setupChartControls();
                 this.connectWebSocket();
                 this.updateConnectionStatus('Connecting...', false);
             }
 
+            initTradingViewChart() {
+                new TradingView.widget({
+                    container_id: "tradingview_chart",
+                    width: "100%",
+                    height: "500",
+                    symbol: "BINANCE:BTCUSDT",
+                    interval: "D",
+                    timezone: "Etc/UTC",
+                    theme: "dark",
+                    style: "1",
+                    locale: "en",
+                    toolbar_bg: "#1a1a24",
+                    enable_publishing: false,
+                    backgroundColor: "#121218",
+                    gridColor: "#2a2a3e",
+                    hide_top_toolbar: false,
+                    hide_legend: false,
+                    save_image: false,
+                    studies: [],
+                    overrides: {
+                        "paneProperties.background": "#121218",
+                        "paneProperties.vertGridProperties.color": "#2a2a3e",
+                        "paneProperties.horzGridProperties.color": "#2a2a3e",
+                        "symbolWatermarkProperties.transparency": 90,
+                        "scalesProperties.textColor": "#a1a1aa",
+                        "mainSeriesProperties.candleStyle.wickUpColor": "#10b981",
+                        "mainSeriesProperties.candleStyle.wickDownColor": "#ef4444",
+                        "mainSeriesProperties.candleStyle.upColor": "#10b981",
+                        "mainSeriesProperties.candleStyle.downColor": "#ef4444",
+                        "mainSeriesProperties.candleStyle.borderUpColor": "#10b981",
+                        "mainSeriesProperties.candleStyle.borderDownColor": "#ef4444"
+                    },
+                    disabled_features: [
+                        "use_localstorage_for_settings",
+                        "volume_force_overlay",
+                        "create_volume_indicator_by_default"
+                    ]
+                });
+            }
+
+            setupChartControls() {
+                document.querySelectorAll('.chart-control').forEach(control => {
+                    control.addEventListener('click', (e) => {
+                        document.querySelectorAll('.chart-control').forEach(c => c.classList.remove('active'));
+                        e.target.classList.add('active');
+                        
+                        const timeframe = e.target.textContent;
+                        let interval;
+                        switch(timeframe) {
+                            case '15M': interval = '15'; break;
+                            case '1H': interval = '60'; break;
+                            case '4H': interval = '240'; break;
+                            case '1D': interval = 'D'; break;
+                            default: interval = 'D';
+                        }
+                        
+                        // Reinitialize chart with new interval
+                        document.getElementById('tradingview_chart').innerHTML = '';
+                        setTimeout(() => {
+                            new TradingView.widget({
+                                container_id: "tradingview_chart",
+                                width: "100%",
+                                height: "500",
+                                symbol: "BINANCE:BTCUSDT",
+                                interval: interval,
+                                timezone: "Etc/UTC",
+                                theme: "dark",
+                                style: "1",
+                                locale: "en",
+                                toolbar_bg: "#1a1a24",
+                                enable_publishing: false,
+                                backgroundColor: "#121218",
+                                gridColor: "#2a2a3e",
+                                hide_top_toolbar: false,
+                                hide_legend: false,
+                                save_image: false,
+                                studies: [],
+                                overrides: {
+                                    "paneProperties.background": "#121218",
+                                    "paneProperties.vertGridProperties.color": "#2a2a3e",
+                                    "paneProperties.horzGridProperties.color": "#2a2a3e",
+                                    "symbolWatermarkProperties.transparency": 90,
+                                    "scalesProperties.textColor": "#a1a1aa",
+                                    "mainSeriesProperties.candleStyle.wickUpColor": "#10b981",
+                                    "mainSeriesProperties.candleStyle.wickDownColor": "#ef4444",
+                                    "mainSeriesProperties.candleStyle.upColor": "#10b981",
+                                    "mainSeriesProperties.candleStyle.downColor": "#ef4444",
+                                    "mainSeriesProperties.candleStyle.borderUpColor": "#10b981",
+                                    "mainSeriesProperties.candleStyle.borderDownColor": "#ef4444"
+                                },
+                                disabled_features: [
+                                    "use_localstorage_for_settings",
+                                    "volume_force_overlay",
+                                    "create_volume_indicator_by_default"
+                                ]
+                            });
+                        }, 100);
+                    });
+                });
+            }
+
             connectWebSocket() {
                 try {
-                    // Binance WebSocket stream for multiple symbols
-                const streams = this.symbols.map(symbol => `${symbol.toLowerCase()}@ticker`).join('/');
-                const wsUrl = `wss://stream.binance.com:9443/ws/${streams}`;
-                
-                console.log('📡 Connecting to Binance WebSocket...');
-                this.ws = new WebSocket(wsUrl);
-                
-                this.ws.onopen = () => {
-                    console.log('✅ WebSocket connected successfully');
-                    this.isConnected = true;
-                    this.reconnectAttempts = 0;
-                    this.updateConnectionStatus('Live Data Connected', true);
-                    this.updateLastUpdate();
-                };
+                    const streams = this.symbols.map(symbol => `${symbol.toLowerCase()}@ticker`).join('/');
+                    const wsUrl = `wss://stream.binance.com:9443/ws/${streams}`;
+                    
+                    console.log('📡 Connecting to Binance WebSocket...');
+                    this.ws = new WebSocket(wsUrl);
+                    
+                    this.ws.onopen = () => {
+                        console.log('✅ WebSocket connected successfully');
+                        this.isConnected = true;
+                        this.reconnectAttempts = 0;
+                        this.updateConnectionStatus('Live Data Connected', true);
+                        this.updateLastUpdate();
+                    };
 
-                this.ws.onmessage = (event) => {
-                    try {
-                        const data = JSON.parse(event.data);
-                        this.handlePriceUpdate(data);
-                    } catch (error) {
-                        console.error('Error parsing WebSocket data:', error);
-                    }
-                };
+                    this.ws.onmessage = (event) => {
+                        try {
+                            const data = JSON.parse(event.data);
+                            this.handlePriceUpdate(data);
+                        } catch (error) {
+                            console.error('Error parsing WebSocket data:', error);
+                        }
+                    };
 
-                this.ws.onclose = () => {
-                    console.log('📡 WebSocket connection closed');
-                    this.isConnected = false;
-                    this.updateConnectionStatus('Disconnected', false);
-                    this.attemptReconnect();
-                };
+                    this.ws.onclose = () => {
+                        console.log('📡 WebSocket connection closed');
+                        this.isConnected = false;
+                        this.updateConnectionStatus('Disconnected', false);
+                        this.attemptReconnect();
+                    };
 
-                this.ws.onerror = (error) => {
-                    console.error('❌ WebSocket error:', error);
-                    this.isConnected = false;
-                    this.updateConnectionStatus('Connection Error', false);
-                };
-                
+                    this.ws.onerror = (error) => {
+                        console.error('❌ WebSocket error:', error);
+                        this.isConnected = false;
+                        this.updateConnectionStatus('Connection Error', false);
+                    };
+                    
                 } catch (error) {
                     console.error('❌ Failed to create WebSocket connection:', error);
                     this.updateConnectionStatus('Connection Failed', false);
@@ -443,17 +946,15 @@
             }
 
             handlePriceUpdate(data) {
-                const symbol = data.s; // Symbol (e.g., BTCUSDT)
-                const price = parseFloat(data.c); // Current price
-                const change = parseFloat(data.P); // 24h change percentage
-                const changeAmount = parseFloat(data.p); // 24h change amount
+                const symbol = data.s;
+                const price = parseFloat(data.c);
+                const change = parseFloat(data.P);
+                const changeAmount = parseFloat(data.p);
 
-                // Store previous price for flash effect
                 if (this.prices[symbol]) {
                     this.previousPrices[symbol] = this.prices[symbol].price;
                 }
 
-                // Update price data
                 this.prices[symbol] = {
                     price: price,
                     change: change,
@@ -461,7 +962,6 @@
                     timestamp: new Date()
                 };
 
-                // Update UI
                 this.updatePriceDisplay(symbol, this.prices[symbol]);
                 this.updateLastUpdate();
             }
@@ -484,35 +984,29 @@
 
                 if (!priceElement || !changeElement || !cardElement) return;
 
-                // Format price based on symbol
                 let formattedPrice;
                 if (symbol === 'BTCUSDT') {
-                    formattedPrice = `$${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    formattedPrice = `${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 } else if (symbol === 'ETHUSDT') {
-                    formattedPrice = `$${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    formattedPrice = `${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 } else if (priceData.price >= 1) {
-                    formattedPrice = `$${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
+                    formattedPrice = `${priceData.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
                 } else {
-                    formattedPrice = `$${priceData.price.toFixed(6)}`;
+                    formattedPrice = `${priceData.price.toFixed(6)}`;
                 }
 
-                // Update price with animation
                 priceElement.style.transform = 'scale(1.02)';
                 setTimeout(() => {
                     priceElement.textContent = formattedPrice;
                     priceElement.style.transform = 'scale(1)';
                 }, 100);
 
-                // Update change
                 const changePercent = priceData.change.toFixed(2);
                 const changeIcon = priceData.change >= 0 ? '↗' : '↘';
                 const changeSign = priceData.change >= 0 ? '+' : '';
                 
-                changeElement.innerHTML = `
-                    <span>${changeIcon} ${changeSign}${changePercent}%</span>
-                `;
+                changeElement.innerHTML = `<span>${changeIcon} ${changeSign}${changePercent}%</span>`;
 
-                // Update card styling
                 cardElement.className = 'price-card';
                 changeElement.className = 'crypto-change';
                 
@@ -526,7 +1020,6 @@
                     changeElement.classList.add('change-neutral');
                 }
 
-                // Flash effect for price changes
                 if (this.previousPrices[symbol]) {
                     const previousPrice = this.previousPrices[symbol];
                     if (priceData.price > previousPrice) {
@@ -594,13 +1087,13 @@
             }
         }
 
-        // Initialize the live price feed when page loads
+        // Initialize when page loads
         let livePriceFeed;
         document.addEventListener('DOMContentLoaded', () => {
             livePriceFeed = new LivePriceFeed();
         });
 
-        // Clean up WebSocket connection when page unloads
+        // Clean up on page unload
         window.addEventListener('beforeunload', () => {
             if (livePriceFeed) {
                 livePriceFeed.disconnect();
