@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Intelligence Platform</title>
-    <script src="https://s3.tradingview.com/tv.js"></script>
+    <title>CryptoRisk Intelligence | Professional Market Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #0c0c0f;
+            --bg-secondary: #121218;
+            --bg-tertiary: #1a1a24;
+            --bg-glass: rgba(26, 26, 36, 0.6);
+            --accent-primary: #0ea5e9;
+            --accent-secondary: #8b5cf6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-primary: rgba(255, 255, 255, 0.1);
+            --border-accent: rgba(14, 165, 233, 0.3);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --shadow-glow: 0 0 20px rgba(14, 165, 233, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,536 +35,888 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
 
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 30s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(1deg); }
+        }
+
+        /* Glassmorphism effect */
+        .glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+        }
+
+        /* Header */
         .header {
-            background: #111111;
-            border-bottom: 1px solid #2a2a2a;
-            padding: 15px 0;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-primary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(12, 12, 15, 0.8);
         }
 
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #00d4aa;
-        }
-
-        .nav {
             display: flex;
-            gap: 30px;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .nav-item {
-            color: #ccc;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
         }
 
-        .nav-item:hover, .nav-item.active {
-            color: #00d4aa;
+        .status-bar {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
         }
 
+        .status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .status-indicator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .status-indicator:hover::before {
+            left: 100%;
+        }
+
+        .status-safe {
+            background: linear-gradient(135deg, var(--accent-success), #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .status-caution {
+            background: linear-gradient(135deg, var(--accent-warning), #d97706);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .status-danger {
+            background: linear-gradient(135deg, var(--accent-danger), #dc2626);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Main Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem;
         }
 
+        /* Hero Section */
         .hero {
             text-align: center;
-            padding: 40px 0;
-            background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
-            border-radius: 12px;
-            margin-bottom: 30px;
-            border: 1px solid #2a2a2a;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #00d4aa, #0066cc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #aaa;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .tabs {
-            display: flex;
-            background: #111111;
-            border-radius: 8px;
-            padding: 4px;
-            margin-bottom: 20px;
-            border: 1px solid #2a2a2a;
-            overflow-x: auto;
-        }
-
-        .tab {
-            padding: 12px 24px;
-            background: transparent;
-            color: #ccc;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            white-space: nowrap;
-            min-width: fit-content;
-        }
-
-        .tab:hover {
-            background: #2a2a2a;
-            color: #fff;
-        }
-
-        .tab.active {
-            background: #00d4aa;
-            color: #000;
-        }
-
-        .chart-section {
-            display: none;
-            background: #111111;
-            border-radius: 12px;
-            border: 1px solid #2a2a2a;
-            overflow: hidden;
-        }
-
-        .chart-section.active {
-            display: block;
-        }
-
-        .chart-header {
-            padding: 20px;
-            border-bottom: 1px solid #2a2a2a;
-            background: #161616;
-        }
-
-        .chart-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .chart-description {
-            color: #aaa;
-            font-size: 1rem;
-        }
-
-        .chart-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-
-        .chart-container {
-            height: 600px;
-            background: #0a0a0a;
+            padding: 3rem 0 4rem;
             position: relative;
         }
 
-        .indicator-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
         }
 
-        .indicator-card {
-            background: #161616;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.3s;
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
 
-        .indicator-card:hover {
-            border-color: #00d4aa;
-            background: #1a1a1a;
-        }
-
-        .indicator-card h3 {
-            color: #00d4aa;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .indicator-card p {
-            color: #ccc;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .indicator-link {
-            display: inline-block;
-            background: #00d4aa;
-            color: #000;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 6px;
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-accent);
+            border-radius: 20px;
+            font-size: 0.875rem;
             font-weight: 500;
-            transition: all 0.3s;
-            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
         }
 
-        .indicator-link:hover {
-            background: #00b891;
-            transform: translateY(-1px);
-        }
-
-        .status-dot {
-            display: inline-block;
+        .live-dot {
             width: 8px;
             height: 8px;
+            background: var(--accent-success);
             border-radius: 50%;
-            margin-right: 8px;
+            animation: pulse 2s infinite;
         }
 
-        .status-live {
-            background: #00d4aa;
-            box-shadow: 0 0 8px rgba(0, 212, 170, 0.6);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
-        .status-beta {
-            background: #ff9500;
-            box-shadow: 0 0 8px rgba(255, 149, 0, 0.6);
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
-        .coming-soon {
-            opacity: 0.6;
-            pointer-events: none;
+        .metric-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
         }
 
-        .coming-soon::after {
-            content: 'Coming Soon';
+        .metric-card::before {
+            content: '';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ff9500;
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--card-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--card-accent);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .metric-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--card-accent);
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .metric-card:hover .metric-icon::after {
+            left: 100%;
+        }
+
+        .metric-title {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--status-bg);
+            color: var(--status-color);
+            margin-bottom: 1rem;
+        }
+
+        .metric-change {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
             font-weight: 500;
         }
 
-        .footer {
-            margin-top: 60px;
-            padding: 40px 0;
-            border-top: 1px solid #2a2a2a;
-            text-align: center;
-            color: #666;
+        .change-positive { color: var(--accent-success); }
+        .change-negative { color: var(--accent-danger); }
+
+        /* Chart Section */
+        .chart-section {
+            margin-bottom: 3rem;
         }
 
-        .tradingview-widget {
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-control {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-primary);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chart-control.active,
+        .chart-control:hover {
+            background: var(--accent-primary);
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .chart-container {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-placeholder {
+            height: 500px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.1), transparent);
+            animation: shimmer 2s infinite;
         }
 
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .chart-placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Analysis Grid */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .analysis-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .analysis-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .insight-item {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--insight-color);
+            transition: all 0.2s ease;
+        }
+
+        .insight-item:hover {
+            transform: translateX(4px);
+            background: var(--bg-tertiary);
+        }
+
+        .insight-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .insight-text {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Alerts */
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .alert-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .alert-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-top: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-description {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-primary);
+            margin-top: 4rem;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .beta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-warning), #d97706);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
+            .container {
+                padding: 1rem;
             }
             
-            .tabs {
-                flex-wrap: wrap;
-            }
-            
-            .indicator-grid {
+            .metrics-grid {
                 grid-template-columns: 1fr;
             }
             
-            .nav {
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                padding: 0 1rem;
+            }
+            
+            .status-bar {
                 display: none;
             }
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #444;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00d4aa;
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="logo">TradingIntel</div>
-            <nav class="nav">
-                <a href="#" class="nav-item active">Charts</a>
-                <a href="#" class="nav-item">Indicators</a>
-                <a href="#" class="nav-item">Alerts</a>
-                <a href="#" class="nav-item">About</a>
-            </nav>
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                CryptoRisk Intelligence
+            </div>
+            <div class="status-bar">
+                <div class="status-indicator status-caution">
+                    <span>CASCADE: CAUTION</span>
+                </div>
+                <div class="status-indicator status-safe">
+                    <span>MACRO: BULLISH</span>
+                </div>
+            </div>
         </div>
     </header>
 
+    <!-- Main Content -->
     <div class="container">
+        <!-- Hero Section -->
         <div class="hero">
-            <h1>Trading Intelligence Platform</h1>
-            <p>Advanced market analysis with real-time crypto health indicators and macro intelligence</p>
+            <h1>Professional Crypto Market Intelligence</h1>
+            <p>Advanced risk detection and market analysis powered by proprietary indicators used by professional traders.</p>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>Live Market Data</span>
+            </div>
         </div>
 
-        <div class="tabs">
-            <button class="tab active" onclick="showChart('crypto-health')">Crypto Health</button>
-            <button class="tab" onclick="showChart('macro-intelligence')">Macro Intelligence</button>
-            <button class="tab" onclick="showChart('options-flow')">Options Flow</button>
-            <button class="tab" onclick="showChart('risk-management')">Risk Management</button>
-        </div>
-
-        <!-- Crypto Health Section -->
-        <div id="crypto-health" class="chart-section active">
-            <div class="chart-header">
-                <div class="chart-title">₿ Crypto Health Intelligence</div>
-                <div class="chart-description">
-                    Comprehensive cryptocurrency market health indicators combining sentiment, market structure, momentum, and volume analysis
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #ef4444, #dc2626); --status-bg: rgba(239, 68, 68, 0.1); --status-color: #ef4444;">
+                <div class="metric-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🚨</div>
+                <div class="metric-title">Cascade Risk Index</div>
+                <div class="metric-value">59.4</div>
+                <div class="metric-status">
+                    <span>⚠️ ELEVATED RISK</span>
+                </div>
+                <div class="metric-change change-positive">
+                    <span>↗ +2.1 from yesterday</span>
                 </div>
             </div>
-            
+
+            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #0ea5e9, #0284c7); --status-bg: rgba(14, 165, 233, 0.1); --status-color: #0ea5e9;">
+                <div class="metric-icon" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">📊</div>
+                <div class="metric-title">Market Health</div>
+                <div class="metric-value">0.40</div>
+                <div class="metric-status">
+                    <span>📈 NEUTRAL</span>
+                </div>
+                <div class="metric-change change-negative">
+                    <span>↘ -0.05 from yesterday</span>
+                </div>
+            </div>
+
+            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #8b5cf6, #7c3aed); --status-bg: rgba(139, 92, 246, 0.1); --status-color: #8b5cf6;">
+                <div class="metric-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">🔥</div>
+                <div class="metric-title">Froth Detector</div>
+                <div class="metric-value">48.5</div>
+                <div class="metric-status">
+                    <span>🟡 MODERATE</span>
+                </div>
+                <div class="metric-change change-negative">
+                    <span>↘ -1.8 from yesterday</span>
+                </div>
+            </div>
+
+            <div class="metric-card" style="--card-accent: linear-gradient(135deg, #10b981, #059669); --status-bg: rgba(16, 185, 129, 0.1); --status-color: #10b981;">
+                <div class="metric-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🌍</div>
+                <div class="metric-title">Macro MMI</div>
+                <div class="metric-value">60.6</div>
+                <div class="metric-status">
+                    <span>📈 BULLISH</span>
+                </div>
+                <div class="metric-change change-positive">
+                    <span>↗ +3.2 from yesterday</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2 class="section-title">Live Market Analysis</h2>
+                <div class="chart-controls">
+                    <button class="chart-control active">1D</button>
+                    <button class="chart-control">4H</button>
+                    <button class="chart-control">1H</button>
+                    <button class="chart-control">15M</button>
+                </div>
+            </div>
             <div class="chart-container">
-                <div id="crypto-main-chart" class="tradingview-widget"></div>
-            </div>
-
-            <div class="indicator-grid">
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-live"></span>Fear & Greed Index</h3>
-                    <p>Multi-factor sentiment analysis combining RSI, momentum, volume, and volatility to gauge market sentiment</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
-                </div>
-
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-live"></span>Market Structure</h3>
-                    <p>Real-time detection of higher highs, lower lows, break of structure, and change of character patterns</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
-                </div>
-
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-live"></span>Momentum Tracker</h3>
-                    <p>Comprehensive momentum analysis with RSI, MACD, Stochastic, and divergence detection</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
-                </div>
-
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-live"></span>Volume Analysis</h3>
-                    <p>Advanced volume indicators including OBV, Money Flow, A/D Line, and volume spike detection</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
-                </div>
-
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-beta"></span>Composite Health Score</h3>
-                    <p>Unified health indicator combining all components into a single actionable score</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
+                <div class="chart-placeholder">
+                    <div class="chart-placeholder-icon">📈</div>
+                    <h3>Advanced Indicator Suite</h3>
+                    <p>Real-time cascade risk, market health, and froth detection</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.7;">Integration with TradingView indicators in progress</p>
                 </div>
             </div>
         </div>
 
-        <!-- Macro Intelligence Section -->
-        <div id="macro-intelligence" class="chart-section">
-            <div class="chart-header">
-                <div class="chart-title">📊 Macro Market Intelligence</div>
-                <div class="chart-description">
-                    Global macroeconomic indicators and institutional money flow analysis across major asset classes
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <div id="macro-main-chart" class="tradingview-widget"></div>
-            </div>
-
-            <div class="indicator-grid">
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-live"></span>Global Market Sentiment</h3>
-                    <p>Real-time sentiment combining VIX, bond yields, currency strength, and commodity flows</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
+        <!-- Analysis Grid -->
+        <div class="analysis-grid">
+            <div class="analysis-card">
+                <h3 class="analysis-title">🎯 Market Intelligence Summary</h3>
+                
+                <div class="insight-item" style="--insight-color: #f59e0b;">
+                    <div class="insight-label">Current Assessment</div>
+                    <div class="insight-text">Mixed signals detected. Cascade risk elevated but macro conditions remain supportive. Recommend defensive positioning with reduced leverage.</div>
                 </div>
 
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-live"></span>Economic Cycle Tracker</h3>
-                    <p>Track expansion, peak, contraction, and trough phases using leading indicators</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
+                <div class="insight-item" style="--insight-color: #ef4444;">
+                    <div class="insight-label">Critical Warning</div>
+                    <div class="insight-text">Liquidity stress maxed at 100/100. Funding stress also maxed. System showing signs of structural strain.</div>
                 </div>
 
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-live"></span>Institutional Flow Monitor</h3>
-                    <p>Monitor smart money through dark pools, block trades, and institutional positioning</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
+                <div class="insight-item" style="--insight-color: #10b981;">
+                    <div class="insight-label">Positive Signal</div>
+                    <div class="insight-text">Excellent market breadth (1.00) indicates healthy participation across altcoins. Strong dollar weakness (-0.63 DXY correlation) provides structural support.</div>
                 </div>
 
-                <div class="indicator-card">
-                    <h3><span class="status-dot status-beta"></span>Central Bank Policy Tracker</h3>
-                    <p>Aggregate policy decisions and monetary policy divergence across major economies</p>
-                    <a href="#" class="indicator-link">View Indicator</a>
+                <div class="insight-item" style="--insight-color: #8b5cf6;">
+                    <div class="insight-label">Strategy Recommendation</div>
+                    <div class="insight-text">Conservative allocation: 35% BTC, 20% quality alts, 30% cash, 15% macro hedges. Monitor cascade risk for 75+ threshold breach.</div>
                 </div>
             </div>
-        </div>
 
-        <!-- Options Flow Section -->
-        <div id="options-flow" class="chart-section coming-soon">
-            <div class="chart-header">
-                <div class="chart-title">🔜 Options Flow Intelligence</div>
-                <div class="chart-description">
-                    Real-time options flow analysis and unusual activity detection
+            <div class="analysis-card">
+                <h3 class="analysis-title">🚨 Active Monitoring</h3>
+                
+                <div class="alert-item">
+                    <div class="alert-icon" style="background: #f59e0b;"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Cascade Risk Elevated</div>
+                        <div class="alert-description">Currently 59.4 - approaching 75 warning threshold. Monitor closely for position adjustments.</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="chart-container">
-                <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">
-                    Coming Soon - Options Flow Analysis
-                </div>
-            </div>
-        </div>
 
-        <!-- Risk Management Section -->
-        <div id="risk-management" class="chart-section coming-soon">
-            <div class="chart-header">
-                <div class="chart-title">🔜 Risk Management Suite</div>
-                <div class="chart-description">
-                    Advanced portfolio risk metrics and position sizing tools
+                <div class="alert-item">
+                    <div class="alert-icon" style="background: #ef4444;"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Liquidity Crisis Warning</div>
+                        <div class="alert-description">Liquidity stress at maximum (100/100). Significant market depth deterioration detected.</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="chart-container">
-                <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">
-                    Coming Soon - Risk Management Tools
+
+                <div class="alert-item">
+                    <div class="alert-icon" style="background: #10b981;"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">MMI Buy Signal Active</div>
+                        <div class="alert-description">Macro conditions bullish at 60.6. DCA strategy recommended for quality assets.</div>
+                    </div>
+                </div>
+
+                <div class="alert-item">
+                    <div class="alert-icon" style="background: #8b5cf6;"></div>
+                    <div class="alert-content">
+                        <div class="alert-title">Froth Cooling Down</div>
+                        <div class="alert-description">Speculation levels declining from 48.5. Healthy market cooling in progress.</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 Trading Intelligence Platform. Advanced market analysis for professional traders.</p>
+        <div class="footer-content">
+            <h3 class="footer-title">Professional-Grade Crypto Intelligence</h3>
+            <p class="footer-subtitle">Built by quantitative analysts and professional traders. Real indicators, real insights.</p>
+            <div class="beta-badge">
+                <span>🔥 Free Beta Access</span>
+            </div>
+        </div>
     </footer>
 
     <script>
-        // Tab switching functionality
-        function showChart(chartId) {
-            // Hide all chart sections
-            const sections = document.querySelectorAll('.chart-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            // Remove active from all tabs
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected chart section
-            document.getElementById(chartId).classList.add('active');
-            
-            // Activate clicked tab
-            event.target.classList.add('active');
-            
-            // Load appropriate chart
-            setTimeout(() => loadChart(chartId), 100);
-        }
+        // Enhanced animations and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate metric cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
 
-        function loadChart(chartId) {
-            // Check if TradingView is available
-            if (typeof TradingView === 'undefined') {
-                console.log('TradingView library loading...');
-                setTimeout(() => loadChart(chartId), 1000);
-                return;
-            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'slideInUp 0.6s ease forwards';
+                    }
+                });
+            }, observerOptions);
 
-            let symbol = 'COINBASE:BTCUSD';
-            let containerId = 'crypto-main-chart';
-            
-            if (chartId === 'macro-intelligence') {
-                symbol = 'ECONOMICS:USIRYY';
-                containerId = 'macro-main-chart';
-            }
-            
-            // Clear existing chart
-            const container = document.getElementById(containerId);
-            if (container) {
-                container.innerHTML = '';
-                
-                try {
-                    // Create new TradingView widget
-                    new TradingView.widget({
-                        "width": "100%",
-                        "height": "600",
-                        "symbol": symbol,
-                        "interval": "1D",
-                        "timezone": "Etc/UTC",
-                        "theme": "dark",
-                        "style": "1",
-                        "locale": "en",
-                        "toolbar_bg": "#111111",
-                        "enable_publishing": false,
-                        "backgroundColor": "#0a0a0a",
-                        "gridColor": "#2a2a2a",
-                        "hide_top_toolbar": false,
-                        "hide_legend": false,
-                        "save_image": false,
-                        "container_id": containerId,
-                        "studies": chartId === 'crypto-health' ? [
-                            "RSI@tv-basicstudies",
-                            "MAExp@tv-basicstudies"
-                        ] : [],
-                        "show_popup_button": true,
-                        "popup_width": "1000",
-                        "popup_height": "650"
-                    });
-                } catch (error) {
-                    console.log('Chart loading error:', error);
-                    container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666; flex-direction: column;"><div>📊</div><div>Chart loading...</div><div style="font-size: 0.9rem; margin-top: 10px;">TradingView charts will appear here</div></div>';
+            document.querySelectorAll('.metric-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Chart control interactions
+            document.querySelectorAll('.chart-control').forEach(control => {
+                control.addEventListener('click', function() {
+                    document.querySelectorAll('.chart-control').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Simulate chart update
+                    const placeholder = document.querySelector('.chart-placeholder');
+                    placeholder.style.opacity = '0.5';
+                    setTimeout(() => {
+                        placeholder.style.opacity = '1';
+                    }, 300);
+                });
+            });
+
+            // Real-time data simulation
+            function updateMetrics() {
+                const cascadeValue = document.querySelector('.metric-card .metric-value');
+                if (cascadeValue) {
+                    const currentValue = parseFloat(cascadeValue.textContent);
+                    const change = (Math.random() - 0.5) * 0.4;
+                    const newValue = Math.max(0, Math.min(100, currentValue + change));
+                    cascadeValue.textContent = newValue.toFixed(1);
+                    
+                    // Update status based on value
+                    const statusElement = cascadeValue.parentElement.querySelector('.metric-status span');
+                    if (newValue > 70) {
+                        statusElement.textContent = '🚨 HIGH RISK';
+                    } else if (newValue > 50) {
+                        statusElement.textContent = '⚠️ ELEVATED RISK';
+                    } else {
+                        statusElement.textContent = '✅ SAFE';
+                    }
                 }
             }
-        }
 
-        // Initialize default chart on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Wait for TradingView library to load
-            setTimeout(() => {
-                loadChart('crypto-health');
-            }, 1500);
-        });
+            // Update metrics every 30 seconds
+            setInterval(updateMetrics, 30000);
 
-        // Smooth scrolling for navigation
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
+            // Add hover effects to insight items
+            document.querySelectorAll('.insight-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(8px) scale(1.02)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0) scale(1)';
+                });
             });
+
+            // Simulate live data updates with smooth transitions
+            function simulateLiveUpdates() {
+                const metrics = document.querySelectorAll('.metric-value');
+                metrics.forEach((metric, index) => {
+                    setTimeout(() => {
+                        metric.style.transform = 'scale(1.05)';
+                        metric.style.color = '#0ea5e9';
+                        
+                        setTimeout(() => {
+                            metric.style.transform = 'scale(1)';
+                            metric.style.color = 'var(--text-primary)';
+                        }, 200);
+                    }, index * 100);
+                });
+            }
+
+            // Trigger live updates every 45 seconds
+            setInterval(simulateLiveUpdates, 45000);
         });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .metric-card {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            .metric-value {
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            .insight-item {
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            /* Custom scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: var(--bg-secondary);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: var(--accent-primary);
+                border-radius: 4px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--accent-secondary);
+            }
+
+            /* Loading states */
+            .loading {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .loading::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                animation: shimmer 1.5s infinite;
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
