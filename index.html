@@ -1,91 +1,4 @@
-<span>Available with premium indicators</span>
-                    </div>
-                </div>
-
-                <div class="metric-card" style="--card-accent: linear-gradient(135deg, #8b5cf6, #7c3aed); --status-bg: rgba(139, 92, 246, 0.1); --status-color: #8b5cf6;">
-                    <div class="metric-title">Froth Detector</div>
-                    <div class="metric-value">40.0</div>
-                    <div class="metric-status">
-                        <span>MODERATE</span>
-                    </div>
-                    <div class="metric-change">
-                        <span>Available with premium indicators</span>
-                    </div>
-                </div>
-
-                <div class="metric-card" style="--card-accent: linear-gradient(135deg, #10b981, #059669); --status-bg: rgba(16, 185, 129, 0.1); --status-color: #10b981;">
-                    <div class="metric-title">Macro MMI</div>
-                    <div class="metric-value">55.0</div>
-                    <div class="metric-status">
-                        <span>NEUTRAL</span>
-                    </div>
-                    <div class="metric-change">
-                        <span>Available with premium indicators</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chart Section -->
-            <div class="chart-section">
-                <div class="section-header">
-                    <h2 class="section-title">Live Market Analysis</h2>
-                    <div class="chart-controls">
-                        <button class="chart-control">15M</button>
-                        <button class="chart-control">1H</button>
-                        <button class="chart-control">4H</button>
-                        <button class="chart-control active">1D</button>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <div id="tradingview_chart" style="height: 500px; width: 100%;"></div>
-                </div>
-            </div>
-
-            <!-- Analysis Grid -->
-            <div class="analysis-grid">
-                <div class="analysis-card">
-                    <h3 class="analysis-title">Market Intelligence Summary</h3>
-                    
-                    <div class="insight-item" style="--insight-color: #f59e0b;">
-                        <div class="insight-label">Current Assessment</div>
-                        <div class="insight-text">Live price data connected successfully. Professional indicators and analysis available with premium access for comprehensive market intelligence.</div>
-                    </div>
-
-                    <div class="insight-item" style="--insight-color: #10b981;">
-                        <div class="insight-label">Live Data Status</div>
-                        <div class="insight-text">Real-time price feeds active for BTC, ETH, SOL, and HYPE. WebSocket connections providing sub-second price updates with 24h change tracking.</div>
-                    </div>
-
-                    <div class="insight-item" style="--insight-color: #8b5cf6;">
-                        <div class="insight-label">Next Steps</div>
-                        <div class="insight-text">Connect your TradingView indicators or build custom indicator suite for complete market analysis and risk assessment capabilities.</div>
-                    </div>
-                </div>
-
-                <div class="analysis-card">
-                    <h3 class="analysis-title">System Status</h3>
-                    
-                    <div class="alert-item">
-                        <div class="alert-icon" style="background: #10b981;"></div>
-                        <div class="alert-content">
-                            <div class="alert-title">Live Data Connected</div>
-                            <div class="alert-description">Real-time price feeds operational via Binance WebSocket connections.</div>
-                        </div>
-                    </div>
-
-                    <div class="alert-item">
-                        <div class="alert-icon" style="background: #f59e0b;"></div>
-                        <div class="alert-content">
-                            <div class="alert-title">Indicators Pending</div>
-                            <div class="alert-description">Professional indicators ready for integration - TradingView embed or custom build.</div>
-                        </div>
-                    </div>
-
-                    <div class="alert-item">
-                        <div class="alert-icon" style="background: #0ea5e9;"></div>
-                        <div class="alert-content">
-                            <div class="alert-title">Platform Ready</div>
-                            <div class="alert-description">Professional dashboard design complete with live data infrastructure.</div>
+<div class="alert-description">Professional dashboard design complete with live data infrastructure.</div>
                         </div>
                     </div>
                 </div>
@@ -103,79 +16,79 @@
                 </div>
 
                 <!-- Main Score Display -->
-                <div class="score-display">
-                    <div class="score-value" id="macro-score">--</div>
-                    <div class="score-description">Macro Liquidity Score</div>
-                    <div class="score-progress">
-                        <div class="score-fill" id="score-fill"></div>
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 4rem; font-weight: 900; margin-bottom: 0.5rem; font-variant-numeric: tabular-nums; transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);" id="macro-score">--</div>
+                    <div style="font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1rem;">Macro Liquidity Score</div>
+                    <div style="width: 100%; max-width: 400px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; margin: 0 auto;">
+                        <div style="height: 100%; background: linear-gradient(90deg, var(--accent-danger), var(--accent-warning), var(--accent-success)); border-radius: 4px; transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); width: 0%;" id="score-fill"></div>
                     </div>
                 </div>
 
                 <!-- Component Scores -->
-                <div class="components-grid">
-                    <div class="component-card">
-                        <div class="component-title">DXY Score</div>
-                        <div class="component-value" id="dxy-score">--</div>
-                        <div class="component-status" id="dxy-status">Loading...</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease; position: relative; overflow: hidden;">
+                        <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem;">DXY Score</div>
+                        <div style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; transition: color 0.3s ease;" id="dxy-score">--</div>
+                        <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;" id="dxy-status">Loading...</div>
                     </div>
 
-                    <div class="component-card">
-                        <div class="component-title">10Y Yield Score</div>
-                        <div class="component-value" id="yield-score">--</div>
-                        <div class="component-status" id="yield-status">Loading...</div>
+                    <div style="background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease; position: relative; overflow: hidden;">
+                        <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem;">10Y Yield Score</div>
+                        <div style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; transition: color 0.3s ease;" id="yield-score">--</div>
+                        <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;" id="yield-status">Loading...</div>
                     </div>
 
-                    <div class="component-card">
-                        <div class="component-title">VIX Score</div>
-                        <div class="component-value" id="vix-score">--</div>
-                        <div class="component-status" id="vix-status">Loading...</div>
+                    <div style="background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease; position: relative; overflow: hidden;">
+                        <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem;">VIX Score</div>
+                        <div style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; transition: color 0.3s ease;" id="vix-score">--</div>
+                        <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;" id="vix-status">Loading...</div>
                     </div>
 
-                    <div class="component-card">
-                        <div class="component-title">SPY Score</div>
-                        <div class="component-value" id="spy-score">--</div>
-                        <div class="component-status" id="spy-status">Loading...</div>
+                    <div style="background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease; position: relative; overflow: hidden;">
+                        <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem;">SPY Score</div>
+                        <div style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; transition: color 0.3s ease;" id="spy-score">--</div>
+                        <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;" id="spy-status">Loading...</div>
                     </div>
 
-                    <div class="component-card">
-                        <div class="component-title">Gold Score</div>
-                        <div class="component-value" id="gold-score">--</div>
-                        <div class="component-status" id="gold-status">Loading...</div>
+                    <div style="background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease; position: relative; overflow: hidden;">
+                        <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem;">Gold Score</div>
+                        <div style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; transition: color 0.3s ease;" id="gold-score">--</div>
+                        <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;" id="gold-status">Loading...</div>
                     </div>
                 </div>
 
                 <!-- Market Conditions Table -->
-                <div class="conditions-table">
-                    <div class="table-header">
-                        <div class="table-title">Current Market Conditions</div>
+                <div style="background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 16px; overflow: hidden; margin-top: 2rem;">
+                    <div style="background: var(--bg-tertiary); padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-primary);">
+                        <div style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary);">Current Market Conditions</div>
                     </div>
-                    <div class="table-row">
-                        <div class="table-label">Liquidity Regime</div>
-                        <div class="table-value" id="regime-value">Loading...</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-primary); transition: background 0.2s ease;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">Liquidity Regime</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 8px;" id="regime-value">Loading...</div>
                     </div>
-                    <div class="table-row">
-                        <div class="table-label">DXY Trend</div>
-                        <div class="table-value" id="dxy-trend">Loading...</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-primary); transition: background 0.2s ease;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">DXY Trend</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 8px;" id="dxy-trend">Loading...</div>
                     </div>
-                    <div class="table-row">
-                        <div class="table-label">Yield Curve</div>
-                        <div class="table-value" id="yield-curve">Loading...</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-primary); transition: background 0.2s ease;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">Yield Curve</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 8px;" id="yield-curve">Loading...</div>
                     </div>
-                    <div class="table-row">
-                        <div class="table-label">VIX Regime</div>
-                        <div class="table-value" id="vix-regime">Loading...</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-primary); transition: background 0.2s ease;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">VIX Regime</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 8px;" id="vix-regime">Loading...</div>
                     </div>
-                    <div class="table-row">
-                        <div class="table-label">Risk Appetite</div>
-                        <div class="table-value" id="risk-appetite">Loading...</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-primary); transition: background 0.2s ease;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">Risk Appetite</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 8px;" id="risk-appetite">Loading...</div>
                     </div>
-                    <div class="table-row">
-                        <div class="table-label">10Y Yield</div>
-                        <div class="table-value" id="current-yield">Loading...</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-primary); transition: background 0.2s ease;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">10Y Yield</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 8px;" id="current-yield">Loading...</div>
                     </div>
-                    <div class="table-row">
-                        <div class="table-label">Dollar Impact</div>
-                        <div class="table-value" id="dollar-impact">Loading...</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; transition: background 0.2s ease;">
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">Dollar Impact</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 8px;" id="dollar-impact">Loading...</div>
                     </div>
                 </div>
             </div>
@@ -223,7 +136,7 @@
 
         class LivePriceFeed {
             constructor() {
-                this.symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT']; // Removed HYPE from Binance
+                this.symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT'];
                 this.prices = {};
                 this.previousPrices = {};
                 this.ws = null;
@@ -240,7 +153,7 @@
                 this.initTradingViewChart();
                 this.setupChartControls();
                 this.connectWebSocket();
-                this.fetchHypePrice(); // Fetch HYPE from CoinGecko
+                this.fetchHypePrice();
                 this.updateConnectionStatus('Connecting...', false);
             }
 
@@ -266,7 +179,6 @@
                     }
                 } catch (error) {
                     console.error('❌ Failed to fetch HYPE price:', error);
-                    // Set fallback data
                     this.prices['HYPEUSDT'] = {
                         price: 30.50,
                         change: 2.5,
@@ -276,7 +188,6 @@
                     this.updatePriceDisplay('HYPEUSDT', this.prices['HYPEUSDT']);
                 }
                 
-                // Update HYPE price every 60 seconds
                 setInterval(() => {
                     this.fetchHypePrice();
                 }, 60000);
@@ -551,7 +462,6 @@
                     this.calculateMacroScore();
                     this.isInitialized = true;
                     
-                    // Update every 5 minutes
                     setInterval(() => {
                         this.fetchRealMarketData().then(() => {
                             this.calculateMacroScore();
@@ -565,7 +475,6 @@
             }
 
             async fetchRealMarketData() {
-                // Simulate realistic market data for demo
                 this.data = {
                     dxy: 103.8 + (Math.random() - 0.5) * 1,
                     vix: 16.5 + (Math.random() - 0.5) * 4,
@@ -654,113 +563,7 @@
                 this.regime = scores.macro > scoreHigh ? "RISK ON" : 
                              scores.macro < scoreLow ? "RISK OFF" : "NEUTRAL";
                 
-                const yieldCurveSlope = data.yield10y - data.yield2y;
-                this.yieldCurveStatus = yieldCurveSlope < 0 ? "INVERTED" : 
-                                       yieldCurveSlope < 0.5 ? "FLAT" : "STEEP";
-                
-                this.vixRegime = data.vix > data.vixMA20 * 1.3 ? "HIGH FEAR" : 
-                                data.vix < data.vixMA20 * 0.7 ? "LOW FEAR" : "NORMAL";
-                
-                this.dxyTrend = data.dxy > data.dxyMA50 ? "STRONG" : "WEAK";
-                this.dollarImpact = this.dxyTrend === "STRONG" ? "HEADWIND" : "TAILWIND";
-                
-                const spyMomentum = ((data.spy - data.spy20DaysAgo) / data.spy20DaysAgo) * 100;
-                const goldMomentum = ((data.gold - data.gold20DaysAgo) / data.gold20DaysAgo) * 100;
-                this.riskAppetite = spyMomentum > goldMomentum ? "RISK ON" : "RISK OFF";
-            }
-
-            updateDisplay() {
-                const scores = this.scores;
-                const data = this.data;
-                
-                this.updateElement('macro-score', scores.macro.toFixed(0));
-                this.updateElement('score-fill', null, (el) => {
-                    el.style.width = `${scores.macro}%`;
-                });
-                
-                this.updateRegimeBadge();
-                this.updateComponentScore('dxy-score', 'dxy-status', scores.dxy, this.dxyTrend);
-                this.updateComponentScore('yield-score', 'yield-status', scores.tenYear, this.yieldCurveStatus);
-                this.updateComponentScore('vix-score', 'vix-status', scores.vix, this.vixRegime);
-                this.updateComponentScore('spy-score', 'spy-status', scores.spy, this.riskAppetite);
-                this.updateComponentScore('gold-score', 'gold-status', scores.gold, 'MIXED SIGNAL');
-                this.updateTableValues();
-            }
-
-            updateComponentScore(scoreId, statusId, score, status) {
-                this.updateElement(scoreId, score.toFixed(0), (el) => {
-                    if (score >= 70) el.style.color = 'var(--accent-success)';
-                    else if (score >= 40) el.style.color = 'var(--accent-warning)';
-                    else el.style.color = 'var(--accent-danger)';
-                });
-                
-                this.updateElement(statusId, status, (el) => {
-                    if (score >= 70) el.style.color = 'var(--accent-success)';
-                    else if (score >= 40) el.style.color = 'var(--accent-warning)';
-                    else el.style.color = 'var(--accent-danger)';
-                });
-            }
-
-            updateTableValues() {
-                const data = this.data;
-                
-                this.updateTableValue('regime-value', this.regime, this.regime);
-                this.updateTableValue('dxy-trend', this.dxyTrend, this.dxyTrend);
-                this.updateTableValue('yield-curve', this.yieldCurveStatus, this.yieldCurveStatus);
-                this.updateTableValue('vix-regime', this.vixRegime, this.vixRegime);
-                this.updateTableValue('risk-appetite', this.riskAppetite, this.riskAppetite);
-                this.updateTableValue('current-yield', data.yield10y.toFixed(3) + '%', 'neutral');
-                this.updateTableValue('dollar-impact', this.dollarImpact, this.dollarImpact);
-            }
-
-            updateTableValue(id, value, status) {
-                this.updateElement(id, value, (el) => {
-                    el.style.background = 'transparent';
-                    el.style.color = 'var(--text-primary)';
-                    
-                    if (['RISK ON', 'WEAK', 'LOW FEAR', 'TAILWIND', 'STEEP'].includes(status)) {
-                        el.style.background = 'var(--accent-success)';
-                        el.style.color = '#000';
-                    } else if (['RISK OFF', 'STRONG', 'HIGH FEAR', 'HEADWIND', 'INVERTED'].includes(status)) {
-                        el.style.background = 'var(--accent-danger)';
-                        el.style.color = '#fff';
-                    } else if (['NEUTRAL', 'NORMAL', 'FLAT'].includes(status)) {
-                        el.style.background = 'var(--accent-warning)';
-                        el.style.color = '#000';
-                    }
-                });
-            }
-
-            updateElement(id, content, customUpdate) {
-                const element = document.getElementById(id);
-                if (element) {
-                    if (content !== null && content !== undefined) {
-                        element.textContent = content;
-                    }
-                    if (customUpdate) {
-                        customUpdate(element);
-                    }
-                }
-            }
-        }
-
-        // Initialize when page loads
-        let livePriceFeed;
-        document.addEventListener('DOMContentLoaded', () => {
-            livePriceFeed = new LivePriceFeed();
-        });
-
-        // Clean up on page unload
-        window.addEventListener('beforeunload', () => {
-            if (livePriceFeed) {
-                livePriceFeed.disconnect();
-            }
-        });
-    </script>
-</body>
-</html>
-
-            <!DOCTYPE html>
+                const yieldCurve<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1388,138 +1191,6 @@
             color: #000;
         }
 
-        .score-display {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .score-value {
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 0.5rem;
-            font-variant-numeric: tabular-nums;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .score-description {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .score-progress {
-            width: 100%;
-            max-width: 400px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0 auto;
-        }
-
-        .score-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-danger), var(--accent-warning), var(--accent-success));
-            border-radius: 4px;
-            transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            width: 0%;
-        }
-
-        .components-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .component-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .component-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-primary);
-            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.2);
-        }
-
-        .component-title {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 1rem;
-        }
-
-        .component-value {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 0.75rem;
-            transition: color 0.3s ease;
-        }
-
-        .component-status {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .conditions-table {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-top: 2rem;
-        }
-
-        .table-header {
-            background: var(--bg-tertiary);
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border-primary);
-        }
-
-        .table-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .table-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border-primary);
-            transition: background 0.2s ease;
-        }
-
-        .table-row:hover {
-            background: var(--bg-tertiary);
-        }
-
-        .table-row:last-child {
-            border-bottom: none;
-        }
-
-        .table-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .table-value {
-            font-size: 0.875rem;
-            font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 8px;
-        }
-
         /* Footer */
         .footer {
             text-align: center;
@@ -1586,16 +1257,6 @@
                 flex-direction: column;
                 gap: 1rem;
                 align-items: flex-start;
-            }
-
-            .dashboard-header {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-
-            .components-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1699,4 +1360,91 @@
                         <span>SAFE</span>
                     </div>
                     <div class="metric-change">
-                        <span>Available with
+                        <span>Available with premium indicators</span>
+                    </div>
+                </div>
+
+                <div class="metric-card" style="--card-accent: linear-gradient(135deg, #8b5cf6, #7c3aed); --status-bg: rgba(139, 92, 246, 0.1); --status-color: #8b5cf6;">
+                    <div class="metric-title">Froth Detector</div>
+                    <div class="metric-value">40.0</div>
+                    <div class="metric-status">
+                        <span>MODERATE</span>
+                    </div>
+                    <div class="metric-change">
+                        <span>Available with premium indicators</span>
+                    </div>
+                </div>
+
+                <div class="metric-card" style="--card-accent: linear-gradient(135deg, #10b981, #059669); --status-bg: rgba(16, 185, 129, 0.1); --status-color: #10b981;">
+                    <div class="metric-title">Macro MMI</div>
+                    <div class="metric-value">55.0</div>
+                    <div class="metric-status">
+                        <span>NEUTRAL</span>
+                    </div>
+                    <div class="metric-change">
+                        <span>Available with premium indicators</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="chart-section">
+                <div class="section-header">
+                    <h2 class="section-title">Live Market Analysis</h2>
+                    <div class="chart-controls">
+                        <button class="chart-control">15M</button>
+                        <button class="chart-control">1H</button>
+                        <button class="chart-control">4H</button>
+                        <button class="chart-control active">1D</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div id="tradingview_chart" style="height: 500px; width: 100%;"></div>
+                </div>
+            </div>
+
+            <!-- Analysis Grid -->
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <h3 class="analysis-title">Market Intelligence Summary</h3>
+                    
+                    <div class="insight-item" style="--insight-color: #f59e0b;">
+                        <div class="insight-label">Current Assessment</div>
+                        <div class="insight-text">Live price data connected successfully. Professional indicators and analysis available with premium access for comprehensive market intelligence.</div>
+                    </div>
+
+                    <div class="insight-item" style="--insight-color: #10b981;">
+                        <div class="insight-label">Live Data Status</div>
+                        <div class="insight-text">Real-time price feeds active for BTC, ETH, SOL, and HYPE. WebSocket connections providing sub-second price updates with 24h change tracking.</div>
+                    </div>
+
+                    <div class="insight-item" style="--insight-color: #8b5cf6;">
+                        <div class="insight-label">Next Steps</div>
+                        <div class="insight-text">Connect your TradingView indicators or build custom indicator suite for complete market analysis and risk assessment capabilities.</div>
+                    </div>
+                </div>
+
+                <div class="analysis-card">
+                    <h3 class="analysis-title">System Status</h3>
+                    
+                    <div class="alert-item">
+                        <div class="alert-icon" style="background: #10b981;"></div>
+                        <div class="alert-content">
+                            <div class="alert-title">Live Data Connected</div>
+                            <div class="alert-description">Real-time price feeds operational via Binance WebSocket connections.</div>
+                        </div>
+                    </div>
+
+                    <div class="alert-item">
+                        <div class="alert-icon" style="background: #f59e0b;"></div>
+                        <div class="alert-content">
+                            <div class="alert-title">Indicators Pending</div>
+                            <div class="alert-description">Professional indicators ready for integration - TradingView embed or custom build.</div>
+                        </div>
+                    </div>
+
+                    <div class="alert-item">
+                        <div class="alert-icon" style="background: #0ea5e9;"></div>
+                        <div class="alert-content">
+                            <div class="alert-title">Platform Ready</div>
+                            <div class="alert-description">Professional dashboard design complete with live data infrastructure.</div>
