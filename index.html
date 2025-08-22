@@ -1004,5 +1004,313 @@
         `;
         document.head.appendChild(style);
     </script>
+// Add this script to your HTML file right before </body>
+// This will give you live data immediately
+
+class LiveCryptoDashboard {
+    constructor() {
+        this.isUpdating = false;
+        this.lastUpdate = null;
+        this.init();
+    }
+
+    async init() {
+        console.log('🚀 Starting live crypto dashboard...');
+        await this.updateAllMetrics();
+        
+        // Update every 2 minutes (respects API limits)
+        setInterval(() => this.updateAllMetrics(), 120000);
+        
+        // Update the live indicator
+        this.updateLiveStatus();
+        setInterval(() => this.updateLiveStatus(), 1000);
+    }
+
+    async updateAllMetrics() {
+        if (this.isUpdating) return;
+        this.isUpdating = true;
+
+        try {
+            console.log('📡 Fetching live market data...');
+            
+            // Get real market data
+            const marketData = await this.fetchLiveData();
+            
+            // Calculate your indicators
+            const indicators = this.calculateIndicators(marketData);
+            
+            // Update the dashboard
+            this.updateDashboard(indicators);
+            
+            this.lastUpdate = new Date();
+            console.log('✅ Dashboard updated successfully');
+            
+        } catch (error) {
+            console.error('❌ Error updating dashboard:', error);
+        } finally {
+            this.isUpdating = false;
+        }
+    }
+
+    async fetchLiveData() {
+        // Multiple data sources for robust data
+        const urls = {
+            crypto: 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true',
+            fearGreed: 'https://api.alternative.me/fng/',
+            globalData: 'https://api.coingecko.com/api/v3/global'
+        };
+
+        try {
+            const [cryptoResponse, fearGreedResponse, globalResponse] = await Promise.all([
+                fetch(urls.crypto),
+                fetch(urls.fearGreed),
+                fetch(urls.globalData)
+            ]);
+
+            const [cryptoData, fearGreedData, globalData] = await Promise.all([
+                cryptoResponse.json(),
+                fearGreedResponse.json(),
+                globalResponse.json()
+            ]);
+
+            return {
+                btc: cryptoData.bitcoin,
+                eth: cryptoData.ethereum,
+                fearGreed: fearGreedData.data[0],
+                global: globalData.data,
+                timestamp: new Date()
+            };
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
+        }
+    }
+
+    calculateIndicators(data) {
+        // Calculate Market Health (0-1 scale)
+        const marketHealth = this.calculateMarketHealth(data);
+        
+        // Calculate Cascade Risk (0-100 scale)
+        const cascadeRisk = this.calculateCascadeRisk(data);
+        
+        // Calculate Froth Level (0-100 scale)
+        const frothLevel = this.calculateFroth(data);
+        
+        // Calculate Macro MMI (0-100 scale)
+        const macroMMI = this.calculateMacroMMI(data);
+
+        return { marketHealth, cascadeRisk, frothLevel, macroMMI };
+    }
+
+    calculateMarketHealth(data) {
+        let score = 0.5; // Start neutral
+        
+        // BTC performance weight
+        const btcChange = data.btc.usd_24h_change;
+        if (btcChange > 3) score += 0.15;
+        else if (btcChange < -3) score -= 0.15;
+        
+        // Fear & Greed influence
+        const fearGreed = parseInt(data.fearGreed.value);
+        if (fearGreed > 60) score += 0.1;
+        else if (fearGreed < 30) score -= 0.1;
+        
+        // Market cap influence
+        const marketCapChange = data.global.market_cap_change_percentage_24h_usd;
+        if (marketCapChange > 2) score += 0.1;
+        else if (marketCapChange < -2) score -= 0.1;
+        
+        // Volatility check
+        if (Math.abs(btcChange) > 8) score -= 0.05; // High vol = reduced health
+        
+        score = Math.max(0, Math.min(1, score));
+        
+        return {
+            value: score.toFixed(2),
+            status: score > 0.65 ? 'BULLISH' : score < 0.35 ? 'BEARISH' : 'NEUTRAL',
+            change: this.getStoredChange('marketHealth', score),
+            raw: score
+        };
+    }
+
+    calculateCascadeRisk(data) {
+        let risk = 35; // Base safe level
+        
+        // Volatility factor
+        const btcVol = Math.abs(data.btc.usd_24h_change);
+        const ethVol = Math.abs(data.eth.usd_24h_change);
+        const avgVol = (btcVol + ethVol) / 2;
+        
+        if (avgVol > 15) risk += 25;
+        else if (avgVol > 10) risk += 15;
+        else if (avgVol > 5) risk += 8;
+        
+        // Fear factor
+        const fearGreed = parseInt(data.fearGreed.value);
+        if (fearGreed < 15) risk += 15; // Extreme fear
+        else if (fearGreed > 85) risk += 10; // Extreme greed
+        
+        // Volume stress
+        const btcVol24h = data.btc.usd_24h_vol;
+        if (btcVol24h > 40000000000) risk += 8; // Very high volume
+        
+        // Market correlation (simplified)
+        const correlation = Math.abs(data.btc.usd_24h_change - data.eth.usd_24h_change);
+        if (correlation < 2) risk += 5; // High correlation = higher cascade risk
+        
+        risk = Math.max(0, Math.min(100, risk));
+        
+        return {
+            value: risk.toFixed(1),
+            status: risk > 75 ? 'HIGH RISK' : risk > 60 ? 'ELEVATED RISK' : risk > 40 ? 'CAUTION' : 'SAFE',
+            change: this.getStoredChange('cascadeRisk', risk),
+            raw: risk
+        };
+    }
+
+    calculateFroth(data) {
+        let froth = 40; // Base moderate level
+        
+        // Price momentum
+        const btcChange = data.btc.usd_24h_change;
+        if (btcChange > 10) froth += 20;
+        else if (btcChange > 5) froth += 10;
+        else if (btcChange < -10) froth -= 15;
+        
+        // Volume surge
+        const volume = data.btc.usd_24h_vol;
+        if (volume > 50000000000) froth += 15;
+        else if (volume > 35000000000) froth += 8;
+        
+        // Fear & greed extremes
+        const fearGreed = parseInt(data.fearGreed.value);
+        if (fearGreed > 75) froth += 12;
+        else if (fearGreed < 25) froth -= 8;
+        
+        froth = Math.max(0, Math.min(100, froth));
+        
+        return {
+            value: froth.toFixed(1),
+            status: froth > 70 ? 'EXTREME' : froth > 55 ? 'HIGH' : froth > 35 ? 'MODERATE' : 'LOW',
+            change: this.getStoredChange('froth', froth),
+            raw: froth
+        };
+    }
+
+    calculateMacroMMI(data) {
+        let mmi = 50; // Base neutral
+        
+        // Crypto market performance
+        const marketCapChange = data.global.market_cap_change_percentage_24h_usd;
+        if (marketCapChange > 3) mmi += 15;
+        else if (marketCapChange > 1) mmi += 8;
+        else if (marketCapChange < -3) mmi -= 15;
+        else if (marketCapChange < -1) mmi -= 8;
+        
+        // Bitcoin dominance
+        const btcDominance = data.global.market_cap_percentage.btc;
+        if (btcDominance < 45) mmi += 5; // Alt season
+        else if (btcDominance > 55) mmi -= 5; // BTC flight to safety
+        
+        // Fear & greed sentiment
+        const fearGreed = parseInt(data.fearGreed.value);
+        if (fearGreed > 50) mmi += 8;
+        else if (fearGreed < 30) mmi -= 8;
+        
+        mmi = Math.max(0, Math.min(100, mmi));
+        
+        return {
+            value: mmi.toFixed(1),
+            status: mmi > 65 ? 'BULLISH' : mmi < 40 ? 'BEARISH' : 'NEUTRAL',
+            change: this.getStoredChange('macroMMI', mmi),
+            raw: mmi
+        };
+    }
+
+    getStoredChange(metric, currentValue) {
+        const stored = localStorage.getItem(`crypto_dashboard_${metric}`);
+        const change = stored ? currentValue - parseFloat(stored) : 0;
+        localStorage.setItem(`crypto_dashboard_${metric}`, currentValue.toString());
+        return change;
+    }
+
+    updateDashboard(indicators) {
+        const metrics = [
+            indicators.marketHealth,
+            indicators.cascadeRisk,
+            indicators.frothLevel,
+            indicators.macroMMI
+        ];
+
+        metrics.forEach((metric, index) => {
+            this.updateMetricCard(index, metric);
+        });
+
+        // Update analysis text based on real data
+        this.updateAnalysisText(indicators);
+    }
+
+    updateMetricCard(index, data) {
+        const cards = document.querySelectorAll('.metric-card');
+        const card = cards[index];
+        if (!card) return;
+
+        // Animate value update
+        const valueElement = card.querySelector('.metric-value');
+        const statusElement = card.querySelector('.metric-status span');
+        const changeElement = card.querySelector('.metric-change span');
+
+        if (valueElement) {
+            // Add loading animation
+            valueElement.style.transform = 'scale(1.05)';
+            valueElement.style.color = '#0ea5e9';
+            
+            setTimeout(() => {
+                valueElement.textContent = data.value;
+                valueElement.style.transform = 'scale(1)';
+                valueElement.style.color = 'var(--text-primary)';
+            }, 300);
+        }
+
+        if (statusElement) {
+            statusElement.textContent = data.status;
+        }
+
+        if (changeElement) {
+            const arrow = data.change >= 0 ? '↗' : '↘';
+            const sign = data.change >= 0 ? '+' : '';
+            changeElement.textContent = `${arrow} ${sign}${Math.abs(data.change).toFixed(2)} from last update`;
+            changeElement.parentElement.className = `metric-change ${data.change >= 0 ? 'change-positive' : 'change-negative'}`;
+        }
+    }
+
+    updateAnalysisText(indicators) {
+        // Update the analysis section with real insights
+        const analysisItems = document.querySelectorAll('.insight-text');
+        
+        if (analysisItems[0]) {
+            const riskLevel = indicators.cascadeRisk.raw > 60 ? 'elevated' : 'manageable';
+            const healthStatus = indicators.marketHealth.raw > 0.6 ? 'supportive' : 'challenging';
+            analysisItems[0].textContent = `Market showing ${riskLevel} cascade risk (${indicators.cascadeRisk.value}) with ${healthStatus} health conditions (${indicators.marketHealth.value}). Exercise appropriate caution with position sizing.`;
+        }
+    }
+
+    updateLiveStatus() {
+        const liveElement = document.querySelector('.live-indicator span');
+        if (liveElement && this.lastUpdate) {
+            const timeSince = Math.floor((new Date() - this.lastUpdate) / 1000);
+            liveElement.textContent = `Live Market Data - Updated ${timeSince}s ago`;
+        }
+    }
+}
+
+// Initialize immediately when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.liveDashboard = new LiveCryptoDashboard();
+    });
+} else {
+    window.liveDashboard = new LiveCryptoDashboard();
+}
 </body>
 </html>
