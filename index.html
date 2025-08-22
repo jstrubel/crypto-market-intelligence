@@ -563,7 +563,135 @@
                 this.regime = scores.macro > scoreHigh ? "RISK ON" : 
                              scores.macro < scoreLow ? "RISK OFF" : "NEUTRAL";
                 
-                const yieldCurve<!DOCTYPE html>
+                const yieldCurveSlope = data.yield10y - data.yield2y;
+                this.yieldCurveStatus = yieldCurveSlope < 0 ? "INVERTED" : 
+                                       yieldCurveSlope < 0.5 ? "FLAT" : "STEEP";
+                
+                this.vixRegime = data.vix > data.vixMA20 * 1.3 ? "HIGH FEAR" : 
+                                data.vix < data.vixMA20 * 0.7 ? "LOW FEAR" : "NORMAL";
+                
+                this.dxyTrend = data.dxy > data.dxyMA50 ? "STRONG" : "WEAK";
+                this.dollarImpact = this.dxyTrend === "STRONG" ? "HEADWIND" : "TAILWIND";
+                
+                const spyMomentum = ((data.spy - data.spy20DaysAgo) / data.spy20DaysAgo) * 100;
+                const goldMomentum = ((data.gold - data.gold20DaysAgo) / data.gold20DaysAgo) * 100;
+                this.riskAppetite = spyMomentum > goldMomentum ? "RISK ON" : "RISK OFF";
+            }
+
+            updateDisplay() {
+                const scores = this.scores;
+                const data = this.data;
+                
+                this.updateElement('macro-score', scores.macro.toFixed(0));
+                this.updateElement('score-fill', null, (el) => {
+                    el.style.width = `${scores.macro}%`;
+                });
+                
+                this.updateRegimeBadge();
+                this.updateComponentScore('dxy-score', 'dxy-status', scores.dxy, this.dxyTrend);
+                this.updateComponentScore('yield-score', 'yield-status', scores.tenYear, this.yieldCurveStatus);
+                this.updateComponentScore('vix-score', 'vix-status', scores.vix, this.vixRegime);
+                this.updateComponentScore('spy-score', 'spy-status', scores.spy, this.riskAppetite);
+                this.updateComponentScore('gold-score', 'gold-status', scores.gold, 'MIXED SIGNAL');
+                this.updateTableValues();
+            }
+
+            updateComponentScore(scoreId, statusId, score, status) {
+                this.updateElement(scoreId, score.toFixed(0), (el) => {
+                    if (score >= 70) el.style.color = 'var(--accent-success)';
+                    else if (score >= 40) el.style.color = 'var(--accent-warning)';
+                    else el.style.color = 'var(--accent-danger)';
+                });
+                
+                this.updateElement(statusId, status, (el) => {
+                    if (score >= 70) el.style.color = 'var(--accent-success)';
+                    else if (score >= 40) el.style.color = 'var(--accent-warning)';
+                    else el.style.color = 'var(--accent-danger)';
+                });
+            }
+
+            updateRegimeBadge() {
+                const badge = document.getElementById('regime-badge');
+                const text = document.getElementById('regime-text');
+                
+                if (badge && text) {
+                    text.textContent = this.regime;
+                    badge.className = 'regime-badge';
+                    
+                    if (this.regime === 'RISK ON') {
+                        badge.classList.add('regime-risk-on');
+                    } else if (this.regime === 'RISK OFF') {
+                        badge.classList.add('regime-risk-off');
+                    } else {
+                        badge.classList.add('regime-neutral');
+                    }
+                }
+                
+                this.updateElement('macro-score', null, (el) => {
+                    if (this.regime === 'RISK ON') el.style.color = 'var(--accent-success)';
+                    else if (this.regime === 'RISK OFF') el.style.color = 'var(--accent-danger)';
+                    else el.style.color = 'var(--accent-warning)';
+                });
+            }
+
+            updateTableValues() {
+                const data = this.data;
+                
+                this.updateTableValue('regime-value', this.regime, this.regime);
+                this.updateTableValue('dxy-trend', this.dxyTrend, this.dxyTrend);
+                this.updateTableValue('yield-curve', this.yieldCurveStatus, this.yieldCurveStatus);
+                this.updateTableValue('vix-regime', this.vixRegime, this.vixRegime);
+                this.updateTableValue('risk-appetite', this.riskAppetite, this.riskAppetite);
+                this.updateTableValue('current-yield', data.yield10y.toFixed(3) + '%', 'neutral');
+                this.updateTableValue('dollar-impact', this.dollarImpact, this.dollarImpact);
+            }
+
+            updateTableValue(id, value, status) {
+                this.updateElement(id, value, (el) => {
+                    el.style.background = 'transparent';
+                    el.style.color = 'var(--text-primary)';
+                    
+                    if (['RISK ON', 'WEAK', 'LOW FEAR', 'TAILWIND', 'STEEP'].includes(status)) {
+                        el.style.background = 'var(--accent-success)';
+                        el.style.color = '#000';
+                    } else if (['RISK OFF', 'STRONG', 'HIGH FEAR', 'HEADWIND', 'INVERTED'].includes(status)) {
+                        el.style.background = 'var(--accent-danger)';
+                        el.style.color = '#fff';
+                    } else if (['NEUTRAL', 'NORMAL', 'FLAT'].includes(status)) {
+                        el.style.background = 'var(--accent-warning)';
+                        el.style.color = '#000';
+                    }
+                });
+            }
+
+            updateElement(id, content, customUpdate) {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (content !== null && content !== undefined) {
+                        element.textContent = content;
+                    }
+                    if (customUpdate) {
+                        customUpdate(element);
+                    }
+                }
+            }
+        }
+
+        // Initialize when page loads
+        let livePriceFeed;
+        document.addEventListener('DOMContentLoaded', () => {
+            livePriceFeed = new LivePriceFeed();
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (livePriceFeed) {
+                livePriceFeed.disconnect();
+            }
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
