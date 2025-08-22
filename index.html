@@ -619,11 +619,11 @@
         <!-- Key Metrics -->
         <div class="metrics-grid">
             <div class="metric-card" style="--card-accent: linear-gradient(135deg, #ef4444, #dc2626); --status-bg: rgba(239, 68, 68, 0.1); --status-color: #ef4444;">
-                <div class="metric-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🚨</div>
+                <div class="metric-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">!</div>
                 <div class="metric-title">Cascade Risk Index</div>
                 <div class="metric-value">59.4</div>
                 <div class="metric-status">
-                    <span>⚠️ ELEVATED RISK</span>
+                    <span>ELEVATED RISK</span>
                 </div>
                 <div class="metric-change change-positive">
                     <span>↗ +2.1 from yesterday</span>
@@ -631,11 +631,11 @@
             </div>
 
             <div class="metric-card" style="--card-accent: linear-gradient(135deg, #0ea5e9, #0284c7); --status-bg: rgba(14, 165, 233, 0.1); --status-color: #0ea5e9;">
-                <div class="metric-icon" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">📊</div>
+                <div class="metric-icon" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">■</div>
                 <div class="metric-title">Market Health</div>
                 <div class="metric-value">0.40</div>
                 <div class="metric-status">
-                    <span>📈 NEUTRAL</span>
+                    <span>NEUTRAL</span>
                 </div>
                 <div class="metric-change change-negative">
                     <span>↘ -0.05 from yesterday</span>
@@ -643,11 +643,11 @@
             </div>
 
             <div class="metric-card" style="--card-accent: linear-gradient(135deg, #8b5cf6, #7c3aed); --status-bg: rgba(139, 92, 246, 0.1); --status-color: #8b5cf6;">
-                <div class="metric-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">🔥</div>
+                <div class="metric-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">~</div>
                 <div class="metric-title">Froth Detector</div>
                 <div class="metric-value">48.5</div>
                 <div class="metric-status">
-                    <span>🟡 MODERATE</span>
+                    <span>MODERATE</span>
                 </div>
                 <div class="metric-change change-negative">
                     <span>↘ -1.8 from yesterday</span>
@@ -655,11 +655,11 @@
             </div>
 
             <div class="metric-card" style="--card-accent: linear-gradient(135deg, #10b981, #059669); --status-bg: rgba(16, 185, 129, 0.1); --status-color: #10b981;">
-                <div class="metric-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🌍</div>
+                <div class="metric-icon" style="background: linear-gradient(135deg, #10b981, #059669);">↗</div>
                 <div class="metric-title">Macro MMI</div>
                 <div class="metric-value">60.6</div>
                 <div class="metric-status">
-                    <span>📈 BULLISH</span>
+                    <span>BULLISH</span>
                 </div>
                 <div class="metric-change change-positive">
                     <span>↗ +3.2 from yesterday</span>
@@ -686,7 +686,7 @@
         <!-- Analysis Grid -->
         <div class="analysis-grid">
             <div class="analysis-card">
-                <h3 class="analysis-title">🎯 Market Intelligence Summary</h3>
+                <h3 class="analysis-title">Market Intelligence Summary</h3>
                 
                 <div class="insight-item" style="--insight-color: #f59e0b;">
                     <div class="insight-label">Current Assessment</div>
@@ -710,7 +710,7 @@
             </div>
 
             <div class="analysis-card">
-                <h3 class="analysis-title">🚨 Active Monitoring</h3>
+                <h3 class="analysis-title">Active Monitoring</h3>
                 
                 <div class="alert-item">
                     <div class="alert-icon" style="background: #f59e0b;"></div>
@@ -753,7 +753,7 @@
             <h3 class="footer-title">Professional-Grade Crypto Intelligence</h3>
             <p class="footer-subtitle">Built by quantitative analysts and professional traders. Real indicators, real insights.</p>
             <div class="beta-badge">
-                <span>🔥 Free Beta Access</span>
+                <span>Free Beta Access</span>
             </div>
         </div>
     </footer>
@@ -901,11 +901,11 @@
                     // Update status based on value
                     const statusElement = cascadeValue.parentElement.querySelector('.metric-status span');
                     if (newValue > 70) {
-                        statusElement.textContent = '🚨 HIGH RISK';
+                        statusElement.textContent = 'HIGH RISK';
                     } else if (newValue > 50) {
-                        statusElement.textContent = '⚠️ ELEVATED RISK';
+                        statusElement.textContent = 'ELEVATED RISK';
                     } else {
-                        statusElement.textContent = '✅ SAFE';
+                        statusElement.textContent = 'SAFE';
                     }
                 }
             }
