@@ -257,5 +257,39 @@
     refreshFromAPI();
     setInterval(refreshFromAPI, 30000);
   </script>
+<div id="macro-box" style="max-width:520px;margin:16px;padding:16px;border-radius:12px;background:#111;color:#ddd;font-family:system-ui;line-height:1.4">
+  <h3 style="margin:0 0 10px 0;color:#9fe970">MACRO CONDITIONS</h3>
+  <div>Regime: <b id="regime">—</b></div>
+  <div>Score: <b id="macro-score">—</b></div>
+  <div>DXY Trend: <b id="dxy-trend">—</b></div>
+  <div>Yield Curve: <b id="yield-status">—</b></div>
+  <div>VIX Regime: <b id="vix-status">—</b></div>
+  <div>Risk Appetite: <b id="risk-appetite">—</b></div>
+  <div>10Y Yield: <b id="ten-year">—</b>%</div>
+</div>
+<script>
+async function loadMacro() {
+  try {
+    const r = await fetch('/api/macro', { cache: 'no-store' });
+    const j = await r.json();
+
+    const score = (j.metrics?.macro ?? 50);
+    const regime = score >= 55 ? 'RISK ON' : score <= 45 ? 'RISK OFF' : 'NEUTRAL';
+
+    document.getElementById('macro-score').textContent = score.toFixed(1);
+    document.getElementById('regime').textContent = regime;
+    document.getElementById('dxy-trend').textContent = j.status?.dxyTrend ?? '—';
+    document.getElementById('yield-status').textContent = j.status?.yieldStatus ?? '—';
+    document.getElementById('vix-status').textContent = j.status?.vixStatus ?? '—';
+    document.getElementById('risk-appetite').textContent = j.status?.riskAppetite ?? '—';
+    document.getElementById('ten-year').textContent = j.status?.tenYear ?? '—';
+  } catch (e) {
+    console.error(e);
+  }
+}
+loadMacro();                // initial load
+setInterval(loadMacro, 30000); // refresh every 30s
+</script>
+
 </body>
 </html>
