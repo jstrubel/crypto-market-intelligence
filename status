@@ -1,0 +1,11 @@
+// This will serve the current status to your dashboard
+export default function handler(req, res) {
+  // For now return mock data - we'll connect real data next
+  res.status(200).json({
+    marketHealth: {
+      value: 42,
+      status: "NEUTRAL",
+      timestamp: new Date().toISOString()
+    }
+  });
+}
