@@ -159,7 +159,11 @@
           <div class="cv-status" id="risk-status">RISK ON</div>
         </div>
       </div>
-      <div class="cv-sub" id="updated" style="margin-top:10px">Updated: —</div>
+     <div class="row" style="gap:8px; align-items:center; margin-top:10px">
+  <span id="dollar-chip" class="cv-chip cv-neutral">DOLLAR —</span>
+  <span id="teny-chip" class="cv-chip cv-neutral">10Y —%</span>
+  <span class="cv-sub" id="updated" style="margin-left:auto">Updated: —</span>
+</div>
     </section>
 
     <footer class="cv-footer">
@@ -198,6 +202,25 @@
     function setText(id, val){ const el=document.getElementById(id); if(el && val!=null){ el.textContent=val; } }
     function setGauge(id, v){ const el=document.getElementById(id); if(el && v!=null){ el.style.width = clamp(v,0,100)+'%'; } }
     document.getElementById('year').textContent = new Date().getFullYear();
+    
+    function paintStatus(id, text){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.textContent = text || '—';
+  el.classList.remove('cv-good','cv-bad','cv-mid');
+  if(/TAILWIND|RISK ON|LOW FEAR|STEEP/.test(text)) el.classList.add('cv-good');
+  else if(/HEADWIND|RISK OFF|HIGH FEAR|INVERTED/.test(text)) el.classList.add('cv-bad');
+  else el.classList.add('cv-mid');
+}
+
+function paintChip(id, text){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.textContent = (id==='teny-chip' && text) ? `10Y ${text}%` :
+                   (id==='dollar-chip' ? `DOLLAR ${text||'—'}` : (text||'—'));
+  el.classList.remove('cv-riskon','cv-riskoff','cv-neutral');
+  el.classList.add(text==='TAILWIND' ? 'cv-riskon' :
+                   text==='HEADWIND' ? 'cv-riskoff' : 'cv-neutral');
 
     // Initial paint from defaults above
     (function init(){
@@ -231,10 +254,15 @@
           if(mm.spyScore!=null){ setText('spy-score', Math.round(mm.spyScore)); }
         }
         if(macro?.status){
-          setText('dxy-status', macro.status.dollarImpact || '—');
-          setText('yield-status', macro.status.yieldStatus || '—');
-          setText('vix-status', macro.status.vixStatus || '—');
-          setText('risk-status', macro.status.riskAppetite || '—');
+      paintStatus('dxy-status',   macro.status.dollarImpact);
+      paintStatus('yield-status', macro.status.yieldStatus);
+      paintStatus('vix-status',   macro.status.vixStatus);
+      paintStatus('risk-status',  macro.status.riskAppetite);
+
+          // new: update the chips
+      paintChip('dollar-chip', macro.status.dollarImpact);
+      paintChip('teny-chip',   macro.status.tenYear);
+          
         }
         document.getElementById('updated').textContent = 'Updated: ' + new Date().toLocaleString();
       }catch(e){ /* silently ignore if endpoint not present */ }
@@ -257,16 +285,6 @@
     refreshFromAPI();
     setInterval(refreshFromAPI, 30000);
   </script>
-<div id="macro-box" style="max-width:520px;margin:16px;padding:16px;border-radius:12px;background:#111;color:#ddd;font-family:system-ui;line-height:1.4">
-  <h3 style="margin:0 0 10px 0;color:#9fe970">MACRO CONDITIONS</h3>
-  <div>Regime: <b id="regime">—</b></div>
-  <div>Score: <b id="macro-score">—</b></div>
-  <div>DXY Trend: <b id="dxy-trend">—</b></div>
-  <div>Yield Curve: <b id="yield-status">—</b></div>
-  <div>VIX Regime: <b id="vix-status">—</b></div>
-  <div>Risk Appetite: <b id="risk-appetite">—</b></div>
-  <div>10Y Yield: <b id="ten-year">—</b>%</div>
-</div>
 <script>
 async function loadMacro() {
   try {
