@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crypto Market Summary - August 28, 2025</title>
+    <style>
+        :root {
+            --bg: #0b1220;
+            --panel: #0f172a;
+            --card: #0f1a31;
+            --ink: #e5e7eb;
+            --stroke: #223357;
+            --good: #22c55e;
+            --warn: #f59e0b;
+            --bad: #ef4444;
+            --shadow: 0 24px 64px rgba(2, 8, 23, .45);
+            --radius: 18px
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            background: radial-gradient(1200px 600px at 12% -8%, #1e293b55, transparent), var(--bg);
+            color: var(--ink);
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 28px auto;
+            padding: 0 22px
+        }
+
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 22px
+        }
+
+        h1 {
+            font-size: 30px;
+            margin: 0
+        }
+
+        .date {
+            color: #94a3b8
+        }
+
+        .hero {
+            background: linear-gradient(170deg, #0f172a, #18243c);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .hero .grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 18px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--stroke);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(2, 8, 23, .35)
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #1f2942;
+            color: #c7d2fe;
+            font-weight: 700;
+            font-size: 12px;
+            border: 1px solid #2a3a5b
+        }
+
+        .kpi {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 12px
+        }
+
+        .kpi .stat {
+            background: #0d1730;
+            border: 1px solid #27375a;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center
+        }
+
+        .kpi .stat .num {
+            font-size: 26px;
+            font-weight: 800
+        }
+
+        .kpi .stat .label {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px
+        }
+
+        .section {
+            margin-top: 24px
+        }
+
+        .section h2 {
+            font-size: 20px;
+            margin: 0 0 12px;
+            border-left: 4px solid #46567a;
+            padding-left: 12px;
+            color: #e2e8f0
+        }
+
+        .stack {
+            background: var(--panel);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow)
+        }
+
+        .explain {
+            background: #0c1530;
+            border: 1px solid var(--stroke);
+            border-radius: 12px;
+            padding: 14px;
+            line-height: 1.65
+        }
+
+        .explain h3 {
+            margin: 0 0 6px;
+            font-size: 16px;
+            color: #c7d2fe
+        }
+
+        ul.tight {
+            margin: 8px 0 0 20px
+        }
+
+        img.chart {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 900px;
+            object-fit: contain;
+            border-radius: 14px;
+            border: 1px solid #1f2a44;
+            box-shadow: var(--shadow);
+            margin-top: 14px
+        }
+
+        figcaption {
+            color: #94a3b8;
+            text-align: center;
+            margin: 8px 0 0;
+            font-size: 12px
+        }
+
+        .alloc {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 12px
+        }
+
+        .alloc .bucket {
+            background: #0c1530;
+            border: 1px solid var(--stroke);
+            border-radius: 12px;
+            padding: 12px
+        }
+
+        .alloc .bucket .pct {
+            font-size: 22px;
+            font-weight: 800
+        }
+
+        .footer {
+            margin: 28px 0 40px;
+            text-align: center;
+            color: #64748b;
+            font-size: 12px
+        }
+
+        .image-placeholder {
+            padding: 60px 20px;
+            border: 2px dashed #3b4865;
+            border-radius: 14px;
+            margin: 14px 0;
+            color: #94a3b8;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .chart-upload {
+            background: var(--good);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .chart-upload:hover {
+            background: #16a34a;
+        }
+
+        @media (max-width: 980px) {
+            .hero .grid {
+                grid-template-columns: 1fr
+            }
+
+            img.chart {
+                max-height: 62vh
+            }
+
+            .alloc {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Crypto Market Summary - August 28, 2025</h1>
+            <div class="date" id="currentDate">Prepared 04:08 PM</div>
+        </div>
+
+        <section class="hero">
+            <div class="grid">
+                <div class="card">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                        <div class="badge">Executive Summary</div>
+                        <div class="badge" style="background:rgba(245,158,11,.12);border-color:#7c5a15;color:#fde68a">
+                            Stance: Cautious Bullish
+                        </div>
+                    </div>
+                    <p style="margin:10px 0 0;color:#cbd5e1">
+                        <strong>Near-term risk is mixed.</strong> Cascade risk is elevated, breadth is saturated (narrow leadership), froth is moderate and trending down, momentum is constructive, and macro provides a mild tailwind.
+                    </p>
+                    <div class="kpi">
+                        <div class="stat">
+                            <div class="num" contenteditable="true">0.71</div>
+                            <div class="label">Market Health — RISK-OFF</div>
+                        </div>
+                        <div class="stat">
+                            <div class="num" contenteditable="true">67.6</div>
+                            <div class="label">Cascade — CAUTION</div>
+                        </div>
+                        <div class="stat">
+                            <div class="num" contenteditable="true">45.1</div>
+                            <div class="label">Froth — MODERATE/DOWN</div>
+                        </div>
+                        <div class="stat">
+                            <div class="num" contenteditable="true">↑</div>
+                            <div class="label">Momentum — ExtremeBull</div>
+                        </div>
+                        <div class="stat">
+                            <div class="num" contenteditable="true">53.2</div>
+                            <div class="label">Macro — Risk-On (mild)</div>
+                        </div>
+                    </div>
+                    <small style="color:#94a3b8">Numbers pulled from your 8/28/25 screenshots.</small>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                        <div class="badge">Suggested Allocation (today)</div>
+                        <div class="badge">Net Crypto ≈ <b>45—50%</b></div>
+                    </div>
+                    <div class="alloc">
+                        <div class="bucket">
+                            <div class="pct" style="color:var(--good)">30%</div>
+                            <div>BTC Core</div>
+                            <small>High-liquidity anchor</small>
+                        </div>
+                        <div class="bucket">
+                            <div class="pct" style="color:var(--good)">12%</div>
+                            <div>ETH Core</div>
+                            <small>Moderate beta</small>
+                        </div>
+                        <div class="bucket">
+                            <div class="pct" style="color:var(--good)">3%</div>
+                            <div>Quality Majors</div>
+                            <small>SOL/LINK/BNB-style</small>
+                        </div>
+                        <div class="bucket">
+                            <div class="pct" style="color:var(--warn)">0—5%</div>
+                            <div>Tactical Alts</div>
+                            <small>Only liquid, capped risk</small>
+                        </div>
+                        <div class="bucket">
+                            <div class="pct" style="color:var(--warn)">50%</div>
+                            <div>Cash / Hedges</div>
+                            <small>Dry powder; BTC puts/DXY calls if needed</small>
+                        </div>
+                    </div>
+                    <small style="display:block;margin-top:8px;color:#94a3b8">
+                        Scale up to 60—65% net if <b>Cascade &lt; 55</b> and <b>Breadth &lt; 0.70</b> for 2—3 days; cut 15—25% if <b>Cascade ≥ 75</b> or <b>Froth &gt; 55</b> into highs.
+                    </small>
+                </div>
+            </div>
+        </section>
+
+        <div class="section">
+            <h2>1) Crypto Market Health — Top-N Breadth, Funding & Liquidity</h2>
+            <div class="stack">
+                <div class="explain">
+                    <h3>What this measures</h3>
+                    <ul class="tight">
+                        <li><b>Deriv-Flow ≈ 0.59</b>: perp rotation into alts vs BTC/ETH.</li>
+                        <li><b>Multi-Asset Funding ≈ 0.55</b>: cross-asset funding z-score (8 assets).</li>
+                        <li><b>Breadth (Top-10) = 1.00</b>: leaders above trend (saturation).</li>
+                        <li><b>Master ≈ 0.71 → RISK-OFF</b>: composite of the above + liquidity bits.</li>
+                    </ul>
+                    <p style="margin:10px 0 0">
+                        Funding is ok, but breadth saturation and a high Master score signal fragility in alts. Bias to BTC/ETH.
+                    </p>
+                </div>
+                <figure>
+                    <div class="image-placeholder" onclick="uploadChart(this)">
+                        <div>📊 Chart 1: Market Health Indicators</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Click to upload chart image</div>
+                        <button class="chart-upload">Upload Chart</button>
+                    </div>
+                    <figcaption>Saturated breadth with neutral funding; composite leans risk-off.</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>2) Real-Time Cascade Detector — Crash-Risk Composite</h2>
+            <div class="stack">
+                <div class="explain">
+                    <h3>Key drivers today</h3>
+                    <ul class="tight">
+                        <li><b>Risk Index ≈ 67.6 (CAUTION)</b> → <b>Correlation 88</b>, <b>Liquidity 90</b>, <b>Funding 74</b>.</li>
+                    </ul>
+                    <p style="margin:10px 0 0">
+                        High cross-asset sync and thin books = low margin for error. Keep leverage minimal; avoid illiquid perps.
+                    </p>
+                    <p style="margin:6px 0 0">
+                        <i>Rules:</i> Add risk when &lt;55 for 3 days; Cut ∼20% when ≥75 or daily +10pt spikes.
+                    </p>
+                </div>
+                <figure>
+                    <div class="image-placeholder" onclick="uploadChart(this)">
+                        <div>📈 Chart 2: Cascade Risk Detector</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Click to upload chart image</div>
+                        <button class="chart-upload">Upload Chart</button>
+                    </div>
+                    <figcaption>Composite near caution/alert; watch for spikes ≥ 75.</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3) Crypto Froth Detector — Speculative Heat</h2>
+            <div class="stack">
+                <div class="explain">
+                    <h3>Read & guidance</h3>
+                    <p>
+                        Froth ≈ <b>45.1 (MODERATE)</b> and trend is <b>down</b>. That's workable: buy dips rather than breakouts. Above 55 while price rises → trim risk.
+                    </p>
+                </div>
+                <figure>
+                    <div class="image-placeholder" onclick="uploadChart(this)">
+                        <div>🌡️ Chart 3: Froth Detector</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Click to upload chart image</div>
+                        <button class="chart-upload">Upload Chart</button>
+                    </div>
+                    <figcaption>Moderate froth; no strong sell signal, but momentum is soft.</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4) Momentum Regime Tracker — Timeframe Alignment</h2>
+            <div class="stack">
+                <div class="explain">
+                    <h3>Read & guidance</h3>
+                    <p>
+                        Momentum impulse is <b>strong (ExtremeBull)</b>, but these surges can fade if breadth stays saturated and cascade remains elevated. Use to time adds on pullbacks; avoid chasing strength into overhead risk.
+                    </p>
+                </div>
+                <figure>
+                    <div class="image-placeholder" onclick="uploadChart(this)">
+                        <div>📊 Chart 4: Momentum Tracker</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Click to upload chart image</div>
+                        <button class="chart-upload">Upload Chart</button>
+                    </div>
+                    <figcaption>Momentum constructive; confirm with cooling risk before adding beta.</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5) Macro Liquidity — Dollar, Rates, Vol & Risk Appetite</h2>
+            <div class="stack">
+                <div class="explain">
+                    <h3>Read & guidance</h3>
+                    <ul class="tight">
+                        <li><b>Score ≈ 53.2 → mild risk-on</b></li>
+                        <li><b>DXY weak</b> → <b>TAILWIND</b></li>
+                        <li><b>Yield Curve: STEEP</b>; <b>10Y ≈ 4.22%</b></li>
+                        <li><b>VIX: NORMAL</b> • <b>Risk Appetite: RISK ON</b></li>
+                    </ul>
+                    <p style="margin:10px 0 0">
+                        Macro isn't a headwind; it's supportive but not euphoric. Good backdrop for BTC/ETH if internal risks cool.
+                    </p>
+                </div>
+                <figure>
+                    <div class="image-placeholder" onclick="uploadChart(this)">
+                        <div>💹 Chart 5: Macro Liquidity</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Click to upload chart image</div>
+                        <button class="chart-upload">Upload Chart</button>
+                    </div>
+                    <figcaption>Mild macro tailwind: weak USD, normal vol, decent risk appetite.</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Near-Term Focus</h2>
+            <div class="stack">
+                <div class="explain">
+                    <h3>Two most important readings for price in the next 1—2 weeks</h3>
+                    <ol>
+                        <li><b>Risk Concentration</b>: <u>Breadth = 1.00</u> (saturation) + <u>Cascade ≈ 67.6</u>. Narrow leadership with elevated correlation/liquidity stress often precedes pullbacks. → Keep net ~50% and favor liquid names.</li>
+                        <li><b>Macro Tailwind</b>: <u>Macro Score ≈ 53</u>, <u>Dollar weak</u>, <u>VIX normal</u>. Supports dips holding on BTC/ETH once Cascade cools. → Be ready to add when Cascade &lt; 55 and Breadth &lt; 0.70.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2025 Clairvoyance Crypto Intelligence • Rules-based dashboard summary. Not investment advice.
+        </div>
+    </div>
+
+    <script>
+        // Update date automatically
+        function updateDate() {
+            const now = new Date();
+            const options = {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            const dateString = now.toLocaleDateString('en-US', options);
+            document.getElementById('currentDate').textContent = `Prepared ${dateString.split(' at ')[1] || ''}`;
+        }
+
+        // Simple chart upload simulation
+        function uploadChart(element) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        element.innerHTML = `<img src="${e.target.result}" class="chart" style="max-width: 100%; height: auto; border-radius: 14px;">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        // Make numbers editable for easy updates
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDate();
+            
+            // Update date every minute
+            setInterval(updateDate, 60000);
+            
+            console.log('Crypto Market Intelligence Dashboard loaded - Ready for daily updates!');
+        });
+    </script>
+</body>
+</html>
