@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Lightweight Charts — Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Lightweight Charts library (official TradingView lib) -->
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #0f172a; /* dark navy */
+      color: #e5e7eb;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+    header {
+      padding: 14px 18px;
+      border-bottom: 1px solid #23314f;
+      background: #0b1220;
+      position: sticky; top: 0;
+    }
+    .wrap { max-width: 960px; margin: 16px auto; padding: 0 16px; }
+    #btc-chart { height: 420px; }
+    .card {
+      background: #0f1a31;
+      border: 1px solid #23314f;
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .muted { color: #9aa4b2; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Chart Demo</strong> — Lightweight Charts by TradingView (no TradingView account needed)
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <h2 style="margin:0 0 8px">BTC (demo data)</h2>
+      <div id="btc-chart"></div>
+      <p class="muted">This is a static example so we can see the chart on your site. We’ll wire live data later.</p>
+    </div>
+  </div>
+
+  <script>
+    // 1) create the chart in the DIV above
+    const el = document.getElementById('btc-chart');
+    const chart = LightweightCharts.createChart(el, {
+      layout: { background: { type: 'solid', color: '#0f172a' }, textColor: '#e5e7eb' },
+      grid: {
+        vertLines: { color: 'rgba(148,163,184,.18)' },
+        horzLines: { color: 'rgba(148,163,184,.18)' },
+      },
+      timeScale: { timeVisible: true, secondsVisible: false },
+      rightPriceScale: { borderColor: 'rgba(148,163,184,.24)' },
+      crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+      width: el.clientWidth,
+      height: 420,
+    });
+
+    // 2) add a candlestick series
+    const candles = chart.addCandlestickSeries({
+      upColor: '#16a34a', downColor: '#ef4444',
+      borderVisible: false, wickUpColor: '#16a34a', wickDownColor: '#ef4444',
+    });
+
+    // 3) demo OHLC data (just enough to see candles). You can change numbers later.
+    candles.setData([
+      { time: '2025-08-12', open: 58200, high: 59250, low: 57500, close: 58800 },
+      { time: '2025-08-13', open: 58800, high: 59400, low: 58000, close: 59050 },
+      { time: '2025-08-14', open: 59050, high: 60500, low: 58800, close: 60000 },
+      { time: '2025-08-15', open: 60000, high: 60600, low: 59600, close: 59800 },
+      { time: '2025-08-18', open: 59800, high: 61200, low: 59500, close: 60750 },
+      { time: '2025-08-19', open: 60750, high: 61500, low: 60300, close: 61220 },
+      { time: '2025-08-20', open: 61220, high: 62000, low: 60950, close: 61880 },
+      { time: '2025-08-21', open: 61880, high: 62250, low: 61000, close: 61120 },
+      { time: '2025-08-22', open: 61120, high: 61700, low: 60650, close: 61590 },
+      { time: '2025-08-25', open: 61590, high: 62100, low: 61200, close: 61940 },
+      { time: '2025-08-26', open: 61940, high: 62650, low: 61750, close: 62480 },
+      { time: '2025-08-27', open: 62480, high: 62920, low: 62050, close: 62210 },
+      { time: '2025-08-28', open: 62210, high: 63100, low: 62150, close: 62960 },
+    ]);
+
+    // 4) keep it responsive
+    window.addEventListener('resize', () => {
+      chart.applyOptions({ width: el.clientWidth, height: 420 });
+    });
+  </script>
+</body>
+</html>
