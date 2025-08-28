@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Macro (FRED) — DXY, 10Y, 2Y, 2s–10s</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- TradingView's open-source renderer -->
+  <script defer src="https://unpkg.com/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+  <style>
+    :root{--navy:#0f172a;--ink:#e5e7eb;--panel:#0f1a31;--stroke:#223357}
+    *{box-sizing:border-box} body{margin:0;background:var(--navy);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{padding:14px 18px;border-bottom:1px solid var(--stroke);background:#0b1220;position:sticky;top:0}
+    .wrap{max-width:1100px;margin:16px auto;padding:0 16px}
+    .card{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;padding:12px 12px 18px;margin-bottom:14px}
+    h2{margin:6px 8px 8px;font-size:18px}
+    .chart{height:360px;margin:0 8px}
+    .muted{color:#9aa4b2;font-size:13px;margin:8px}
+  </style>
+</head>
+<body>
+<header><strong>Macro (FRED)</strong> — live DXY proxy + yields via FRED (no TradingView embeds)</header>
+<div class="wrap">
+  <div class="card"><h2>DXY proxy — FRED Broad USD (DTWEXBGS)</h2><div id="dxy" class="chart"></div><p class="muted">Weak USD = tailwind for risk assets; strong USD = headwind.</p></div>
+  <div class="card"><h2>US 10-Year Yield (DGS10)</h2><div id="dgs10" class="chart"></div><p class="muted">Falling yields = easier financial conditions.</p></div>
+  <div class="card"><h2>US 2-Year Yield (DGS2)</h2><div id="dgs2" class="chart"></div><p class="muted">Tracks policy expectations.</p></div>
+  <div class="card"><h2>2s–10s Spread (DGS10 − DGS2)</h2><div id="spread" class="chart"></div><p class="muted">Below 0 = inverted; steepening from deep negative can be risk-on.</p></div>
+</div>
+
+<script>
+  // 1) put your FRED key here (super simple)
+  const FRED_KEY = "00f384a64211e63e9cf2fee255cdebb2";
+
+  // 2) small helper to fetch a FRED series (daily)
+  async function fred(seriesId, start = "2020-01-01") {
+    const url = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${FRED_KEY}&file_type=json&observation_start=${start}`;
+    const r = await fetch(url);
+    const j = await r.json();
+    if (!j.observations) throw new Error("FRED error for " + seriesId);
+    // convert to { time: BusinessDay, value: number }
+    const pts = j.observations.filter(o => o.value !== ".").map(o => {
+      const [y,m,d] = o.date.split("-").map(Number);
+      return { time: { year:y, month:m, day:d }, value: Number(o.value) };
+    });
+    return pts;
+  }
+
+  // 3) quick chart factory
+  function makeChart(containerId, color = "#60a5fa") {
+    const el = document.getElementById(containerId);
+    const chart = LightweightCharts.createChart(el, {
+      layout: { background:{ type:"solid", color:"#0f172a" }, textColor:"#e5e7eb" },
+      grid: { vertLines:{ color:"rgba(148,163,184,.18)" }, horzLines:{ color:"rgba(148,163,184,.18)" } },
+      rightPriceScale: { borderColor:"rgba(148,163,184,.24)" },
+      timeScale: { timeVisible:true },
+      width: el.clientWidth, height: el.clientHeight
+    });
+    window.addEventListener("resize", () => chart.applyOptions({ width: el.clientWidth, height: el.clientHeight }));
+    const line = chart.addLineSeries({ lineWidth:2, color });
+    return { chart, line };
+  }
+
+  // 4) draw the four charts
+  (async () => {
+    // DXY proxy
+    const dxy = makeChart("dxy", "#60a5fa");
+    dxy.line.setData(await fred("DTWEXBGS"));
+    dxy.chart.timeScale().fitContent();
+
+    // 10Y
+    const y10 = makeChart("dgs10", "#34d399");
+    y10.line.setData(await fred("DGS10"));
+    y10.chart.timeScale().fitContent();
+
+    // 2Y
+    const y2 = makeChart("dgs2", "#f59e0b");
+    y2.line.setData(await fred("DGS2"));
+    y2.chart.timeScale().fitContent();
+
+    // 2s–10s spread
+    const sp = makeChart("spread", "#eab308");
+    const [s10, s2] = await Promise.all([fred("DGS10"), fred("DGS2")]);
+    const map2 = new Map(s2.map(p => [JSON.stringify(p.time), p.value]));
+    const spread = s10.filter(p => map2.has(JSON.stringify(p.time)))
+                      .map(p => ({ time: p.time, value: +(p.value - map2.get(JSON.stringify(p.time))).toFixed(3) }));
+    sp.line.setData(spread);
+    const zero = sp.chart.addLineSeries({ lineWidth:1, color:"rgba(239,68,68,.6)" });
+    zero.setData(spread.map(p => ({ time:p.time, value:0 })));
+    sp.chart.timeScale().fitContent();
+  })();
+</script>
+</body>
+</html>
