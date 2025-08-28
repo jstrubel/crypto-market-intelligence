@@ -1,313 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clairvoyance Crypto Intelligence</title>
-  <meta name="description" content="Professional crypto market intelligence — live regime detection and risk management." />
-  <meta property="og:title" content="Clairvoyance Crypto Intelligence" />
-  <meta property="og:description" content="Live regime detection & risk management powered by quantitative dashboards." />
-  <meta property="og:type" content="website" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#070b14; --bg2:#0b1020; --surface:#0e1629; --panel:#0c1426; --border:#1e2a44;
-      --muted:#94a3b8; --text:#e5e7eb; --brand:#7c3aed; --brand2:#22d3ee;
-      --success:#22c55e; --warn:#f59e0b; --danger:#ef4444; --shadow:0 12px 40px rgba(3,10,38,.45); --radius:16px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; color:var(--text);
-      background: radial-gradient(1200px 600px at 10% -10%, rgba(124,58,237,.25), transparent 55%),
-                  radial-gradient(1000px 500px at 90% 0%, rgba(34,211,238,.12), transparent 60%),
-                  linear-gradient(180deg,var(--bg),var(--bg2));
-      font-family:"Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    .cv-container{max-width:1200px;margin:0 auto;padding:0 20px}
-    /* Nav */
-    .cv-nav{position:sticky;top:0;z-index:60;background:rgba(10,16,30,.7);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
-    .cv-brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
-    .cv-dot{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fff 0, #fff0 60%), linear-gradient(135deg,var(--brand),var(--brand2)); box-shadow:0 0 24px rgba(124,58,237,.6)}
-    .cv-title{font-size:16px}
-    .tabs{display:flex;gap:6px;align-items:center}
-    .cv-tab{padding:8px 12px;border-radius:10px;border:1px solid transparent;color:#cbd5e1;cursor:pointer;text-decoration:none}
-    .cv-tab[aria-current="page"], .cv-tab.active{border-color:#2a375e;background:linear-gradient(180deg,#0e1629,#0b1324);color:#fff}
-    .cv-actions{display:flex;align-items:center;gap:10px}
-    .cv-btn{border:1px solid #30406b;background:linear-gradient(180deg,#15203b,#0f1a33);color:#e5e7eb;padding:8px 12px;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none}
-    .cv-btn.primary{border-color:#5b38c9;background:linear-gradient(180deg,#7c3aed,#5b21b6);color:#fff}
-    .cv-btn:hover{filter:brightness(1.05)}
-    /* Hero */
-    .cv-panel{background:linear-gradient(180deg,#0f1a33,#0b1222); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
-    .cv-panel.header{padding:24px 20px;margin-top:14px}
-    .cv-sub{color:var(--muted);font-size:13px}
-    /* KPI grid */
-    .cv-grid{display:grid;gap:14px;margin-top:16px}
-    @media(min-width:640px){.cv-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(min-width:1024px){.cv-grid{grid-template-columns:repeat(5,1fr)}}
-    .cv-tile{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
-    .cv-tile h4{margin:0 0 4px 0;font-size:12px;color:#c7cbd4;font-weight:600}
-    .cv-value{font-size:28px;font-weight:800}
-    .cv-status{font-size:12px;margin-top:4px;color:var(--muted)}
-    .cv-good{color:var(--success)} .cv-mid{color:var(--warn)} .cv-bad{color:var(--danger)}
-    /* Gauge */
-    .cv-gauge{height:8px;border:1px solid #27324f;border-radius:999px;background:#0b1324;overflow:hidden}
-    .cv-gauge>i{display:block;height:100%;background:linear-gradient(90deg,#ef4444,#f59e0b,#22c55e);width:0%}
-    /* Sections */
-    .section{margin-top:20px}
-    /* Chip */
-    .cv-chip{padding:6px 10px;border-radius:999px;font-weight:800;border:1px solid #2a375e;font-size:12px}
-    .cv-riskon{background:#0d1f14;color:#a7f3d0;border-color:#134e31}
-    .cv-neutral{background:#1b1708;color:#fde68a;border-color:#5a4614}
-    .cv-riskoff{background:#2a0f14;color:#fecaca;border-color:#5b2530}
-    /* Footer */
-    .cv-footer{opacity:.8;text-align:center;font-size:12px;margin:24px 0;color:#93a1b5}
-    @media(max-width:700px){.row{flex-direction:column;align-items:flex-start;gap:8px}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Market Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(15, 20, 25, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00d4ff 0%, #5200ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            color: #8892b0;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .last-updated {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .metric-label {
+            color: #8892b0;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .metric-status {
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .status-caution { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        .status-bullish { background: rgba(40, 167, 69, 0.2); color: #28a745; }
+        .status-risk-off { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
+        .status-moderate { background: rgba(108, 117, 125, 0.2); color: #6c757d; }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .section {
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #00d4ff, #5200ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .chart-placeholder {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8892b0;
+            margin: 20px 0;
+        }
+
+        .indicator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .indicator {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .indicator-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .indicator-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .allocation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .allocation-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .allocation-percentage {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .allocation-label {
+            color: #8892b0;
+            font-size: 0.9rem;
+        }
+
+        .risk-warning {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .risk-warning h3 {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #00d4ff 0%, #5200ff 100%);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .summary-text {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
 </head>
 <body>
-  <!-- Top Navigation -->
-  <div class="cv-nav">
-    <div class="cv-container row">
-      <div class="cv-brand">
-        <span class="cv-dot"></span>
-        <span class="cv-title">Clairvoyance Crypto Intelligence</span>
-      </div>
-      <nav class="tabs" role="tablist">
-        <a class="cv-tab active" href="#dashboard">Dashboard</a>
-        <a class="cv-tab" href="#macro">Macro</a>
-        <a class="cv-tab" href="#report">Weekly Report</a>
-      </nav>
-      <div class="cv-actions">
-        <span id="cv-regime-chip" class="cv-chip cv-neutral">NEUTRAL</span>
-        <a class="cv-btn" href="#subscribe">Subscribe</a>
-        <a class="cv-btn primary" href="#export">Export PDF</a>
-      </div>
+    <div class="container">
+        <div class="header">
+            <h1>Crypto Market Intelligence</h1>
+            <p class="subtitle">Real-time market analysis and risk assessment dashboard</p>
+            <div class="last-updated" id="lastUpdated">
+                Last Updated: August 28, 2025 - 04:08 PM
+            </div>
+            <button class="refresh-btn" onclick="refreshData()">Refresh Data</button>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Market Health</div>
+                <div class="metric-value">0.71</div>
+                <div class="metric-status status-risk-off">RISK-OFF</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">Cascade Risk</div>
+                <div class="metric-value">67.6</div>
+                <div class="metric-status status-caution">CAUTION</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">Froth Level</div>
+                <div class="metric-value">45.1</div>
+                <div class="metric-status status-moderate">MODERATE/DOWN</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">Momentum</div>
+                <div class="metric-value">53.2</div>
+                <div class="metric-status status-bullish">ExtremeBull</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Executive Summary -->
+            <div class="section">
+                <h2><span class="section-icon">📊</span>Executive Summary</h2>
+                <div class="summary-text">
+                    <strong>Stance: Cautious Bullish</strong> - Near-term risk is mixed. Cascade risk is elevated, breadth is saturated (narrow leadership), froth is moderate and trending down, and momentum is constructive, and macro provides a mild tailwind.
+                </div>
+                
+                <div class="risk-warning">
+                    <h3>⚠️ Risk Management</h3>
+                    <p>Scale up to 60-65% net if Cascade < 55 and Breadth < 0.70 for 2-3 days; cut 15-25% if Cascade ≥ 75 or Froth ≥ 55 into highs.</p>
+                </div>
+            </div>
+
+            <!-- Suggested Allocation -->
+            <div class="section">
+                <h2><span class="section-icon">💼</span>Suggested Allocation (Today)</h2>
+                <div class="allocation-grid">
+                    <div class="allocation-item">
+                        <div class="allocation-percentage" style="color: #f7931a;">30%</div>
+                        <div class="allocation-label">BTC Core<br>High-liquid<br>anchor</div>
+                    </div>
+                    <div class="allocation-item">
+                        <div class="allocation-percentage" style="color: #627eea;">12%</div>
+                        <div class="allocation-label">ETH Core<br>Moderate<br>beta</div>
+                    </div>
+                    <div class="allocation-item">
+                        <div class="allocation-percentage" style="color: #00d4ff;">3%</div>
+                        <div class="allocation-label">Quality Majors<br>SOL/LINK/BNB-style<br>Dry powder</div>
+                    </div>
+                    <div class="allocation-item">
+                        <div class="allocation-percentage" style="color: #ffc107;">5%</div>
+                        <div class="allocation-label">Tactical Alts<br>Only liquid,<br>capped risk</div>
+                    </div>
+                    <div class="allocation-item">
+                        <div class="allocation-percentage" style="color: #28a745;">50%</div>
+                        <div class="allocation-label">Cash / Hedges<br>BTC puts/DXY<br>calls if needed</div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #8892b0; text-align: center;">Net Crypto = 45-50%</p>
+            </div>
+
+            <!-- Market Health Indicators -->
+            <div class="section">
+                <h2><span class="section-icon">📈</span>Market Health — Top-N Breadth, Funding & Liquidity</h2>
+                
+                <div class="indicator-grid">
+                    <div class="indicator">
+                        <div class="indicator-name">Deriv-Flow</div>
+                        <div class="indicator-value">0.59</div>
+                        <small>perp rotation into alts vs BTC/ETH</small>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-name">Multi-Asset Funding</div>
+                        <div class="indicator-value">0.55</div>
+                        <small>cross-asset funding z-score (8 assets)</small>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-name">Breadth (Top-10)</div>
+                        <div class="indicator-value">1.00</div>
+                        <small>leaders above trend (saturation)</small>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-name">Master Risk Score</div>
+                        <div class="indicator-value">0.71</div>
+                        <small>composite + liquidity bits</small>
+                    </div>
+                </div>
+                
+                <div class="chart-placeholder">
+                    <div style="text-align: center;">
+                        <p>📊 Bitcoin Price Chart with Market Health Indicators</p>
+                        <small>Your TradingView chart integration goes here</small>
+                    </div>
+                </div>
+                
+                <p style="color: #8892b0; margin-top: 15px;">
+                    Funding is ok, but breadth saturation and a high Master score signal fragility in alts. Bias to BTC/ETH.
+                </p>
+            </div>
+
+            <!-- Cascade Detector -->
+            <div class="section">
+                <h2><span class="section-icon">⚠️</span>Real-Time Cascade Detector — Crash-Risk Composite</h2>
+                
+                <div class="summary-text">
+                    <strong>Key drivers today:</strong><br>
+                    • Risk Index = 67.6 (CAUTION) → Correlation 88, Liquidity 90, Funding 74.<br><br>
+                    High cross-asset sync and thin books = low margin for error. Keep leverage minimal; avoid illiquid perps.
+                </div>
+                
+                <div class="risk-warning">
+                    <h3>Trading Rules</h3>
+                    <p>Add risk when <55 for 3 days; Cut ~20% when ≥75 or daily +10pt spikes.</p>
+                </div>
+                
+                <div class="chart-placeholder">
+                    <div style="text-align: center;">
+                        <p>📉 Cascade Risk Chart</p>
+                        <small>Historical cascade risk levels with Bitcoin price overlay</small>
+                    </div>
+                </div>
+                
+                <p style="color: #8892b0; margin-top: 15px;">
+                    Composite near caution/alert; watch for spikes ≥ 75.
+                </p>
+            </div>
+
+            <!-- Froth Detector -->
+            <div class="section">
+                <h2><span class="section-icon">🌡️</span>Crypto Froth Detector — Speculative Heat</h2>
+                
+                <div class="summary-text">
+                    <strong>Read & guidance:</strong><br>
+                    Froth ≈ 45.1 (MODERATE) and trend is down. That's workable: buy dips rather than breakouts. Above 55 while price rises → trim risk.
+                </div>
+                
+                <div class="chart-placeholder">
+                    <div style="text-align: center;">
+                        <p>🔥 Speculative Heat Map</p>
+                        <small>Froth levels across different crypto sectors</small>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Hero -->
-  <section class="cv-container cv-panel header">
-    <h1 style="margin:0;font-size:28px;letter-spacing:.2px">Professional Crypto Market Intelligence</h1>
-    <p class="cv-sub" style="margin:6px 0 0">
-      Live regime detection & risk management powered by quantitative dashboards.
-    </p>
-  </section>
-
-  <!-- KPI Tiles (hook your data by updating the values below or via API) -->
-  <main class="cv-container">
-    <div class="cv-grid section">
-      <div class="cv-tile">
-        <h4>Macro Liquidity</h4>
-        <div class="cv-value" id="macro-score">53</div>
-        <div class="cv-gauge" aria-label="Macro gauge"><i id="score-fill" style="width:53%"></i></div>
-        <div class="cv-status" id="macro-status">RISK-ON wind (subject to USD)</div>
-      </div>
-      <div class="cv-tile">
-        <h4>Market Health (Master)</h4>
-        <div class="cv-value" id="master-score">45</div>
-        <div class="cv-status">Breadth/liquidity composite</div>
-      </div>
-      <div class="cv-tile">
-        <h4>Cascade Risk</h4>
-        <div class="cv-value" id="cascade-score">64</div>
-        <div class="cv-status">Fragility from leverage/liquidity</div>
-      </div>
-      <div class="cv-tile">
-        <h4>Froth Index</h4>
-        <div class="cv-value" id="froth-score">47</div>
-        <div class="cv-status">Speculative heat</div>
-      </div>
-      <div class="cv-tile">
-        <h4>USD / DXY</h4>
-        <div class="cv-value" id="dxy-score">48</div>
-        <div class="cv-status">Higher USD = headwind</div>
-      </div>
-    </div>
-
-    <!-- Macro Panel -->
-    <section id="macro" class="section cv-panel" style="padding:16px 16px 18px">
-      <div class="row" style="gap:12px; align-items:flex-end;">
-        <div>
-          <h2 style="margin:0;font-size:18px">Macro Conditions</h2>
-          <p class="cv-sub" style="margin:6px 0 0">Composite of USD trend, yield-curve slope, volatility & risk appetite.</p>
-        </div>
-        <div style="font-size:42px;font-weight:800" id="macro-score-big">53</div>
-      </div>
-      <div class="cv-gauge" style="margin-top:8px"><i id="macro-gauge" style="width:53%"></i></div>
-      <div class="row" style="gap:12px; margin-top:12px">
-        <div class="cv-tile" style="flex:1">
-          <h4>DXY Score</h4>
-          <div class="cv-value" id="dxy-subscore">48</div>
-          <div class="cv-status" id="dxy-status">HEADWIND</div>
-        </div>
-        <div class="cv-tile" style="flex:1">
-          <h4>Yield Curve (10Y−2Y)</h4>
-          <div class="cv-value" id="yield-score">55</div>
-          <div class="cv-status" id="yield-status">FLAT</div>
-        </div>
-        <div class="cv-tile" style="flex:1">
-          <h4>VIX Score</h4>
-          <div class="cv-value" id="vix-score">60</div>
-          <div class="cv-status" id="vix-status">NORMAL</div>
-        </div>
-        <div class="cv-tile" style="flex:1">
-          <h4>Risk Appetite</h4>
-          <div class="cv-value" id="spy-score">52</div>
-          <div class="cv-status" id="risk-status">RISK ON</div>
-        </div>
-      </div>
-     <div class="row" style="gap:8px; align-items:center; margin-top:10px">
-  <span id="dollar-chip" class="cv-chip cv-neutral">DOLLAR —</span>
-  <span id="teny-chip" class="cv-chip cv-neutral">10Y —%</span>
-  <span class="cv-sub" id="updated" style="margin-left:auto">Updated: —</span>
-</div>
-    </section>
-
-    <footer class="cv-footer">
-      © <span id="year"></span> Clairvoyance Crypto Intelligence · All rights reserved
-    </footer>
-  </main>
-
-  <script>
-    // ---- Utilities ----
-    function n(id){
-      const el = document.getElementById(id);
-      if(!el) return null;
-      const v = parseFloat((el.textContent||'').replace(/[^0-9.-]/g,''));
-      return Number.isFinite(v) ? v : null;
-    }
-    function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
-    function band(x){ if(x==null) return 'neutral'; return x>=60?'riskon':x<=40?'riskoff':'neutral'; }
-    function paintRegime(){
-      const scores = {
-        macro:  n('macro-score'),
-        health: n('master-score') || n('market-health-score'),
-        cascade:n('cascade-score'),
-        froth:  n('froth-score'),
-        usd:    n('usd-score') || n('dxy-score')
-      };
-      const votes = Object.values(scores).map(band);
-      const on=votes.filter(v=>v==='riskon').length, off=votes.filter(v=>v==='riskoff').length;
-      const regime = on>off?'RISK ON': off>on?'RISK OFF':'NEUTRAL';
-      const chip = document.getElementById('cv-regime-chip');
-      if(chip){
-        chip.textContent = regime;
-        chip.classList.remove('cv-riskon','cv-riskoff','cv-neutral');
-        chip.classList.add(regime==='RISK ON'?'cv-riskon': regime==='RISK OFF'?'cv-riskoff':'cv-neutral');
-      }
-    }
-    function setText(id, val){ const el=document.getElementById(id); if(el && val!=null){ el.textContent=val; } }
-    function setGauge(id, v){ const el=document.getElementById(id); if(el && v!=null){ el.style.width = clamp(v,0,100)+'%'; } }
-    document.getElementById('year').textContent = new Date().getFullYear();
-    
-    function paintStatus(id, text){
-  const el = document.getElementById(id);
-  if(!el) return;
-  el.textContent = text || '—';
-  el.classList.remove('cv-good','cv-bad','cv-mid');
-  if(/TAILWIND|RISK ON|LOW FEAR|STEEP/.test(text)) el.classList.add('cv-good');
-  else if(/HEADWIND|RISK OFF|HIGH FEAR|INVERTED/.test(text)) el.classList.add('cv-bad');
-  else el.classList.add('cv-mid');
-}
-
-function paintChip(id, text){
-  const el = document.getElementById(id);
-  if(!el) return;
-  el.textContent = (id==='teny-chip' && text) ? `10Y ${text}%` :
-                   (id==='dollar-chip' ? `DOLLAR ${text||'—'}` : (text||'—'));
-  el.classList.remove('cv-riskon','cv-riskoff','cv-neutral');
-  el.classList.add(text==='TAILWIND' ? 'cv-riskon' :
-                   text==='HEADWIND' ? 'cv-riskoff' : 'cv-neutral');
-
-    // Initial paint from defaults above
-    (function init(){
-      const m = n('macro-score');
-      setText('macro-score-big', m); setGauge('macro-gauge', m);
-      setGauge('score-fill', m);
-      paintRegime();
-      document.getElementById('updated').textContent = 'Updated: ' + new Date().toLocaleString();
-    })();
-
-    // ---- Optional: fetch server-side data if your endpoints exist ----
-    async function fetchJSON(url){
-      const r = await fetch(url, { cache: 'no-store' });
-      if(!r.ok) throw new Error(url + ' -> ' + r.status);
-      return r.json();
-    }
-
-    async function refreshFromAPI(){
-      try{
-        // Macro endpoint (from earlier suggestions)
-        const macro = await fetchJSON('/api/macro');
-        if(macro?.metrics){
-          const mm = macro.metrics;
-          setText('macro-score', Math.round(mm.macro));
-          setText('macro-score-big', Math.round(mm.macro));
-          setGauge('macro-gauge', mm.macro);
-          setGauge('score-fill', mm.macro);
-          if(mm.dxyScore!=null) setText('dxy-subscore', Math.round(mm.dxyScore));
-          if(mm.tenScore!=null){ setText('yield-score', Math.round(mm.tenScore)); }
-          if(mm.vixScore!=null){ setText('vix-score', Math.round(mm.vixScore)); }
-          if(mm.spyScore!=null){ setText('spy-score', Math.round(mm.spyScore)); }
+    <script>
+        function refreshData() {
+            // Add your data refresh logic here
+            const lastUpdatedElement = document.getElementById('lastUpdated');
+            const now = new Date();
+            const timeString = now.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            lastUpdatedElement.textContent = `Last Updated: ${timeString}`;
+            
+            // You can add API calls here to fetch fresh data
+            console.log('Refreshing market data...');
         }
-        if(macro?.status){
-      paintStatus('dxy-status',   macro.status.dollarImpact);
-      paintStatus('yield-status', macro.status.yieldStatus);
-      paintStatus('vix-status',   macro.status.vixStatus);
-      paintStatus('risk-status',  macro.status.riskAppetite);
 
-          // new: update the chips
-      paintChip('dollar-chip', macro.status.dollarImpact);
-      paintChip('teny-chip',   macro.status.tenYear);
-          
-        }
-        document.getElementById('updated').textContent = 'Updated: ' + new Date().toLocaleString();
-      }catch(e){ /* silently ignore if endpoint not present */ }
+        // Auto-refresh every 5 minutes
+        setInterval(() => {
+            if (document.visibilityState === 'visible') {
+                refreshData();
+            }
+        }, 300000);
 
-      // Health / Cascade / Froth / USD via TradingView ingest endpoints (optional)
-      const TRY = async (url) => { try{ return await fetch('/api/'+url, { cache:'no-store' }).then(r=>r.ok?r.json():null); }catch(_){ return null; } };
-      const health = await TRY('tv-ingest-health');
-      if(health?.metrics?.health!=null) setText('master-score', Math.round(health.metrics.health));
-      const cascade = await TRY('tv-ingest-cascade');
-      if(cascade?.metrics?.cascade!=null) setText('cascade-score', Math.round(cascade.metrics.cascade));
-      const froth = await TRY('tv-ingest-froth');
-      if(froth?.metrics?.froth!=null) setText('froth-score', Math.round(froth.metrics.froth));
-      const usd = await TRY('tv-ingest-usd');
-      if(usd?.metrics?.usd!=null) setText('dxy-score', Math.round(usd.metrics.usd));
-
-      paintRegime();
-    }
-
-    // Try to refresh every 30s if endpoints exist
-    refreshFromAPI();
-    setInterval(refreshFromAPI, 30000);
-  </script>
-<script>
-async function loadMacro() {
-  try {
-    const r = await fetch('/api/macro', { cache: 'no-store' });
-    const j = await r.json();
-
-    const score = (j.metrics?.macro ?? 50);
-    const regime = score >= 55 ? 'RISK ON' : score <= 45 ? 'RISK OFF' : 'NEUTRAL';
-
-    document.getElementById('macro-score').textContent = score.toFixed(1);
-    document.getElementById('regime').textContent = regime;
-    document.getElementById('dxy-trend').textContent = j.status?.dxyTrend ?? '—';
-    document.getElementById('yield-status').textContent = j.status?.yieldStatus ?? '—';
-    document.getElementById('vix-status').textContent = j.status?.vixStatus ?? '—';
-    document.getElementById('risk-appetite').textContent = j.status?.riskAppetite ?? '—';
-    document.getElementById('ten-year').textContent = j.status?.tenYear ?? '—';
-  } catch (e) {
-    console.error(e);
-  }
-}
-loadMacro();                // initial load
-setInterval(loadMacro, 30000); // refresh every 30s
-</script>
-
+        // Smooth scroll for internal links
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Crypto Market Intelligence Dashboard loaded');
+        });
+    </script>
 </body>
 </html>
